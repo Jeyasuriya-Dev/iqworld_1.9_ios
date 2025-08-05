@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "https://ds.iqtv.in:8080/iqworld/",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
+

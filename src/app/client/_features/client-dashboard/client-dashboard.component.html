@@ -1,0 +1,324 @@
+<section class="content1">
+    <div class="container-fluid pt-4 px-4">
+        <!-- <div class="col-xm-12 col-xl-12"  style="text-align: end;">
+            <app-countdown-timer class="timer-cs"></app-countdown-timer>
+          <p class="timer-cs">{{message}}</p>  
+        </div> -->
+        <!-- <div class="row g-4">
+           
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="margin-bottom: 10px;" (click)="onClick('total')">
+                <mat-card
+                    style="cursor: pointer; background: linear-gradient(to right, #ae0eff, #4800a7);color: white;border-radius: 10px;">
+                    <mat-card-content>
+                        <a class="button">
+                            <div class="row">
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7" style="font-size: 10px;">
+                                    <span style="font-size: 20px">Total Devices</span>
+                                    <mat-card-content style="font-size: 25px;">{{allnode}}</mat-card-content>
+                                </div>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5" style="text-align: end;margin-top: 20px;">
+                                    <i class="material-icons" style="margin: -11px;font-size: 47px;">equalizer</i>
+                                    <i class="material-icons" style="margin: -1px;font-size: 20px;">equalizer</i>
+                                </div>
+
+                                <span style="font-size: 10px;">+2.5% from the last week</span>
+                            </div>
+                        </a>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+           
+            <div class="tt col-12 col-sm-6  col-md-4 col-lg-3" style="margin-bottom: 10px; "
+                (click)="onClick('online')">
+                <mat-card
+                    style="cursor: pointer; background: linear-gradient(to right, #2ea73c, #51ed2b);color: white;border-radius: 10px;">
+                   
+                    <mat-card-content>
+                      
+                        <a style="cursor: pointer;" class="button">
+                            <div class="row">
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7" style="font-size: 10px;">
+                                    <span style="font-size: 20px;">Online</span>
+                                    <mat-card-content style="font-size: 25px;">{{online}}</mat-card-content>
+                                </div>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5" style="text-align: end;margin-top: 20px;">
+                                    <i class="material-icons logo">connect_without_contact</i>
+                                </div>
+                                <span style="font-size: 10px;">+2.5% from the last week</span>
+                            </div>
+                        </a>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="col-12 col-sm-6  col-md-4 col-lg-3" style="margin-bottom: 10px;" (click)="onClick('offline')">
+                <mat-card
+                    style=" background: linear-gradient(to right,  #c50000, #ff3245);color: white;border-radius: 10px; cursor: pointer;">
+                    <mat-card-content>
+                        <a class="button">
+                            <div class="row">
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7" style="font-size: 10px;">
+                                    <span style="font-size: 20px;">Offline</span>
+                                    <mat-card-content style="font-size: 25px;">{{offline}}</mat-card-content>
+                                </div>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5" style="text-align: end;margin-top: 20px;">
+                                    <i class="material-icons logo">multitrack_audio</i>
+                                </div>
+                                <span style="font-size: 10px;">+2.5% from the last week</span>
+                            </div>
+                        </a>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+           
+            <div class="col-12 col-sm-6  col-md-4 col-lg-3" style="margin-bottom: 10px;" (click)="onClick('active')">
+                <mat-card
+                    style=" cursor: pointer;background: linear-gradient(to right, #d38a1e, #e7cb08);color: white;border-radius: 10px;">
+                    <mat-card-content>
+
+                        <a class="button">
+                            <div class="row">
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7" style="font-size: 10px;">
+                                    <span style="font-size: 20px;">Active</span>
+                                    <mat-card-content style="font-size: 25px;">{{active}}</mat-card-content>
+                                </div>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5" style="text-align: end;margin-top: 20px;">
+                                    <i class="material-icons logo">query_stats</i>
+                                </div>
+                                <span style="font-size: 10px;">+2.5% from the last week</span>
+                            </div>
+                        </a>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            
+            <div class="col-12 col-sm-6  col-md-4 col-lg-3" style="margin-bottom: 10px;" (click)="onClick('deactived')">
+                <mat-card
+                    style=" cursor: pointer;background: linear-gradient(to right,#1a69dd, #6a96d7);color: white;border-radius: 10px;">
+                    <mat-card-content>
+                        <a class="button">
+                            <div class="row">
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7" style="font-size: 10px;">
+                                    <span style="font-size: 20px;">Inactive</span>
+                                    <mat-card-content style="font-size: 25px;">{{deactive}}</mat-card-content>
+                                </div>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5" style="text-align: end;margin-top: 20px;">
+                                    <i class="material-icons logo">ssid_chart</i>
+                                </div>
+                                <span style="font-size: 10px;">+2.5% from the last week</span>
+                            </div>
+                        </a>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+           
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="margin-bottom: 10px;" (click)="onClick('total')">
+                <mat-card
+                    style="cursor: pointer; background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(80,55,87,1) 0%, rgba(24,91,16,1) 0%, rgba(0,212,255,1) 100%);color: white;border-radius: 10px;">
+                    <mat-card-content>
+                        <a class="button">
+                            <div class="row">
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7" style="font-size: 10px;">
+                                    <span style="font-size: 20px">Storage Used</span>
+                                    <mat-card-content style="font-size: 25px;">{{storage+"%"}}</mat-card-content>
+                                </div>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5" style="text-align: end;margin-top: 20px;">
+                                    <i class="material-icons" style="margin: -11px;font-size: 48px;">
+                                        sd_storage
+                                    </i>
+                                    <i class="material-icons" style="margin: -1px;font-size: 20px;"> sd_storage</i>
+                                </div>
+                                <span style="font-size: 10px;">Total {{totalspace}} - Used {{usedspace}}</span>
+                                
+                            </div>
+                        </a>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="margin-bottom: 10px;" (click)="onClick('total')">
+                <mat-card
+                    style="cursor: pointer; background:  linear-gradient(90deg, rgba(185,94,213,1) 0%, rgba(252,70,107,1) 100%);color: white;border-radius: 10px;">
+                    <mat-card-content>
+                        <a class="button">
+                            <div class="row">
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7" style="font-size: 10px;">
+                                    <span style="font-size: 20px">Current Schedule</span>
+                                    <mat-card-content style="font-size: 25px;"></mat-card-content>
+                                </div>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5" style="text-align: end;margin-top: 20px;">
+                                    <i class="material-icons" style="margin: -11px;font-size: 48px;">
+                                        schedule
+                                    </i>
+                                    <i class="material-icons" style="margin: -1px;font-size: 20px;">
+                                        schedule
+                                    </i>
+                                </div>
+                                <span style="font-size: 10px;">{{date}}</span>
+                               
+                            </div>
+                        </a>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="margin-bottom: 10px;" (click)="onClick('total')">
+                <mat-card
+                    style="cursor: pointer; background:  linear-gradient(315deg, #67c7cd 0%, #7c2890 100%);color: white;border-radius: 10px;">
+                    <mat-card-content>
+                        <a class="button">
+                            <div class="row">
+                                <div class="col-7 col-sm-7 col-md-7 col-lg-7" style="font-size: 10px;">
+                                    <span style="font-size: 20px">License</span>
+                                    <mat-card-content style="font-size: 15px;">Remains: 10 Days</mat-card-content>
+                                    <button class="material-icons"
+                                        style="font-size: xx-small; background-color: #2ea73c;  position: absolute; top:0%; right: 6px;"
+                                        mat-raised-button color="primary">+ Add License</button>
+                                </div>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5" style="text-align: end;margin-top: 20px;">
+                                    <i class="material-icons" style="margin: -8px;font-size: 48px;">
+                                        directions_boat
+                                    </i>
+                                    <i class="material-icons" style="margin: -1px;font-size: 20px;">directions_boat</i>
+                                </div>
+                                <span style="font-size: 10px;">Due Date:{{dueDate}}</span>
+                            
+                            </div>
+                        </a>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+        </div> -->
+    </div>
+    <app-new-dash></app-new-dash>
+
+    <div class="container-fluid pt-4 px-4">
+        <!-- <div class="row g-4">
+        <div class="col-sm-6 col-xl-3">
+            <mat-card>
+                <mat-card-content>
+                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                        <mat-icon class="mat-icon  material-icons text-success"
+                            style="font-size: xxx-large;">network_check</mat-icon>
+                        <div class="ms-3 text-success">
+                            <p class="mb-2">Online Screens</p>
+                            <h6 class="mb-0">89/100</h6>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <mat-card>
+                <mat-card-content>
+                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+
+                        <mat-icon class="mat-icon  material-icons text-danger"
+                            style="font-size: xxx-large;">wifi_off</mat-icon>
+                        <div class="ms-3 text-danger">
+                            <p class="mb-2">Offline Screens</p>
+                            <h6 class="mb-0">11/100</h6>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <mat-card>
+                <mat-card-content>
+                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fa fa-cloud fa-3x " style="color: #627188;"></i>
+                        <div class="ms-3" style="color: #627188;">
+                            <p class="mb-2">Storage Used</p>
+                            <h6 class="mb-0">49.9%</h6>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <mat-card>
+                <mat-card-content id="add-licences">
+                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                       
+                        <mat-icon class=" mat-icon  material-icons text-primary" style="font-size: xxx-large;">
+                            directions_boat</mat-icon>
+                        <div class="ms-3 text-primary">
+                            <p class="mb-2">Licences</p>
+                            <h6 class="mb-0" style="font-size: 10px !important;"><span
+                                    style="color: rgb(249, 140, 38);">Total:1234</span>&nbsp; <span
+                                    style="color: green;">Used:4111</span></h6>
+                        </div>
+                    </div>
+                   
+                    <button class="material-icons" style="  position: absolute; bottom: 8px; right: 10px;"
+                        mat-raised-button color="primary">+ Add Licences</button>
+                    
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div> -->
+        <app-client-analytics></app-client-analytics>
+        <br>
+        <br>
+        <div class="row g-4">
+            <!-- <div class="col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <mat-tab-group animationDuration="1000ms" mat-align-tabs="center">
+
+                            <mat-tab style="overflow: hidden;">
+                                <ng-template mat-tab-label>
+                                    <i class="fa fa-list p-2" aria-hidden="true"></i>
+                                    Screens
+                                </ng-template>
+                                <button mat-raised-button color="accent">+ Add Screen</button>
+                                <div style="overflow: hidden;">
+                                    <app-client-device-info></app-client-device-info>
+                                  
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </mat-card-content>
+                </mat-card>
+            </div> -->
+            <div class="col-sm-12">
+                <mat-card>
+                    <mat-card-subtitle>Need Help? </mat-card-subtitle>
+                    <div class="row " style="width: 100%;">
+                        <div class="col-12 col-sm-6   col-md-6" style="border-radius:4%;">
+                            <img style="border-radius: 5px; height: 48px;" src="assets/images/iq.png" alt="">
+                        </div>
+                        <div class="col-sm-6 col-12 col-md-6 ">
+                            <mat-form-field appearance="outline" class="mat-forms-float">
+                                <mat-label>Search here</mat-label>
+                                <input matInput placeholder="Search here..">
+                                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <hr>
+                    <mat-card-content style="max-height: 500px; min-height: 300px;">
+                        <div class="row">
+                            <div class=" col-4">
+
+                            </div>
+                            <div class=" col-8">
+
+                            </div>
+                        </div>
+
+                        <!-- <object id="pdf-viewer" data="https://ds.iqtv.in/iqsignage/pdfs/CAN_PPT.pdf"
+                            type="application/pdf" width="100%" height="761px">
+                            <p>Sorry, your browser doesn't support embedded PDFs. <a
+                                    href="https://ds.iqtv.in/iqsignage/pdfs/CAN_PPT.pdf">Download</a> the PDF instead.
+                            </p>
+                        </object> -->
+
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</section>

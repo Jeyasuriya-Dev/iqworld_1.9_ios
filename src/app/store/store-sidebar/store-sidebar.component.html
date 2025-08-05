@@ -1,0 +1,223 @@
+<!-- navbar -->
+<span class="sideBars">
+
+    <nav class="navbar">
+        <!-- <div class="logo_item">
+          <i class="bx bx-menu" id="sidebarOpen" (click)="openSidebar()">
+              <img src="assets/images/iq-world.png" alt=""></i>CodingNepal
+      </div> -->
+        <div class="logo_item">
+            <i class="bx bx-menu" id="sidebarOpen" (click)="openSidebar()">
+            </i> <img style="height: 43px;width: auto; border-radius: 0px;" src="assets/images/iq.png" alt="">
+        </div>
+
+        <div style="display: none;">
+            <app-idle-time-out></app-idle-time-out>
+        </div>
+
+        <div>
+            <span *ngIf="!isMoblie" style="color: gray; font-size: medium; text-transform: none;">Hello!!,
+                M/s. <span style="color: #3498db
+          ; font-weight: 400; text-transform: capitalize;"> {{userRole==='STORE'? store?.name:store?.username}}</span>
+                Welcome to
+                {{userRole==='STORE'?'Store portal':'User portal'}} , Have a nice day!!
+            </span>
+        </div>
+        <div class="search_bar">
+            <input matInput type="text" placeholder="Search" />
+        </div>
+        <div [ngStyle]="isMoblie?{'display': 'none'}:{'display': 'block'}"
+            style="color: #f5548a;font-weight: 500;font-family: SF; font-size: medium;">
+
+            <iframe src="https://free.timeanddate.com/clock/i999kz21/n553/fs16/fcf5548a/tt0/tw0/tm3/th1/tb2"
+                frameborder="0" width="149" height="20"></iframe>
+
+        </div>
+
+        <div class="navbar_content">
+            <button mat-icon-button *ngIf="userRole==='STORE'" (click)="navgetToUrl('','schedule-info')">
+                <mat-icon style="color: rgb(55, 140, 238);" [matBadge]="count==0?'': count"
+                    matBadgeColor="warn">notifications
+                </mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon style="color: rgb(55, 140, 238);">account_circle</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <div class="row" style="align-items: center; margin:0px 0px 8px 10px;">
+                    <div class="col-3">
+
+                        <div style="border: #86bdf0 1px solid; border-radius: 50%; height: 50px; width: 50px;">
+                            <img style="height: 100%;" src="assets/images/pro.webp" alt="">
+                        </div>
+                    </div>
+                    <div class="col-8 row" style="margin-top: 2.5%;">
+                        <div class="col-12">
+
+                            <span class="text-profile space">{{userRole==='STORE'? store?.name:store?.username}}&nbsp;<i
+                                    class="fa fa-edit text-primary" style="font-size: large; cursor: pointer;"></i>
+                            </span>
+                        </div>
+                        <div class="col-12" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                            <span style="font-size: small; text-transform: lowercase;  " class="text-muted">
+                                {{store?.email}}</span>
+                        </div>
+                        <div class="col-12">
+                            <span style="font-size: small;" class="text-muted"> +91 {{store?.phone}}</span>
+                        </div>
+                        <div class="col-12">
+                            <span style="font-size: small;" class="text-muted">
+                                {{userRole==='STORE'?store?.storecode:store?.usercode}}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr style="color: rgba(104, 101, 98, 0.5) !important;">
+                <button mat-menu-item (click)="signOut()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Log out</span>
+                </button>
+            </mat-menu>
+
+        </div>
+
+    </nav>
+    <nav class="sidebar" (mouseleave)="mouseLeave()" (mouseenter)="mouseEnter()">
+        <div class="menu_content">
+            <ul class="menu_items">
+                <div class="menu_title menu_dahsboard"></div>
+                <li class="item">
+                    <div class="nav_link submenu_item" (click)="navgetToUrl($event,'dashboard')">
+                        <span class="navlink_icon">
+                            <i class='bx bxs-dashboard' style="font-size: x-large;"></i>
+                        </span>
+                        <span class="navlink">Dashboard</span>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="nav_link submenu_item" (click)="navgetToUrl($event,'category')">
+                        <span class="navlink_icon">
+                            <i class='bx bx-category' style="font-size: x-large;"></i>
+                        </span>
+                        <span class="navlink">Category</span>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="nav_link submenu_item" (click)="navgetToUrl($event,'device-info')">
+                        <span class="navlink_icon">
+                            <i class="fa fa-laptop" aria-hidden="true"></i>
+                        </span>
+                        <span class="navlink">Devices</span>
+                    </div>
+                </li>
+                <li class="item" *ngIf="userRole==='STORE'">
+                    <div class="nav_link submenu_item" (click)="navgetToUrl($event,'user-info')">
+                        <span class="navlink_icon">
+                            <i class='bx bx-user' style="font-size: x-large;"></i>
+                        </span>
+                        <span class="navlink">Users</span>
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="menu_items">
+                <div class="menu_title menu_editor"></div>
+                <li class="item">
+                    <div class="nav_link submenu_item" (click)="navgetToUrl($event,'playlist')">
+                        <span class="navlink_icon">
+                            <i class="fa fa-folder" aria-hidden="true"></i>
+                        </span>
+                        <span class="navlink">Playlist</span>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="nav_link submenu_item" (click)="navgetToUrl($event,'schedule-info')">
+                        <span class="navlink_icon">
+                            <i class="fa fa-calendar-alt" aria-hidden="true"></i>
+                        </span>
+                        <span class="navlink">Schedule Info</span>
+                    </div>
+                </li>
+
+                <!-- <li class="item">
+                    <div class="nav_link submenu_item" (click)="navgetToUrl($event,'gellary')">
+                        <span class="navlink_icon" style="font-size: x-large;">
+                            <i class='bx bx-images'></i>
+                        </span>
+                        <span class="navlink">Gallery</span>
+                    </div>
+                </li> -->
+
+            </ul>
+            <!-- <ul class="menu_items">
+                <div class="menu_title menu_setting"></div>
+                <li class="item">
+                    <a class="nav_link">
+                        <span class="navlink_icon">
+                            <i class="fa fa-life-ring" aria-hidden="true"></i>
+                        </span>
+                        <span class="navlink"> Support</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="nav_link">
+                        <span class="navlink_icon">
+                            <i class="bx bx-cog"></i>
+                        </span>
+                        <span class="navlink">Settings</span>
+                    </a>
+                </li>
+            </ul> -->
+
+            <!-- Sidebar Open / Close -->
+            <div class="bottom_content">
+
+                <div class="bottom expand_sidebar" (click)="expandSidebar()">
+                    <span> Expand</span>
+                    <i class='bx bx-log-in'></i>
+                </div>
+                <div class="bottom collapse_sidebar" (click)="closeSidebar()">
+                    <span> Collapse</span>
+                    <i class='bx bx-log-out'></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <span *ngIf="!isMoblie">
+        <div [ngClass]=" isOpened ? 'content-wrapper-mid' : 'content-wrapper'">
+            <br><br><br>
+            <router-outlet></router-outlet>
+        </div>
+    </span>
+    <span>
+        <div *ngIf="isMoblie" style="padding: 10px;">
+            <br>
+            <br>
+            <br>
+            <router-outlet></router-outlet>
+        </div>
+    </span>
+
+</span>
+
+
+<ng-template id="editOption" #editOption let-data>
+    <div id="feedback-form">
+        <h1 style="text-align: center; font-size: x-large; color: #35441d;">Edit Customer Details</h1>
+        <div>
+            <form>
+                <label for="feedback-notify">&nbsp; &nbsp; Username</label>
+                <input type="text" name="name" #username placeholder="Username" disabled [value]="data.username" />
+                <label for="feedback-notify">&nbsp; &nbsp; Email</label>
+                <input type="email" name="email" #email placeholder="Email" [value]="data.email" />
+                <label for="feedback-notify">&nbsp; &nbsp; Phone number</label>
+                <input type="number" maxLength="10" (keydown)="onKeydown($event)" #phone name="phone"
+                    placeholder="Phone number" [value]="data.phone" />
+                <div class="d-flex">
+                    <button class="button1" (click)="closePopup()">close</button>
+                    <button type="submit" (click)="saveCustomer(email,phone,username)">save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

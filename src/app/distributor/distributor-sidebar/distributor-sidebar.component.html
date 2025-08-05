@@ -1,0 +1,494 @@
+<style>
+  .notifications {
+    position: relative;
+    display: inline-block;
+    /* margin: 20px; */
+  }
+
+  .notification-btn {
+    background: #3897f0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    position: relative;
+    /* top: 100%; */
+    right: 0;
+    background: white;
+    /* border: 1px solid #ddd; */
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    min-width: 250px;
+    max-height: 260px;
+    overflow-x: auto;
+    display: block;
+
+  }
+
+  .notification-item {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+  }
+
+  .notification-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .notification-content {
+    flex: 1;
+  }
+
+  .notification-content p {
+    margin: 0;
+  }
+
+  .notification-time {
+    color: #888;
+    font-size: 12px;
+  }
+
+
+  .see-all-btn {
+    text-align: center;
+    padding: 10px;
+    /* background: #3897f091; */
+    background-color: #88888884;
+    border-top: 1px solid #ddd;
+  }
+
+  .see-all-btn a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+</style>
+<!-- navbar -->
+<span class="sideBars">
+
+  <nav class="navbar">
+    <!-- <div class="logo_item">
+          <i class="bx bx-menu" id="sidebarOpen" (click)="openSidebar()">
+              <img src="assets/images/iq-world.png" alt=""></i>CodingNepal
+      </div> -->
+    <div class="logo_item">
+      <i class="bx bx-menu" id="sidebarOpen" (click)="openSidebar()">
+      </i> <img style="height: 43px;width: auto; border-radius: 0px;" src="assets/images/iq.png" alt="">
+    </div>
+    <div style="display: none;">
+      <app-idle-time-out></app-idle-time-out>
+    </div>
+    <div>
+      <span *ngIf="distributorName && !isMoblie" style="color: gray; font-size: medium;">Hello!!,<span
+          *ngIf="distributor?.gender=='male'">Mr.</span> <span *ngIf="distributor?.gender=='female'">Mrs.</span><span
+          *ngIf="distributor?.gender=='organization'">M/s.</span>
+        <span style="color: #3A999C
+        ; font-weight: 400;"> {{distributorName}}</span> Welcome
+        To Distributor Portal, Have a nice day!!</span>
+    </div>
+    <div class="search_bar">
+      <input type="text" placeholder="Search" />
+    </div>
+    <div [ngStyle]="isMoblie?{'display': 'none'}:{'display': 'block'}"
+      style="color: #f5548a;font-weight: 500;font-family: SF; font-size: medium;">
+      <!-- {{currentDateTime}} -->
+      <iframe *ngIf="distributor?.country?.countryname=='INDIA'"
+        src="https://free.timeanddate.com/clock/i999kz21/n553/fs16/fcf5548a/tt0/tw0/tm3/th1/tb2" frameborder="0"
+        width="149" height="20"></iframe>
+      <span style="white-space: nowrap;
+      font-family: Arial, Helvetica,sans-serif;
+      font-size: 16px;
+      color: #f5548a;
+      text-decoration: none;" id="timezone"></span>
+    </div>
+    <!-- <div id="timer" *ngIf="!isMoblie"
+      style="color: #ff4081;font-weight: 700;font-family: Verdana, Geneva, Tahoma, sans-serif;"></div> -->
+    <div class="navbar_content">
+      <!-- <app-idle-time-out></app-idle-time-out> -->
+      <!-- <i class="bi bi-grid"></i> -->
+      <!-- <i class='bx bx-sun' id="darkLight" (click)="changeMode()"></i> -->
+      <!-- <i class='bx bx-bell'></i> -->
+      <button mat-icon-button (click)="goToComplaintPage('pending-approval')" *ngIf="Request_count!=0">
+        <mat-icon style="color: rgb(55, 140, 238);" [matBadge]="Request_count" matBadgeColor="warn">notifications
+        </mat-icon>
+        <!-- <mat-icon style="color: rgb(55, 140, 238);" *ngIf="Request_count==0" matBadgeColor="warn">notifications
+        </mat-icon> -->
+
+        <!-- <mat-icon *ngIf="Request_count!=0 && Complaint_count==0" style="color: rgb(55, 140, 238);" matBadge="1"
+          matBadgeColor="warn">notifications
+        </mat-icon>
+        <mat-icon *ngIf="Request_count==0 && Complaint_count!=0" style="color: rgb(55, 140, 238);" matBadge="1"
+          matBadgeColor="warn">notifications
+        </mat-icon>
+        <mat-icon *ngIf="Request_count!=0 && Complaint_count!=0" style="color: rgb(55, 140, 238);" matBadge="2"
+          matBadgeColor="warn">notifications
+        </mat-icon>
+        <mat-icon *ngIf="Request_count==0 && Complaint_count==0" style="color: rgb(55, 140, 238);"
+          matBadgeColor="warn">notifications
+        </mat-icon> -->
+        <!-- <mat-icon style="color: rgb(55, 140, 238);" [matBadge]="total" matBadgeColor="warn">notifications
+        </mat-icon> -->
+      </button>
+      <button mat-icon-button (click)="goToComplaintPage('complaints')" *ngIf="Complaint_count!=0">
+        <!-- <mat-icon style="color: rgb(55, 140, 238);" matBadgeColor="warn"
+          *ngIf="Complaint_count==0">headset_mic</mat-icon> -->
+        <mat-icon style="color: rgb(55, 140, 238);" matBadgeColor="warn"
+          [matBadge]="Complaint_count ">headset_mic</mat-icon>
+      </button>
+      <mat-menu #notiMenu="matMenu">
+        <div class="notifications" style="display: flex; justify-content: center; align-items: center;">
+          <span *ngIf="Request_count!=0" class="notify"
+            (click)="goToComplaintPage('distributor-pending-approval')"><strong>Pending Approval
+              [{{Request_count}}]</strong></span>|
+          <span *ngIf="Complaint_count!=0" class="notify" (click)="goToComplaintPage('complaints')"><strong>Complaint
+              [{{Complaint_count}}]</strong></span>
+          <!-- <span style="margin: 12px; color: #3897f0 !important; cursor: pointer;"
+            (click)="goToComplaintPage('complaints')"><strong>Notifications({{total}})</strong></span>
+          <div class="dropdown" style="scrollbar-width: 0px !important;">
+            <div class="notification-item" *ngFor="let noti of notificatons">
+              <img src="assets/images/user1.png" alt="User 1">
+              <div class="notification-content">
+                <p><strong (click)="updateViewStatus(noti,complaint)" style="cursor: pointer;"
+                    [ngStyle]="{'color' :( noti.isviewed ? '' : 'green')  }">{{noti.clientname1}}</strong>
+                  {{noti.subject}}</p>
+                <p class="notification-time">{{getAgo(noti.createddate)}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="see-all-btn">
+            <a>See All</a>
+          </div> -->
+
+        </div>
+      </mat-menu>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon style="color: rgb(55, 140, 238);">account_circle</mat-icon>
+      </button>
+      <!-- <i class="bx bxs-user-circle profile" style="font-size: 30px;" ></i> -->
+      <mat-menu #menu="matMenu">
+        <div class="row" style="align-items: center; margin:0px 0px 8px 10px;">
+          <div class="col-3">
+            <div style="border: #86bdf0 1px solid; border-radius: 50%; height: 50px; width: 50px;">
+              <img style="height: 100%;" src="assets/images/pro.webp" alt="">
+            </div>
+          </div>
+          <div class="col-8 row" style="margin-top: 2.5%;">
+            <div class="col-12">
+              <span class="text-profile space">{{distributorName}}</span>
+            </div>
+            <div class="col-12">
+              <span style="font-size: small; text-transform: lowercase; word-break: break-word;" class="text-muted">
+                {{distributor?.email}}</span>
+            </div>
+            <div class="col-12">
+              <span style="font-size: small;" class="text-muted"> +91 {{distributor?.phone}}</span>
+            </div>
+            <div class="col-12">
+              <span style="font-size: small;" class="text-muted">ID: {{distributor?.id}}
+              </span>
+            </div>
+            <div class="col-12">
+              <span style="font-size: small;" class="text-muted">code: {{distributor?.distributorcode}}
+              </span>
+            </div>
+
+            <!-- <div class="col-12">
+              <span style="font-size: small;" class="text-muted"> distributor id: {{distributor?.id}}</span>
+            </div> -->
+          </div>
+          <div class="col-1">
+            <!-- <i class="fa fa-smile-o text-warning fa-2x" aria-hidden="true"></i> -->
+            <!-- <i class="fa fa-edit text-primary " style="font-size: large; cursor: pointer;"></i> -->
+          </div>
+        </div>
+        <hr style="color: rgba(104, 101, 98, 0.45) !important;">
+        <!-- <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Account Settings</span>
+        </button> -->
+        <button mat-menu-item (click)="returnToAdmin()" *ngIf="isAdmin">
+          <mat-icon style="transform: rotate(-90deg);">logout</mat-icon>
+          <span>Return Admin</span>
+        </button>
+        <button mat-menu-item (click)="signOut()">
+          <mat-icon>logout</mat-icon>
+          <span>Log out</span>
+        </button>
+
+      </mat-menu>
+      <mat-menu #menu1="matMenu">
+        <img style="border-radius: 50%;width: 150px; margin:0px 50px ;
+                  height: 150px;	border: 2px solid #8e9681;	padding: 5px;" src="assets/images/profile-icon-9.png"
+          alt="">
+        <div style="text-align: center; margin: 8px ;">
+          <span class="text-profile space">{{distributorName}}</span>
+        </div>
+        <div style="text-align: center; margin: 8px ;">
+          <span class="text-profile space">code : {{distributorCode}}</span>
+        </div>
+        <hr>
+
+        <button mat-menu-item (click)="returnToAdmin()" *ngIf="isAdmin">
+          <button mat-stroked-button color="warn">
+            <mat-icon style="color: #f44336;" aria-hidden="false">logout</mat-icon>
+            <span>Return TO Admin</span>
+          </button>
+        </button>
+        <button mat-menu-item (click)="signOut()">
+          <button mat-stroked-button color="warn">
+            <mat-icon style="color: #f44336;" aria-hidden="false">logout</mat-icon>
+            <span>Log Out</span>
+          </button>
+        </button>
+      </mat-menu>
+      <!-- <i class="bx bxs-user-circle profile" style="font-size: 30px;" (click)="showProfile()"></i> -->
+      <!-- <img src="images/profile.jpg"  alt="" class="profile" /> -->
+    </div>
+
+  </nav>
+
+  <!-- sidebar -->
+  <nav class="sidebar" (mouseleave)="mouseLeave()" (mouseenter)="mouseEnter()">
+    <div class="menu_content">
+      <ul class="menu_items">
+        <div class="menu_title menu_dahsboard"></div>
+        <!-- duplicate or remove this li tag if you want to add or remove navlink with submenu -->
+        <!-- start -->
+        <li class="item" (click)="onClickItem()">
+          <div class="nav_link submenu_item" (click)="navgetToUrl($event,'distributor-dashboard')">
+            <span class="navlink_icon">
+              <!-- <i class="bx bx-home-alt"></i> -->
+              <i class="fa fa-th-large" aria-hidden="true"></i>
+            </span>
+            <!-- <span class="navlink">Home</span> -->
+            <span class="navlink">Dashboard</span>
+            <!-- <i class="bx bx-chevron-right arrow-left"></i> -->
+          </div>
+
+          <!-- <ul class="menu_items submenu">
+                          (click)="closeSidebar()"
+                          <a (click)="navgetToUrl('dashboard')" class="nav_link sublink">Dashboard</a>
+                      </ul> -->
+        </li>
+
+        <li class="item" (click)="onClickItem()">
+          <div class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class="fa fa-user" aria-hidden="true"></i>
+            </span>
+            <span class="navlink">Customer</span>
+            <i class="bx bx-chevron-right arrow-left"></i>
+          </div>
+
+          <ul class="menu_items submenu">
+            <!-- (click)="closeSidebar()" -->
+            <a (click)="navgetToUrl($event,'distributor-customer-registation')" class="nav_link sublink">New Customer
+            </a>
+            <a (click)="navgetToUrl($event,'distributor-customer-list')" class="nav_link sublink">Customer Info</a>
+
+          </ul>
+        </li>
+        <!-- <li class="item" (click)="onClickItem()">
+            <div class="nav_link submenu_item">
+              <span class="navlink_icon">
+                <i class="fa fa-link" aria-hidden="true"></i>
+              </span>
+              <span class="navlink">distributor</span>
+              <i class="bx bx-chevron-right arrow-left"></i>
+            </div>
+            <ul class="menu_items submenu">
+              <a (click)="navgetToUrl('add-distributor')" class="nav_link sublink">New distributor
+              </a>
+              <a class="nav_link sublink" (click)="navgetToUrl('distributor-list')">distributor Info</a>
+            </ul>
+          </li> -->
+        <li class="item" (click)="onClickItem()">
+          <div class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class="fa fa-laptop" aria-hidden="true"></i>
+            </span>
+            <span class="navlink">Devices</span>
+            <i class="bx bx-chevron-right arrow-left"></i>
+          </div>
+
+          <ul class="menu_items submenu">
+
+            <a (click)="navgetToUrl($event,'device-list')" class="nav_link sublink">Device Info</a>
+            <!-- <a (click)="navgetToUrl('device-log-history')" class="nav_link sublink">Device Logs</a> -->
+          </ul>
+        </li>
+      </ul>
+
+      <!-- <ul class="menu_items">
+                  <div class="menu_title menu_editor"></div>
+  
+                  <li class="item">
+                      <a class="nav_link">
+                          <span class="navlink_icon">
+                              <i class="bx bxs-magic-wand"></i>
+                          </span>
+                          <span class="navlink">Magic build</span>
+                      </a>
+                  </li>
+  
+  
+                  <li class="item">
+                      <a class="nav_link">
+                          <span class="navlink_icon">
+                              <i class="bx bx-loader-circle"></i>
+                          </span>
+                          <span class="navlink">Filters</span>
+                      </a>
+                  </li>
+                  <li class="item">
+                      <a class="nav_link">
+                          <span class="navlink_icon">
+                              <i class="bx bx-filter"></i>
+                          </span>
+                          <span class="navlink">Filter</span>
+                      </a>
+                  </li>
+                  <li class="item">
+                      <a class="nav_link">
+                          <span class="navlink_icon">
+                              <i class="bx bx-cloud-upload"></i>
+                          </span>
+                          <span class="navlink">Upload new</span>
+                      </a>
+                  </li>
+              </ul> -->
+      <ul class="menu_items">
+        <div class="menu_title menu_setting"></div>
+        <!-- <li class="item">
+          <a class="nav_link">
+            <span class="navlink_icon">
+              <i class="bx bx-flag"></i>
+            </span>
+            <span class="navlink">Notice board</span>
+          </a>
+        </li> -->
+        <!-- <li class="item">
+                      <a class="nav_link">
+                          <span class="navlink_icon">
+                              <i class="bx bx-medal"></i>
+                          </span>
+                          <span class="navlink">Award</span>
+                      </a>
+                  </li> -->
+        <!-- <li class="item">
+            <a class="nav_link" (click)="navgetToUrl('setting')">
+              <span class="navlink_icon">
+                <i class="bx bx-cog"></i>
+              </span>
+              <span class="navlink">Setting</span>
+            </a>
+          </li> -->
+        <li class="item">
+          <a class="nav_link" (click)="navgetToUrl($event,'distributor-pending-approval')"
+            *ngIf="distributor?.isapproval">
+            <span class="navlink_icon">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              <!-- <i class="bx bx-cog"></i> -->
+            </span>
+            <span class="navlink">Pending Approval</span>
+          </a>
+        </li>
+        <li class="item">
+          <a class="nav_link" (click)="navgetToUrl($event,'complaints')" *ngIf="distributor?.iscomplaints">
+            <span class="navlink_icon">
+              <i class="fa fa-life-ring" aria-hidden="true"></i>
+              <!-- <i class="bx bx-cog"></i> -->
+            </span>
+            <span class="navlink">Complaint</span>
+          </a>
+        </li>
+        <li class="item">
+          <a class="nav_link" (click)="navgetToUrl($event,'raise-new-ticket')">
+            <span class="navlink_icon">
+              <i class="fa fa-ticket" aria-hidden="true"></i>
+              <!-- <i class="bx bx-cog"></i> -->
+            </span>
+            <span class="navlink"> Contact Us</span>
+          </a>
+        </li>
+        <!-- <li class="item">
+                      <a class="nav_link">
+                          <span class="navlink_icon">
+                              <i class="bx bx-layer"></i>
+                          </span>
+                          <span class="navlink">Features</span>
+                      </a>
+                  </li> -->
+      </ul>
+      <div class="bottom_content">
+        <h3 class="ver ">
+          {{currentVersion}}</h3>
+      </div>
+      <!-- Sidebar Open / Close -->
+      <div class="bottom_content">
+        <div class="bottom expand_sidebar" (click)="expandSidebar()">
+          <span> Expand</span>
+          <i class='bx bx-log-in'></i>
+        </div>
+        <div class="bottom collapse_sidebar" (click)="closeSidebar()">
+          <span> Collapse</span>
+          <i class='bx bx-log-out'></i>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <span *ngIf="!isMoblie">
+    <div [ngClass]=" isOpened ? 'content-wrapper-mid' : 'content-wrapper'">
+      <br><br><br>
+      <router-outlet></router-outlet>
+    </div>
+  </span>
+  <span>
+    <div *ngIf="isMoblie" style="padding: 10px;">
+      <br>
+      <br>
+      <br>
+      <router-outlet></router-outlet>
+    </div>
+  </span>
+
+</span>
+
+
+<ng-template #complaint let-data>
+  <div class="complaint">
+    <div class="card" style="width: 18rem; padding: 1.5em 0.5em 0.5em;
+          text-align: center;
+          border-radius: 2em;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);">
+      <img src="assets/images/user1.png" style=" width: 60%;
+              border-radius: 50%;
+              margin: 0 auto;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);" alt="...">
+      <div class="card-body">
+        <h5 class="card-title" style=" font-weight: bold;
+                  font-size: 1.5em; ">{{data.clientname1}}</h5>
+        <p class="card-text" style="font-weight: 600;">subject:{{data.subject}}</p>
+        <p class="card-text text-muted">{{data.description}}</p>
+        <a style="line-height: 1;" class="btn btn-success p-2 m-1" (click)="updateComplaint(data?.id)"> <span
+            *ngIf="data.type?.type!='CLIENT_UPGRADE' && data.type?.type!='DEVICE_UPGRADE'">activate</span> <span
+            *ngIf="data.type?.type=='CLIENT_UPGRADE' || data.type?.type=='DEVICE_UPGRADE'">Upgrade</span></a>
+        <a style="line-height: 1;" (click)="goToComplaintPage('complaints')" class="btn btn-primary p-2">Know More</a>
+        <!-- <a (click)="goToComplaintPage('complaints')" *ngIf="data?.type?.type=='COMPLAINT'" class="btn btn-primary p-2">Know More</a>
+        <a (click)="goToDevicePage('device-list',data?.code)" *ngIf="data?.type?.type=='DEVICE_CREATION'" class="btn btn-primary p-2">Know More</a>
+        <a (click)="goToCustomerPage('client-list',data?.code)" *ngIf="data?.type?.type=='CLIENT_CREATION'" class="btn btn-primary p-2">Know More</a> -->
+      </div>
+    </div>
+  </div>
+</ng-template>

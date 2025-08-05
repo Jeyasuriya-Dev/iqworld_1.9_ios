@@ -1,0 +1,1219 @@
+<!-- <div *ngIf="isSystemview">
+  <div class="bp4-dark">
+    <div class=" bp4-navbar">
+      <div class="bp4-navbar-group bp4-align-right">
+        <div class="bp4-divider"></div>
+        <div class="bp4-divider "></div><span aria-haspopup="true" class="bp4-popover2-target">
+          <button type="button" class="bp4-button bp4-intent-primary"
+            (click)="mediafileid? saveAsImage(''):openUploadDropdown($event,'upload-dropdown')">
+            <span aria-hidden="true" icon="export" class="bp4-icon bp4-icon-export"><svg data-icon="export" width="16"
+                height="16" viewBox="0 0 16 16" role="img">
+                <path
+                  d="M4 6c.28 0 .53-.11.71-.29L7 3.41V11c0 .55.45 1 1 1s1-.45 1-1V3.41l2.29 2.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71l-4-4C8.53.11 8.28 0 8 0s-.53.11-.71.29l-4 4A1.003 1.003 0 004 6zm11 5c-.55 0-1 .45-1 1v2H2v-2c0-.55-.45-1-1-1s-1 .45-1 1v3c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1z"
+                  fill-rule="evenodd"></path>
+              </svg></span><span class="bp4-button-text">Publish</span></button>
+
+        </span>
+        <div class="bp4-divider"></div>
+        <span aria-haspopup="true" class="bp4-popover2-target">
+        </span>
+        <div class="bp4-divider"></div>
+      </div>
+      <div class="bp4-navbar-group bp4-align-right" *ngIf="mediafileid ==null">
+        <div class="bp4-divider"></div>
+        <div class="bp4-divider "></div>
+        <span aria-haspopup="true" class="bp4-popover2-target">
+          <button type="button" class="bp4-button bp4-intent-primary"
+            (click)="openUploadDropdown($event,'template-dropdown')">
+            <span aria-hidden="true" icon="export" class="bp4-icon bp4-icon-export"><svg data-icon="export" width="16"
+                height="16" viewBox="0 0 16 16" role="img">
+                <path
+                  d="M4 6c.28 0 .53-.11.71-.29L7 3.41V11c0 .55.45 1 1 1s1-.45 1-1V3.41l2.29 2.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71l-4-4C8.53.11 8.28 0 8 0s-.53.11-.71.29l-4 4A1.003 1.003 0 004 6zm11 5c-.55 0-1 .45-1 1v2H2v-2c0-.55-.45-1-1-1s-1 .45-1 1v3c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1z"
+                  fill-rule="evenodd"></path>
+              </svg></span><span class="bp4-button-text">Publish As Template</span></button>
+
+        </span>
+        <div class="bp4-divider"></div>
+        <span aria-haspopup="true" class="bp4-popover2-target">
+        </span>
+        <div class="bp4-divider"></div>
+      </div>
+    </div>
+    <div style="height: 90vh;" class="sidebar-panel-tab-container">
+      <div class="sidebar-panel bp4-navbar  side-tabs-container">
+        <div class="sidebar-panel-tab-inner " style="display: flex;flex-direction: column;">
+          <div class="sidebar-panel-tab" id="local-template" *ngIf="!mediafileid"
+            (click)="changeTab('tab-local-template','local-template')">
+            <div style="font-size: 14px;"><span aria-hidden="true" icon="control" class="bp4-icon bp4-icon-control"><svg
+                  data-icon="control" width="16" height="16" viewBox="0 0 16 16" role="img">
+                  <path
+                    d="M13 8H8v5h5V8zm0-5H8v4h5V3zm2-3H1C.45 0 0 .45 0 1v14c0 .55.45 1 1 1h14c.55 0 1-.45 1-1V1c0-.55-.45-1-1-1zm-1 14H2V2h12v12zM7 3H3v10h4V3z"
+                    fill-rule="evenodd"></path>
+                </svg></span></div>
+            <div style="padding-top: 5px;">Templates</div>
+          </div>
+          <div class="sidebar-panel-tab" id="text-tab" (click)="changeTab('tab-text','text-tab')">
+            <div style="font-size: 14px;"><span aria-hidden="true" icon="new-text-box"
+                class="bp4-icon bp4-icon-new-text-box"><svg data-icon="new-text-box" width="16" height="16"
+                  viewBox="0 0 16 16" role="img">
+                  <path
+                    d="M5 6.5c0 .28.22.5.5.5H7v3.5c0 .28.22.5.5.5s.5-.22.5-.5V7h1.5c.28 0 .5-.22.5-.5S9.78 6 9.5 6h-4c-.28 0-.5.22-.5.5zM15 2h-1V1c0-.55-.45-1-1-1s-1 .45-1 1v1h-1c-.55 0-1 .45-1 1s.45 1 1 1h1v1c0 .55.45 1 1 1s1-.45 1-1V4h1c.55 0 1-.45 1-1s-.45-1-1-1zm-2 5c-.55 0-1 .45-1 1v5H3V4h5c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1z"
+                    fill-rule="evenodd"></path>
+                </svg></span></div>
+            <div style="padding-top: 5px;">Text</div>
+          </div>
+          <div class="sidebar-panel-tab active" id="upload" (click)="changeTab('tab-upload','upload')">
+            <div style="font-size: 14px;"><span aria-hidden="true" icon="cloud-upload"
+                class="bp4-icon bp4-icon-cloud-upload"><svg data-icon="cloud-upload" width="16" height="16"
+                  viewBox="0 0 16 16" role="img">
+                  <path
+                    d="M8.71 7.29C8.53 7.11 8.28 7 8 7s-.53.11-.71.29l-3 3a1.003 1.003 0 001.42 1.42L7 10.41V15c0 .55.45 1 1 1s1-.45 1-1v-4.59l1.29 1.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71l-3-3zM12 4c-.03 0-.07 0-.1.01A5 5 0 002 5c0 .11.01.22.02.33a3.495 3.495 0 00.07 6.37c-.05-.23-.09-.46-.09-.7 0-.83.34-1.58.88-2.12l3-3a2.993 2.993 0 014.24 0l3 3c.54.54.88 1.29.88 2.12 0 .16-.02.32-.05.47C15.17 10.78 16 9.5 16 8c0-2.21-1.79-4-4-4z"
+                    fill-rule="evenodd"></path>
+                </svg></span></div>
+            <div style="padding-top: 5px;">Upload</div>
+          </div>
+          <div class="sidebar-panel-tab  " id="background-tab" (click)="changeTab('tab-bg','background-tab')">
+            <div style="font-size: 14px;"><span aria-hidden="true" icon="layout-grid"
+                class="bp4-icon bp4-icon-layout-grid"><svg data-icon="layout-grid" width="16" height="16"
+                  viewBox="0 0 16 16" role="img">
+                  <path
+                    d="M2 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6C.9 6 0 6.9 0 8s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6C.9 0 0 .9 0 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM8 0C6.9 0 6 .9 6 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM8 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                    fill-rule="evenodd"></path>
+                </svg></span></div>
+            <div style="padding-top: 5px;">Background</div>
+          </div>
+          <div class="sidebar-panel-tab  " id="resize-tab" (click)="changeTab('tab-resize','resize-tab')">
+            <div style="font-size: 14px;"><span aria-hidden="true" icon="fullscreen"
+                class="bp4-icon bp4-icon-fullscreen"><svg data-icon="fullscreen" width="16" height="16"
+                  viewBox="0 0 16 16" role="img">
+                  <path
+                    d="M3.41 2H5c.55 0 1-.45 1-1s-.45-1-1-1H1C.45 0 0 .45 0 1v4c0 .55.45 1 1 1s1-.45 1-1V3.41L5.29 6.7c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71L3.41 2zM6 9c-.28 0-.53.11-.71.29L2 12.59V11c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1h4c.55 0 1-.45 1-1s-.45-1-1-1H3.41l3.29-3.29c.19-.18.3-.43.3-.71 0-.55-.45-1-1-1zm9 1c-.55 0-1 .45-1 1v1.59L10.71 9.3A.965.965 0 0010 9a1.003 1.003 0 00-.71 1.71l3.3 3.29H11c-.55 0-1 .45-1 1s.45 1 1 1h4c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1zm0-10h-4c-.55 0-1 .45-1 1s.45 1 1 1h1.59l-3.3 3.29a1.003 1.003 0 001.42 1.42L14 3.41V5c0 .55.45 1 1 1s1-.45 1-1V1c0-.55-.45-1-1-1z"
+                    fill-rule="evenodd"></path>
+                </svg></span></div>
+            <div style="padding-top: 5px;">Resize</div>
+          </div>
+
+      <div class="sidebar-panel-tab " (click)="navgetToUrl('image')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="fullscreen"
+            class="bp4-icon bp4-icon-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+              viewBox="0 0 16 16">
+              <path fill="#ffffff"
+                d="M13.5739,7.42604 C14.1419,7.99409 14.1419,8.91508 13.5739,9.48313 L9.81766,13.2394 C9.59865,13.4584 9.32425,13.6137 9.02378,13.6889 L7.85874,13.9801 C7.35208,14.1068 6.89316,13.6478 7.01982,13.1412 L7.31108,11.9762 C7.3862,11.6757 7.54156,11.4013 7.76057,11.1823 L11.5168,7.42604 C12.0849,6.85799 13.0058,6.85799 13.5739,7.42604 Z M7.86814,8.14193 L8.59452,8.93417 L7.05352,10.4752 C6.70635,10.8223 6.46007,11.2573 6.34099,11.7336 L6.04973,12.8987 C6.04139,12.932 6.03408,12.9653 6.02779,12.9985 L4.5,12.9985 C3.97386,12.9985 3.48569,12.836 3.08294,12.5584 L7.13101,8.14198 C7.32916,7.9258 7.66996,7.92577 7.86814,8.14193 Z M12.2952062,8.07489125 L12.2239,8.13314 L8.46767,11.8894 C8.39954,11.9575 8.34625437,12.0385938 8.31072406,12.12745 L8.28122,12.2187 L8.11455,12.8854 L8.78124,12.7187 C8.87472,12.6953 8.96211937,12.653225 9.03829969,12.5953438 L9.11055,12.5323 L12.8668,8.77602 C13.0443,8.5985 13.0443,8.31067 12.8668,8.13314 C12.7114875,7.97781 12.47165,7.95839375 12.2952062,8.07489125 Z M10.4985,2 C11.823972,2 12.9085378,3.03153766 12.9931823,4.33562452 L12.9985,4.5 L12.9985,6.04195 C12.2885615,5.90926692 11.5313331,6.09133888 10.9510537,6.58816586 L10.8098,6.71893 L9.30229,8.22639 L8.60523,7.46613 C8.04565353,6.85581471 7.1070819,6.81997581 6.50300114,7.3585633 L6.39383,7.46628 L2.38792,11.8367 C2.17736286,11.5050714 2.04275837,11.1204714 2.00859703,10.7073338 L2,10.4985 L2,4.5 C2,3.1745184 3.03153766,2.08996147 4.33562452,2.00531769 L4.5,2 L10.4985,2 Z M9.49985,4 C8.67151,4 8,4.67151 8,5.49985 C8,6.3282 8.67151,6.99971 9.49985,6.99971 C10.3282,6.99971 10.9997,6.3282 10.9997,5.49985 C10.9997,4.67151 10.3282,4 9.49985,4 Z M9.499855,5 C9.77592,5 9.99971,5.22379 9.99971,5.499855 C9.99971,5.77592 9.77592,5.99971 9.499855,5.99971 C9.22379,5.99971 9,5.77592 9,5.499855 C9,5.22379 9.22379,5 9.499855,5 Z">
+              </path>
+            </svg></span></div>
+        <div style="padding-top: 5px;">RIEditor</div>
+      </div>
+        </div>
+        <div class="sidebar-panel-tab-properties bp4-navbar collapsed" id="propertyPanel"
+          style="padding: 10px !important;width: 350px;">
+          <div style="height: 100%; display: flex; flex-direction: column;">
+            <div class="bp4-input-group"><span icon="search" tabindex="-1" class="bp4-icon bp4-icon-search"><svg
+                  data-icon="search" width="16" height="16" viewBox="0 0 16 16" role="img">
+                  <path
+                    d="M15.55 13.43l-2.67-2.68a6.94 6.94 0 001.11-3.76c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.39 0 2.68-.42 3.76-1.11l2.68 2.67a1.498 1.498 0 102.12-2.12zm-8.56-1.44c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"
+                    fill-rule="evenodd"></path>
+                </svg></span><input type="text" (input)="onInput($event)" #inputSearch placeholder="Search..."
+                class="bp4-input" style="margin-bottom: 20px;">
+            </div>
+
+            <div class="sidebar-panel-tab-properties-content images " id="tab-local-template">
+              <div class="sidebar-panel-tab-properties-content-data" style="width: 50%;"
+                *ngFor="let te of templateList?.client_template ">
+                <div class="polotno-close-panel" style="padding: 5px;width: 100%;">
+
+                  <div data-shadowenabled="true" class="sidebar-panel-tab-properties-content-data-container">
+                    <img *ngIf="te?.mediainfo?.mediatype==='image'" [src]="te.image_url"
+                      (click)="retrievePlayground(te.properties)"
+                      style="height: auto; width: 100%;cursor: pointer;display: block;">
+                    <video (click)="retrievePlayground(te.properties)" [src]="te.image_url"
+                      *ngIf="te?.mediainfo?.mediatype==='video'" style="height: auto; width: 100%;
+                                      cursor: pointer;
+                                      display: block;"></video>
+                    <span
+                      style="position: absolute; top: 0; border-radius: 5px; padding: 4px; right: 0;  background-color: #378ceeb2;"><i
+                        *ngIf="te?.mediainfo?.mediatype==='image'" class="fa fa-picture-o" aria-hidden="true">
+                      </i> <i *ngIf="te?.mediainfo?.mediatype==='video'" class="fa fa-video-camera"
+                        aria-hidden="true"></i>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+              <div class="sidebar-panel-tab-properties-content-data" style="width: 50%;"
+                *ngFor="let te of templateList?.global_template">
+                <div class="polotno-close-panel" style="padding: 5px;width: 100%;">
+
+                  <div data-shadowenabled="true" class="sidebar-panel-tab-properties-content-data-container">
+                    <img *ngIf="te?.mediainfo?.mediatype==='image'" [src]="te.image_url"
+                      (click)="retrievePlayground(te.properties)"
+                      style="height: auto; width: 100%;cursor: pointer;display: block;">
+                    <video (click)="retrievePlayground(te.properties)" [src]="te.image_url"
+                      *ngIf="te?.mediainfo?.mediatype==='video'" style="height: auto; width: 100%;
+                                      cursor: pointer;
+                                      display: block;"></video>
+                    <span
+                      style="position: absolute; top: 0; border-radius: 5px; padding: 4px; right: 0;  background-color: #378ceeb2;"><i
+                        *ngIf="te?.mediainfo?.mediatype==='image'" class="fa fa-picture-o" aria-hidden="true">
+                      </i> <i *ngIf="te?.mediainfo?.mediatype==='video'" class="fa fa-video-camera"
+                        aria-hidden="true"></i>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+              <div *ngIf="templateList.length===0" class="text-center" style="height: 45px; padding-top: 5px;">Templates
+                are not available.</div>
+            </div>
+
+            <div class="sidebar-panel-tab-properties-content " id="tab-video">
+
+              <div class="sidebar-panel-tab-properties-content-data" style="width: 50%;">
+                <div class="polotno-close-panel" style="padding: 5px;width: 100%;">
+                  <div data-shadowenabled="true" class="sidebar-panel-tab-properties-content-data-container">
+                    <span *ngFor="let v of Videolists">
+                      <video [id]="v.id" (dragstart)="drag($event)" (click)="drop($event)" controls [src]="v.file"
+                        draggable="true" style="height: auto; width: 100%;
+                                      cursor: pointer;
+                                      display: block;"></video>
+                    </span>
+                    <div class=" credit" style="display: none;"><span>Photo by <a href="https://www.ridsys.com/"
+                          target="_blank">IQWORLD</a> on <a href="https://www.ridsys.com/"
+                          target="_blank">Ridsys</a></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sidebar-panel-tab-properties-content images active" id="tab-upload">
+              <div style="height: 45px; padding-top: 5px;">Do you want to upload your own images?</div>
+              <div style="margin-bottom: 20px;"><input type="file" (change)="onFileChangeFile($event)" id="input-file"
+                  name="avatar" accept="image/*, video/mp4" /></div>
+              <span *ngIf='both.length!=0'>
+                <div class="sidebar-panel-tab-properties-content-data" style="width: 50%;" *ngFor="let obj of both">
+                  <div class="polotno-close-panel" style="padding: 5px;width: 100%;">
+                    <div data-shadowenabled="true" class="sidebar-panel-tab-properties-content-data-container">
+                      <video [id]="obj?.id" muted controls [src]="obj?.url? obj?.url:obj.file"
+                        *ngIf="obj?.type?.startsWith('video')" (dragstart)="drag($event)" (click)="drop($event)"
+                        draggable="true" style="height: auto; width: 100%;
+                                        cursor: pointer;
+                                        display: block;"></video>
+                      <img [src]="obj?.url? obj?.url:obj.file" [id]="obj?.id" (click)="drop($event)"
+                        *ngIf="obj?.type.startsWith('image')" (dragstart)="drag($event)" draggable="true" style="height: auto; width: 100%;cursor: pointer;
+                                                      display: block;">
+                      <div class=" credit" style="display: none;"><span>Photo by <a href="https://www.ridsys.com/"
+                            target="_blank">IQWORLD</a> on <a href="https://www.ridsys.com/"
+                            target="_blank">Ridsys</a></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </span>
+            </div>
+            <div class="sidebar-panel-tab-properties-content  images" id="tab-bg">
+                      <div class="d-flex justify-content-between " style="flex-wrap: wrap;">
+                <button (click)="addBackgroundColor(color.name)" class="btn" [ngStyle]="{'background-color':color.name}"
+                  *ngFor="let color of colorsList"></button>
+              </div>
+              <hr>
+            </div>
+            <div class="sidebar-panel-tab-properties-content" id="tab-text">
+              <mat-tab-group animationDuration="0ms">
+                <mat-tab label="Text">
+                  <div style="height: calc(100% - 40px);display: flex;flex-direction: column;">
+                    <div class="go3011404647"><button type="button" draggable="true"
+                        (click)="addText('Create header','25')" (dragstart)="drag($event)"
+                        class="bp4-button bp4-minimal polotno-close-panel"
+                        style="margin-bottom: 5px; width: 100%; font-size: 25px; font-family: Roboto;"><span
+                          class="bp4-button-text">Create header</span></button><button type="button" draggable="true"
+                        (click)="addText('Create sub header','18')" (dragstart)="drag($event)"
+                        class="bp4-button bp4-minimal polotno-close-panel"
+                        style="margin-bottom: 5px; width: 100%; font-size: 18px; font-family: Roboto;"><span
+                          class="bp4-button-text">Create sub header</span></button><button type="button"
+                        draggable="true" (click)="addText('Create body text','14')" (dragstart)="drag($event)"
+                        class="bp4-button bp4-minimal polotno-close-panel"
+                        style="margin-bottom: 5px; width: 100%; font-size: 14px; font-family: Roboto;"><span
+                          class="bp4-button-text">Create body text</span></button>
+
+                    </div>
+                    <div class="" style="height: 100%;overflow: auto; display:flex; flex-wrap: wrap;">
+                      <option [id]="font?.id" (click)="addText(font.fontname,'25')" draggable="true"
+                        (dragstart)="drag($event)" style="padding: 5px 8px; font-size: medium;"
+                        *ngFor="let font of fontList" [value]="font.fontname" [style.font-family]="font.fontname">
+                        {{ font.fontname }}
+                      </option>
+                    </div>
+                  </div>
+                </mat-tab>
+                <mat-tab label="My Fonts">
+                  <div style="display: flex; flex-direction: column; height: calc(100% - 50px);"><label
+                      for="fontupload"><button (click)="openFontUploadDialog('fontupload')" type="button"
+                        class="bp4-button" style="width: 100%;"><span aria-hidden="true" icon="upload"
+                          class="bp4-icon bp4-icon-upload"><svg data-icon="upload" width="16" height="16"
+                            viewBox="0 0 16 16" role="img">
+                            <path
+                              d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3 8c-.28 0-.53-.11-.71-.29L9 6.41V12c0 .55-.45 1-1 1s-1-.45-1-1V6.41l-1.29 1.3a1.003 1.003 0 01-1.42-1.42l3-3C7.47 3.11 7.72 3 8 3s.53.11.71.29l3 3A1.003 1.003 0 0111 8z"
+                              fill-rule="evenodd"></path>
+                          </svg></span><span class="bp4-button-text">Upload font</span></button><input type="file"
+                        (change)="onFileChange($event)" accept=".ttf, .otf, .woff, .woff2, .eot" id="fontupload"
+                        style="display: none;"></label>
+
+                  </div>
+                  <br>
+                  <div class="" style="height: 100%;overflow: auto; display:flex; flex-wrap: wrap;">
+                    <option (click)="setFontFamily(font)" style="padding: 5px 8px; font-size: medium;"
+                      *ngFor="let font of newfontList" [value]="font.fontname" [style.font-family]="font.fontname">
+                      {{ font.fontname }}
+                    </option>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+            <div class="sidebar-panel-tab-properties-content" id="tab-resize">
+              <div class="bp4-navbar " style="height: max-content;">
+                <div style="height: 100%; overflow: auto; padding-right: 3px;">
+                  <div style="padding-bottom: 15px;"><label class="bp4-control bp4-switch bp4-align-right"
+                      style="margin-top: 8px; margin-bottom: 25px;">
+                      <span class="bp4-control-indicator"></span>Use magic resize <span
+                        class="bp4-popover2-target"><span aria-hidden="true" icon="help" tabindex="0"
+                          class="bp4-icon bp4-icon-help">
+
+                        </span></span>
+                    </label>
+                    <div style="width: 50%; display: inline-block;">Width (px)</div>
+                    <div style="width: 50%; display: inline-block;">
+                      <div class="bp4-control-group bp4-fill bp4-numeric-input">
+                        <div class="bp4-input-group"><input type="text" autocomplete="off" id="numericInput-0"
+                            role="spinbutton" min="10" max="10000" aria-valuemax="10000" aria-valuemin="10"
+                            aria-valuenow="1080" class="bp4-input" value="1080"></div>
+                        <div class="bp4-button-group bp4-vertical bp4-fixed"><button type="button"
+                            aria-label="increment" (click)="changeValueZero('increment')" aria-controls="numericInput-0"
+                            class="bp4-button"><span aria-hidden="true" icon="chevron-up"
+                              class="bp4-icon bp4-icon-chevron-up"><svg data-icon="chevron-up" width="16" height="16"
+                                viewBox="0 0 16 16" role="img">
+                                <path
+                                  d="M12.71 9.29l-4-4C8.53 5.11 8.28 5 8 5s-.53.11-.71.29l-4 4a1.003 1.003 0 001.42 1.42L8 7.41l3.29 3.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71z"
+                                  fill-rule="evenodd"></path>
+                              </svg></span></button><button type="button" aria-label="decrement"
+                            (click)="changeValueZero('decrement')" aria-controls="numericInput-0"
+                            class="bp4-button"><span aria-hidden="true" icon="chevron-down"
+                              class="bp4-icon bp4-icon-chevron-down"><svg data-icon="chevron-down" width="16"
+                                height="16" viewBox="0 0 16 16" role="img">
+                                <path
+                                  d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                                  fill-rule="evenodd"></path>
+                              </svg></span></button></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="padding-bottom: 15px;">
+                    <div style="width: 50%; display: inline-block;">Height (px)</div>
+                    <div style="width: 50%; display: inline-block;">
+                      <div class="bp4-control-group bp4-fill bp4-numeric-input">
+                        <div class="bp4-input-group"><input type="text" autocomplete="off" id="numericInput-1"
+                            role="spinbutton" min="10" max="10000" aria-valuemax="10000" aria-valuemin="10"
+                            aria-valuenow="1080" class="bp4-input" value="1920"></div>
+                        <div class="bp4-button-group bp4-vertical bp4-fixed"><button type="button"
+                            aria-label="increment" (click)="changeValueOne('increment')" aria-controls=" numericInput-1"
+                            class="bp4-button"><span aria-hidden="true" icon="chevron-up"
+                              class="bp4-icon bp4-icon-chevron-up"><svg data-icon="chevron-up" width="16" height="16"
+                                viewBox="0 0 16 16" role="img">
+                                <path
+                                  d="M12.71 9.29l-4-4C8.53 5.11 8.28 5 8 5s-.53.11-.71.29l-4 4a1.003 1.003 0 001.42 1.42L8 7.41l3.29 3.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71z"
+                                  fill-rule="evenodd"></path>
+                              </svg></span></button><button type="button" aria-label="decrement"
+                            (click)="changeValueOne('decrement')" aria-controls="numericInput-1"
+                            class="bp4-button"><span aria-hidden="true" icon="chevron-down"
+                              class="bp4-icon bp4-icon-chevron-down"><svg data-icon="chevron-down" width="16"
+                                height="16" viewBox="0 0 16 16" role="img">
+                                <path
+                                  d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                                  fill-rule="evenodd"></path>
+                              </svg></span></button></div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <button type="button" class="bp4-button bp4-minimal bp4-align-left"
+                    (click)="changeKonvaResolution(1080 , 1920)"
+                    style="width: 100%; padding-top: 10px; padding-bottom: 10px; font-size: 16px;"><i
+                      _ngcontent-bsc-c236="" class="fa fa-duotone fa-desktop "></i><span
+                      class="bp4-button-text">Vertical<span
+                        style="font-size: 0.7rem; padding-left: 20px; float: right; line-height: 1.1rem;">1080 x 1920
+                        px</span></span>
+                  </button>
+
+
+
+                  <button type="button" class="bp4-button bp4-minimal bp4-align-left"
+                    (click)="changeKonvaResolution(1920 , 1080)"
+                    style="width: 100%; padding-top: 10px; padding-bottom: 10px; font-size: 16px;"><i
+                      _ngcontent-bsc-c236="" class="fa fa-duotone fa-desktop "></i><span
+                      class="bp4-button-text">Horizontal<span
+                        style="font-size: 0.7rem; padding-left: 20px; float: right; line-height: 1.1rem;">1920 x 1080
+                        px</span></span></button>
+                </div>
+              </div>
+            </div>
+    
+          </div>
+          <div data-popper-arrow="true" (click)="closePrpperties()" class="sidebar-panel-tab-close"><svg width="15"
+              height="96" viewBox="0 0 15 96" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M3 0 C3.0011 4.42584 3.9102 9.9 7.2 13.28C7.45 13.4625 7.6 13.6 7.7 13.8048L7.8 13.8C9.8 15.8 11.6 17.6 12.9 19.7C14.0 21.6 14.7 23.9 14.9 27H15V68C15 71.7 14.3 74.3 13.0 76.6C11.7 78.8 9.9 80.5 7.8 82.6344L7.79 82.6C7.6 82.8 7.4507 83 7.27295 83.2127C3.9102 86.5228 3.0011 92.0739 3 95.4938">
+              </path>
+            </svg>
+            <div class="pointer">&lt;</div>
+          </div>
+        </div>
+        <div class="playground">
+          <div class="playground-undo bp4-navbar">
+            <div class="go4153082118">
+
+              <div class="go1831645374 bp4-navbar-group bp4-align-left" *ngIf="selectedObject && !isText"
+                style="width: 373px;">
+                <div class="bp4-overflow-list" style="width: 100%;"><span aria-haspopup="true"
+                    class="bp4-popover2-target">
+
+                  </span><span aria-haspopup="true" class="bp4-popover2-target">
+
+
+                  </span><button type="button" (click)="fitToPage()" class="bp4-button bp4-minimal"><span
+                      class="bp4-button-text">Fit to page</span></button>
+                           <div class="bp4-overflow-list-spacer"></div>
+                </div>
+              </div>
+              <div *ngIf=" selectedObject && isText" class="go1831645374 bp4-navbar-group bp4-align-left"
+                style="width: 443px;">
+                <div class="bp4-overflow-list" style="width: 100%;"><span aria-haspopup="true"
+                    class="bp4-popover2-target">
+                    <div class="" tabindex="0"
+                      style="width: 30px; height: 30px;  margin-left: 10px; border-radius: 2px; box-shadow: grey 0px 0px 2px; margin-bottom: -4px; margin-right: 5px;">
+                      <input style="width: 30px; height: 30px;" type="color" #txtColor
+                        (input)="addTextColor(txtColor.value)" id="favcolor" name="favcolor" value="#ff0000">
+                    </div>
+                  </span>
+                  <span aria-haspopup="true" class="bp4-popover2-target"><button type="button"
+                      class="bp4-button bp4-minimal" style="margin-right: 5px;  overflow: hidden; white-space: nowrap;">
+                      <select style="height: inherit; width: 60px;" [(ngModel)]="selectedFont"
+                        (change)="changeFontFamily($event)" [style.font-family]="selectedFont">
+                        <option *ngFor="let font of fontList" [value]="font.fontname"
+                          [style.font-family]="font.fontname">
+                          {{ font.fontname }}
+                        </option>
+                      </select>
+                    </button></span>
+                  <div class="bp4-control-group bp4-numeric-input">
+                    <div class="bp4-input-group"><input type="number" autocomplete="off" id="numericInput-1"
+                        role="spinbutton" min="5" (change)="changeFontsize(fontsize.value)" #fontsize
+                        [(ngModel)]="selectedFontSize" class="bp4-input" value="76" style="width: 55px;">
+                    </div>
+
+                  </div>
+                  <div class="bp4-button-group">
+
+                    <button type="button" (click)="makeItalic()" class="bp4-button bp4-minimal"><span aria-hidden="true"
+                        icon="italic" class="bp4-icon bp4-icon-italic"><svg data-icon="italic" width="16" height="16"
+                          viewBox="0 0 16 16" role="img">
+                          <path
+                            d="M9.8 4H11c.5 0 1-.4 1-1s-.4-1-1-1H7c-.5 0-1 .4-1 1s.4 1 1 1h.8l-1.6 8H5c-.5 0-1 .4-1 1s.4 1 1 1h4c.5 0 1-.4 1-1s-.4-1-1-1h-.8l1.6-8z"
+                            fill-rule="evenodd"></path>
+                        </svg></span></button>
+
+                  </div>
+
+                  <div class="bp4-overflow-list-spacer"></div>
+                </div>
+              </div>
+              <div class="bp4-navbar-group bp4-align-right"><span aria-haspopup="true"
+                  class="bp4-popover2-target"><button (click)="openPosition($event)" type="button" disabled=""
+                    class="bp4-button bp4-disabled bp4-minimal" tabindex="-1"><span aria-hidden="true" icon="layers"
+                      class="bp4-icon bp4-icon-layers"><svg data-icon="layers" width="16" height="16"
+                        viewBox="0 0 16 16" role="img">
+                        <path
+                          d="M.55 4.89l7 3c.14.07.29.11.45.11.16 0 .31-.04.45-.11l7-3a.998.998 0 00-.06-1.81L8.4.08a1.006 1.006 0 00-.79 0l-6.99 3a.992.992 0 00-.07 1.81zM15 11c-.16 0-.31.04-.45.11L8 14l-6.55-2.9c-.14-.06-.29-.1-.45-.1-.55 0-1 .45-1 1 0 .39.23.73.55.89l7 3c.14.07.29.11.45.11.16 0 .31-.04.45-.11l7-3c.32-.16.55-.5.55-.89 0-.55-.45-1-1-1zm0-4c-.16 0-.31.04-.45.11L8 10 1.45 7.11A.997.997 0 001 7c-.55 0-1 .45-1 1 0 .39.23.73.55.89l7 3c.14.07.29.11.45.11.16 0 .31-.04.45-.11l7-3c.32-.16.55-.5.55-.89 0-.55-.45-1-1-1z"
+                          fill-rule="evenodd"></path>
+                      </svg></span><span class="bp4-button-text">Position</span></button></span>
+
+                <span class="bp4-popover2-target"><button (click)="removeObjects()" type="button" disabled=""
+                    class="bp4-button bp4-disabled bp4-minimal" tabindex="-1" style="margin-left: auto;"><span
+                      aria-hidden="true" icon="trash" class="bp4-icon bp4-icon-trash"><svg data-icon="trash" width="16"
+                        height="16" viewBox="0 0 16 16" role="img">
+                        <path
+                          d="M14.49 3.99h-13c-.28 0-.5.22-.5.5s.22.5.5.5h.5v10c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-10h.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5zm-8.5 9c0 .55-.45 1-1 1s-1-.45-1-1v-6c0-.55.45-1 1-1s1 .45 1 1v6zm3 0c0 .55-.45 1-1 1s-1-.45-1-1v-6c0-.55.45-1 1-1s1 .45 1 1v6zm3 0c0 .55-.45 1-1 1s-1-.45-1-1v-6c0-.55.45-1 1-1s1 .45 1 1v6zm2-12h-4c0-.55-.45-1-1-1h-2c-.55 0-1 .45-1 1h-4c-.55 0-1 .45-1 1v1h14v-1c0-.55-.45-1-1-1z"
+                          fill-rule="evenodd"></path>
+                      </svg></span></button></span>
+              </div>
+            </div>
+          </div>
+          <div tabindex="0" class="polotno-workspace-container" style="width: 100%; height: 100%; position: relative; outline: none; display: flex;
+            justify-content: center;
+            align-items: center; background-color: rgb(232, 232, 232);">
+            <div id="konva" class="active-page" (dragover)="allowDrop($event)" (drop)="drop($event)">
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="position-dropdown"
+    class="bp4-popover2-transition-container bp4-overlay-content bp4-popover2-appear-done bp4-popover2-enter-done">
+    <div class="bp4-popover2 bp4-dark bp4-popover2-placement-bottom" style="transform-origin: 90px top;">
+      <div aria-hidden="true" class="bp4-popover2-arrow" data-popper-arrow="true"
+        style="position: absolute; top: -11px; left: 75px;"><svg viewBox="0 0 30 30" style="transform: rotate(90deg);">
+          <path class="bp4-popover2-arrow-border"
+            d="M8.11 6.302c1.015-.936 1.887-2.922 1.887-4.297v26c0-1.378-.868-3.357-1.888-4.297L.925 17.09c-1.237-1.14-1.233-3.034 0-4.17L8.11 6.302z">
+          </path>
+          <path class="bp4-popover2-arrow-fill"
+            d="M8.787 7.036c1.22-1.125 2.21-3.376 2.21-5.03V0v30-2.005c0-1.654-.983-3.9-2.21-5.03l-7.183-6.616c-.81-.746-.802-1.96 0-2.7l7.183-6.614z">
+          </path>
+        </svg></div>
+      <div class="bp4-popover2-content">
+        <ul role="menu" class="bp4-menu">
+          <li class="bp4-menu-header" role="separator" tabindex="-1">
+            <h6 class="bp4-heading">Layering</h6>
+          </li>
+
+          <li class="" (click)="layerArrangement('up')" role="none"><a role="menuitem" tabindex="-1"
+              class="bp4-menu-item"><span class="bp4-menu-item-icon"><span aria-hidden="true" icon="chevron-up"
+                  tabindex="-1" class="bp4-icon bp4-icon-chevron-up"><svg data-icon="chevron-up" width="16" height="16"
+                    viewBox="0 0 16 16" role="img">
+                    <path
+                      d="M12.71 9.29l-4-4C8.53 5.11 8.28 5 8 5s-.53.11-.71.29l-4 4a1.003 1.003 0 001.42 1.42L8 7.41l3.29 3.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71z"
+                      fill-rule="evenodd"></path>
+                  </svg></span></span>
+              <div class="bp4-fill bp4-text-overflow-ellipsis">Up</div>
+            </a></li>
+          <li class="" (click)="layerArrangement('down')" role="none"><a role="menuitem" tabindex="0"
+              class="bp4-menu-item"><span class="bp4-menu-item-icon"><span aria-hidden="true" icon="chevron-down"
+                  tabindex="-1" class="bp4-icon bp4-icon-chevron-down"><svg data-icon="chevron-down" width="16"
+                    height="16" viewBox="0 0 16 16" role="img">
+                    <path
+                      d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                      fill-rule="evenodd"></path>
+                  </svg></span></span>
+              <div class="bp4-fill bp4-text-overflow-ellipsis">Down</div>
+            </a></li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="upload-dropdown">
+    <div class="bp4-popover2-transition-container bp4-overlay-content bp4-popover2-enter-done">
+      <div class="bp4-popover2 bp4-dark bp4-popover2-placement-bottom" style="transform-origin: 140px top;">
+        <div aria-hidden="true" class="bp4-popover2-arrow" data-popper-arrow="true"
+          style="position: absolute; top: -11px; left: 125px;"><svg viewBox="0 0 30 30"
+            style="transform: rotate(90deg);">
+            <path class="bp4-popover2-arrow-border"
+              d="M8.11 6.302c1.015-.936 1.887-2.922 1.887-4.297v26c0-1.378-.868-3.357-1.888-4.297L.925 17.09c-1.237-1.14-1.233-3.034 0-4.17L8.11 6.302z">
+            </path>
+            <path class="bp4-popover2-arrow-fill"
+              d="M8.787 7.036c1.22-1.125 2.21-3.376 2.21-5.03V0v30-2.005c0-1.654-.983-3.9-2.21-5.03l-7.183-6.616c-.81-.746-.802-1.96 0-2.7l7.183-6.614z">
+            </path>
+          </svg></div>
+        <div class="bp4-popover2-content">
+          <ul role="menu" class="bp4-menu">
+            <li class="bp4-menu-header">
+              <h6 class="bp4-heading">Choose Playlist</h6>
+            </li>
+            <div class="bp4-html-select bp4-fill">
+              <select [(ngModel)]="choosePlaylist">
+                <option value="none" disabled>-- choose playlist -- </option>
+                <option *ngFor="let obj of Playlist" [value]="obj.id">{{obj.filename}} <span
+                    style="color: greenyellow !important;"> &nbsp; {{obj.mediatype ==='both'?
+                    ' [Schedule]':'[Default]'
+                    }}</span>
+                </option>
+              </select>
+              <span icon="double-caret-vertical" class="bp4-icon bp4-icon-double-caret-vertical"><svg
+                  data-icon="double-caret-vertical" width="16" height="16" viewBox="0 0 16 16"
+                  aria-labelledby="iconTitle-25" role="img">
+                  <title id="iconTitle-25">Open dropdown</title>
+                  <path
+                    d="M5 7h6a1.003 1.003 0 00.71-1.71l-3-3C8.53 2.11 8.28 2 8 2s-.53.11-.71.29l-3 3A1.003 1.003 0 005 7zm6 2H5a1.003 1.003 0 00-.71 1.71l3 3c.18.18.43.29.71.29s.53-.11.71-.29l3-3A1.003 1.003 0 0011 9z"
+                    fill-rule="evenodd"></path>
+                </svg></span>
+            </div>
+            <div class="bp4-divider"></div>
+            <div class="bp4-html-select bp4-fill">
+              <select [(ngModel)]="isVertical">
+                <option [value]="'true'">vertical</option>
+                <option [value]="'false'">horizontal</option>
+              </select>
+              <span icon="double-caret-vertical" class="bp4-icon bp4-icon-double-caret-vertical"><svg
+                  data-icon="double-caret-vertical" width="16" height="16" viewBox="0 0 16 16"
+                  aria-labelledby="iconTitle-25" role="img">
+                  <title id="iconTitle-25">Open dropdown</title>
+                  <path
+                    d="M5 7h6a1.003 1.003 0 00.71-1.71l-3-3C8.53 2.11 8.28 2 8 2s-.53.11-.71.29l-3 3A1.003 1.003 0 005 7zm6 2H5a1.003 1.003 0 00-.71 1.71l3 3c.18.18.43.29.71.29s.53-.11.71-.29l3-3A1.003 1.003 0 0011 9z"
+                    fill-rule="evenodd"></path>
+                </svg></span>
+            </div>
+            <div class="bp4-divider"></div>
+            <div class="bp4-html-select bp4-fill"><select #format>
+                <option value="jpeg">JPEG</option>
+                <option value="png">PNG</option>
+                <option value="MP4">MP4</option>
+              </select><span icon="double-caret-vertical" class="bp4-icon bp4-icon-double-caret-vertical"><svg
+                  data-icon="double-caret-vertical" width="16" height="16" viewBox="0 0 16 16"
+                  aria-labelledby="iconTitle-26" role="img">
+                  <title id="iconTitle-26">Open dropdown</title>
+                  <path
+                    d="M5 7h6a1.003 1.003 0 00.71-1.71l-3-3C8.53 2.11 8.28 2 8 2s-.53.11-.71.29l-3 3A1.003 1.003 0 005 7zm6 2H5a1.003 1.003 0 00-.71 1.71l3 3c.18.18.43.29.71.29s.53-.11.71-.29l3-3A1.003 1.003 0 0011 9z"
+                    fill-rule="evenodd"></path>
+                </svg></span></div>
+
+            <div class="bp4-divider"></div><button (click)="saveAsImage(format.value)" type="button"
+              class="bp4-button bp4-fill bp4-intent-primary"><span class="bp4-button-text">Publish</span></button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="template-dropdown">
+    <div class="bp4-popover2-transition-container bp4-overlay-content bp4-popover2-enter-done">
+      <div class="bp4-popover2 bp4-dark bp4-popover2-placement-bottom" style="transform-origin: 140px top;">
+        <div aria-hidden="true" class="bp4-popover2-arrow" data-popper-arrow="true"
+          style="position: absolute; top: -11px; left: 125px;"><svg viewBox="0 0 30 30"
+            style="transform: rotate(90deg);">
+            <path class="bp4-popover2-arrow-border"
+              d="M8.11 6.302c1.015-.936 1.887-2.922 1.887-4.297v26c0-1.378-.868-3.357-1.888-4.297L.925 17.09c-1.237-1.14-1.233-3.034 0-4.17L8.11 6.302z">
+            </path>
+            <path class="bp4-popover2-arrow-fill"
+              d="M8.787 7.036c1.22-1.125 2.21-3.376 2.21-5.03V0v30-2.005c0-1.654-.983-3.9-2.21-5.03l-7.183-6.616c-.81-.746-.802-1.96 0-2.7l7.183-6.614z">
+            </path>
+          </svg></div>
+        <div class="bp4-popover2-content">
+          <ul role="menu" class="bp4-menu">
+            <li class="bp4-menu-header">
+              <h6 class="bp4-heading">Choose template type</h6>
+            </li>
+            <div class="bp4-html-select bp4-fill">
+              <select [(ngModel)]="choosedTemplateType">
+                <option [value]="'none'" disabled>-- choose template type -- </option>
+                <option [value]="'global'"> Global Template
+                </option>
+                <br>
+                <option [value]="'self'"> Self Template
+                </option>
+              </select>
+
+            </div>
+            <div class="bp4-divider"></div>
+            <div class="bp4-html-select bp4-fill">
+              <span> Enter template name</span>
+              <input style="width: 100%;" [(ngModel)]="templatename" type="text" placeholder="Enter template name">
+            </div>
+            <div class="bp4-divider"></div>
+            <div class="bp4-html-select bp4-fill"><select #format1>
+                <option value="jpeg">JPEG</option>
+                <option value="png">PNG</option>
+                <option value="MP4">MP4</option>
+              </select></div>
+            <div class="bp4-divider"></div><button (click)="saveAsImage(format1.value)" type="button"
+              class="bp4-button bp4-fill bp4-intent-primary"><span class="bp4-button-text">Publish</span></button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div *ngIf="ismobileview">
+  <div class="bp4-dark">
+    <div class=" bp4-navbar">
+      <div class="bp4-navbar-group bp4-align-right">
+        <div class="bp4-divider"></div>
+        <div class="bp4-divider "></div><span aria-haspopup="true" class="bp4-popover2-target">
+          <button type="button" class="bp4-button bp4-intent-primary"
+            (click)="mediafileid? saveAsImage(''):openUploadDropdown($event,'upload-dropdown')">
+            <span aria-hidden="true" icon="export" class="bp4-icon bp4-icon-export"><svg data-icon="export" width="16"
+                height="16" viewBox="0 0 16 16" role="img">
+                <path
+                  d="M4 6c.28 0 .53-.11.71-.29L7 3.41V11c0 .55.45 1 1 1s1-.45 1-1V3.41l2.29 2.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71l-4-4C8.53.11 8.28 0 8 0s-.53.11-.71.29l-4 4A1.003 1.003 0 004 6zm11 5c-.55 0-1 .45-1 1v2H2v-2c0-.55-.45-1-1-1s-1 .45-1 1v3c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1z"
+                  fill-rule="evenodd"></path>
+              </svg></span><span class="bp4-button-text">Publish</span></button>
+
+        </span>
+        <div class="bp4-divider"></div>
+        <span aria-haspopup="true" class="bp4-popover2-target">
+        </span>
+        <div class="bp4-divider"></div>
+      </div>
+      <div class="bp4-navbar-group bp4-align-right" *ngIf="mediafileid ==null">
+        <div class="bp4-divider"></div>
+        <div class="bp4-divider "></div>
+        <span aria-haspopup="true" class="bp4-popover2-target">
+          <!-- <button type="button" class="bp4-button bp4-intent-primary"
+            (click)="openUploadDropdown($event,'template-dropdown')">
+            <span aria-hidden="true" icon="export" class="bp4-icon bp4-icon-export"><svg data-icon="export" width="16"
+                height="16" viewBox="0 0 16 16" role="img">
+                <path
+                  d="M4 6c.28 0 .53-.11.71-.29L7 3.41V11c0 .55.45 1 1 1s1-.45 1-1V3.41l2.29 2.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71l-4-4C8.53.11 8.28 0 8 0s-.53.11-.71.29l-4 4A1.003 1.003 0 004 6zm11 5c-.55 0-1 .45-1 1v2H2v-2c0-.55-.45-1-1-1s-1 .45-1 1v3c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1z"
+                  fill-rule="evenodd"></path>
+              </svg></span><span class="bp4-button-text">Publish As Template</span></button> -->
+        </span>
+        <div class="bp4-divider"></div>
+        <span aria-haspopup="true" class="bp4-popover2-target">
+        </span>
+        <div class="bp4-divider"></div>
+      </div>
+    </div>
+    <div class="sidebar-panel-tab-container">
+      <div class="sidebar-panel bp4-navbar  side-tabs-container">
+        <div class="playground">
+          <div class="playground-undo bp4-navbar">
+            <div class="go4153082118">
+
+              <div class="go1831645374 bp4-navbar-group bp4-align-left" *ngIf="selectedObject && !isText"
+                style="width: 373px;">
+                <div class="bp4-overflow-list" style="width: 100%;"><span aria-haspopup="true"
+                    class="bp4-popover2-target">
+                  </span><span aria-haspopup="true" class="bp4-popover2-target">
+                  </span><button type="button" (click)="fitToPage()" class="bp4-button bp4-minimal"><span
+                      class="bp4-button-text">Fit to page</span></button>
+                  <div class="bp4-overflow-list-spacer"></div>
+                </div>
+              </div>
+              <div *ngIf=" selectedObject && isText" class="go1831645374 bp4-navbar-group bp4-align-left"
+                style="width: 443px;">
+                <div class="bp4-overflow-list" style="width: 100%;"><span aria-haspopup="true"
+                    class="bp4-popover2-target">
+                    <div class="" tabindex="0"
+                      style="width: 30px; height: 30px;  margin-left: 10px; border-radius: 2px; box-shadow: grey 0px 0px 2px; margin-bottom: -4px; margin-right: 5px;">
+                      <input style="width: 30px; height: 30px;" type="color" #txtColor
+                        (input)="addTextColor(txtColor.value)" id="favcolor" name="favcolor" value="#ff0000">
+                    </div>
+                  </span>
+                  <span aria-haspopup="true" class="bp4-popover2-target"><button type="button"
+                      class="bp4-button bp4-minimal" style="margin-right: 5px;  overflow: hidden; white-space: nowrap;">
+                      <select style="height: inherit; width: 60px;" [(ngModel)]="selectedFont"
+                        (change)="changeFontFamily($event)" [style.font-family]="selectedFont">
+                        <option *ngFor="let font of fontList" [value]="font.fontname"
+                          [style.font-family]="font.fontname">
+                          {{ font.fontname }}
+                        </option>
+                      </select>
+                    </button></span>
+                  <div class="bp4-control-group bp4-numeric-input">
+                    <div class="bp4-input-group"><input type="number" autocomplete="off" id="numericInput-1"
+                        role="spinbutton" min="5" (change)="changeFontsize(fontsize.value)" #fontsize
+                        [(ngModel)]="selectedFontSize" class="bp4-input" value="76" style="width: 55px;">
+                    </div>
+                  </div>
+                  <div class="bp4-button-group">
+                    <button type="button" (click)="makeItalic()" class="bp4-button bp4-minimal"><span aria-hidden="true"
+                        icon="italic" class="bp4-icon bp4-icon-italic"><svg data-icon="italic" width="16" height="16"
+                          viewBox="0 0 16 16" role="img">
+                          <path
+                            d="M9.8 4H11c.5 0 1-.4 1-1s-.4-1-1-1H7c-.5 0-1 .4-1 1s.4 1 1 1h.8l-1.6 8H5c-.5 0-1 .4-1 1s.4 1 1 1h4c.5 0 1-.4 1-1s-.4-1-1-1h-.8l1.6-8z"
+                            fill-rule="evenodd"></path>
+                        </svg></span></button>
+                  </div>
+                  <div class="bp4-overflow-list-spacer"></div>
+                </div>
+              </div>
+              <div class="bp4-navbar-group bp4-align-right"><span aria-haspopup="true"
+                  class="bp4-popover2-target"><button (click)="openPosition($event)" type="button" disabled=""
+                    class="bp4-button bp4-disabled bp4-minimal" tabindex="-1"><span aria-hidden="true" icon="layers"
+                      class="bp4-icon bp4-icon-layers"><svg data-icon="layers" width="16" height="16"
+                        viewBox="0 0 16 16" role="img">
+                        <path
+                          d="M.55 4.89l7 3c.14.07.29.11.45.11.16 0 .31-.04.45-.11l7-3a.998.998 0 00-.06-1.81L8.4.08a1.006 1.006 0 00-.79 0l-6.99 3a.992.992 0 00-.07 1.81zM15 11c-.16 0-.31.04-.45.11L8 14l-6.55-2.9c-.14-.06-.29-.1-.45-.1-.55 0-1 .45-1 1 0 .39.23.73.55.89l7 3c.14.07.29.11.45.11.16 0 .31-.04.45-.11l7-3c.32-.16.55-.5.55-.89 0-.55-.45-1-1-1zm0-4c-.16 0-.31.04-.45.11L8 10 1.45 7.11A.997.997 0 001 7c-.55 0-1 .45-1 1 0 .39.23.73.55.89l7 3c.14.07.29.11.45.11.16 0 .31-.04.45-.11l7-3c.32-.16.55-.5.55-.89 0-.55-.45-1-1-1z"
+                          fill-rule="evenodd"></path>
+                      </svg></span><span class="bp4-button-text">Position</span></button></span>
+                <span class="bp4-popover2-target"><button (click)="removeObjects()" type="button" disabled=""
+                    class="bp4-button bp4-disabled bp4-minimal" tabindex="-1" style="margin-left: auto;"><span
+                      aria-hidden="true" icon="trash" class="bp4-icon bp4-icon-trash"><svg data-icon="trash" width="16"
+                        height="16" viewBox="0 0 16 16" role="img">
+                        <path
+                          d="M14.49 3.99h-13c-.28 0-.5.22-.5.5s.22.5.5.5h.5v10c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-10h.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5zm-8.5 9c0 .55-.45 1-1 1s-1-.45-1-1v-6c0-.55.45-1 1-1s1 .45 1 1v6zm3 0c0 .55-.45 1-1 1s-1-.45-1-1v-6c0-.55.45-1 1-1s1 .45 1 1v6zm3 0c0 .55-.45 1-1 1s-1-.45-1-1v-6c0-.55.45-1 1-1s1 .45 1 1v6zm2-12h-4c0-.55-.45-1-1-1h-2c-.55 0-1 .45-1 1h-4c-.55 0-1 .45-1 1v1h14v-1c0-.55-.45-1-1-1z"
+                          fill-rule="evenodd"></path>
+                      </svg></span></button></span>
+              </div>
+            </div>
+          </div>
+          <div tabindex="0" class="polotno-workspace-container">
+            <div id="konva" class="active-page" (dragover)="allowDrop($event)" (drop)="drop($event)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-panel-tab-properties bp4-navbar close" id="propertyPanel">
+      <div style="height: 100%; display: flex; flex-direction: column;">
+        <div class="bp4-input-group"><span icon="search" tabindex="-1" class="bp4-icon bp4-icon-search"><svg
+              data-icon="search" width="16" height="16" viewBox="0 0 16 16" role="img">
+              <path
+                d="M15.55 13.43l-2.67-2.68a6.94 6.94 0 001.11-3.76c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.39 0 2.68-.42 3.76-1.11l2.68 2.67a1.498 1.498 0 102.12-2.12zm-8.56-1.44c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"
+                fill-rule="evenodd"></path>
+            </svg></span><input type="text" (input)="onInput($event)" #inputSearch placeholder="Search..."
+            class="bp4-input" style="margin-bottom: 20px;">
+        </div>
+
+        <div class="sidebar-panel-tab-properties-content images" id="tab-local-template">
+          <div class="sidebar-panel-tab-properties-content-data" style="width: 50%;"
+            *ngFor="let te of templateList?.client_template">
+            <div class="polotno-close-panel" style="padding: 5px;width: 100%;">
+
+              <div data-shadowenabled="true" class="sidebar-panel-tab-properties-content-data-container">
+                <img *ngIf="te?.mediainfo?.mediatype==='image'" [src]="te.image_url"
+                  (click)="retrievePlayground(te.properties)"
+                  style="height: auto; width: 100%;cursor: pointer;display: block;">
+                <video (click)="retrievePlayground(te.properties)" [src]="te.image_url"
+                  *ngIf="te?.mediainfo?.mediatype==='video'" style="height: auto; width: 100%;
+                                    cursor: pointer;
+                                    display: block;"></video>
+                <span
+                  style="position: absolute; top: 0; border-radius: 5px; padding: 4px; right: 0;  background-color: #378ceeb2;"><i
+                    *ngIf="te?.mediainfo?.mediatype==='image'" class="fa fa-picture-o" aria-hidden="true">
+                  </i> <i *ngIf="te?.mediainfo?.mediatype==='video'" class="fa fa-video-camera" aria-hidden="true"></i>
+                </span>
+              </div>
+
+            </div>
+          </div>
+          <div class="sidebar-panel-tab-properties-content-data" style="width: 50%;"
+            *ngFor="let te of templateList?.global_template">
+            <div class="polotno-close-panel" style="padding: 5px;width: 100%;">
+
+              <div data-shadowenabled="true" class="sidebar-panel-tab-properties-content-data-container">
+                <img *ngIf="te?.mediainfo?.mediatype==='image'" [src]="te.image_url"
+                  (click)="retrievePlayground(te.properties)"
+                  style="height: auto; width: 100%;cursor: pointer;display: block;">
+                <video (click)="retrievePlayground(te.properties)" [src]="te.image_url"
+                  *ngIf="te?.mediainfo?.mediatype==='video'" style="height: auto; width: 100%;
+                                    cursor: pointer;
+                                    display: block;"></video>
+                <span
+                  style="position: absolute; top: 0; border-radius: 5px; padding: 4px; right: 0;  background-color: #378ceeb2;"><i
+                    *ngIf="te?.mediainfo?.mediatype==='image'" class="fa fa-picture-o" aria-hidden="true">
+                  </i> <i *ngIf="te?.mediainfo?.mediatype==='video'" class="fa fa-video-camera" aria-hidden="true"></i>
+                </span>
+              </div>
+
+            </div>
+          </div>
+          <div *ngIf="templateList.length===0" class="text-center" style="height: 45px; padding-top: 5px;">
+            Templates
+            are not available.</div>
+        </div>
+
+        <div class="sidebar-panel-tab-properties-content " id="tab-video">
+
+          <div class="sidebar-panel-tab-properties-content-data" style="width: 50%;">
+            <div class="polotno-close-panel" style="padding: 5px;width: 100%;">
+              <div data-shadowenabled="true" class="sidebar-panel-tab-properties-content-data-container">
+                <span *ngFor="let v of Videolists">
+                  <video [id]="v.id" (dragstart)="drag($event)" (click)="drop($event)" controls [src]="v.file"
+                    draggable="true" style="height: auto; width: 100%;
+                                    cursor: pointer;
+                                    display: block;"></video>
+                </span>
+                <div class=" credit" style="display: none;"><span>Photo by <a href="https://www.ridsys.com/"
+                      target="_blank">IQWORLD</a> on <a href="https://www.ridsys.com/" target="_blank">Ridsys</a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-panel-tab-properties-content images" id="tab-upload">
+          <div style="height: 45px; padding-top: 5px;">Do you want to upload your own images?</div>
+          <div style="margin-bottom: 20px;"><input type="file" (change)="onFileChangeFile($event)" id="input-file"
+              name="avatar" accept="image/*, video/mp4" /></div>
+          <span *ngIf='both.length!=0'>
+            <div class="sidebar-panel-tab-properties-content-data" style="width: 50%;" *ngFor="let obj of both">
+              <div class="polotno-close-panel" style="padding: 5px;width: 100%;">
+                <div data-shadowenabled="true" class="sidebar-panel-tab-properties-content-data-container">
+                  <video [id]="obj?.id" muted controls [src]="obj?.url1? obj?.url1:obj.file"
+                    *ngIf="obj?.type?.startsWith('video')" (dragstart)="drag($event)" (click)="drop($event)"
+                    draggable="true" style="height: auto; width: 100%;
+                                      cursor: pointer;
+                                      display: block;"></video>
+                  <img [src]="obj?.url1? obj?.url1:obj.file" [id]="obj?.id" (click)="drop($event)"
+                    *ngIf="obj?.type.startsWith('image')" (dragstart)="drag($event)" draggable="true" style="height: auto; width: 100%;cursor: pointer;
+                                                    display: block;">
+                  <div class=" credit" style="display: none;"><span>Photo by <a href="https://www.ridsys.com/"
+                        target="_blank">IQWORLD</a> on <a href="https://www.ridsys.com/"
+                        target="_blank">Ridsys</a></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </span>
+        </div>
+        <div class="sidebar-panel-tab-properties-content  images" id="tab-bg">
+          <div class="d-flex justify-content-between " style="flex-wrap: wrap;">
+            <button (click)="addBackgroundColor(color.name)" class="btn" [ngStyle]="{'background-color':color.name}"
+              *ngFor="let color of colorsList"></button>
+          </div>
+          <hr>
+        </div>
+        <div class="sidebar-panel-tab-properties-content" id="tab-text">
+          <mat-tab-group animationDuration="0ms">
+            <mat-tab label="Text">
+              <div style="height: calc(100% - 40px);display: flex;flex-direction: column;">
+                <div class="go3011404647"><button type="button" draggable="true" (click)="addText('Create header','25')"
+                    (dragstart)="drag($event)" class="bp4-button bp4-minimal polotno-close-panel"
+                    style="margin-bottom: 5px; width: 100%; font-size: 25px; font-family: Roboto;"><span
+                      class="bp4-button-text">Create header</span></button><button type="button" draggable="true"
+                    (click)="addText('Create sub header','18')" (dragstart)="drag($event)"
+                    class="bp4-button bp4-minimal polotno-close-panel"
+                    style="margin-bottom: 5px; width: 100%; font-size: 18px; font-family: Roboto;"><span
+                      class="bp4-button-text">Create sub header</span></button><button type="button" draggable="true"
+                    (click)="addText('Create body text','14')" (dragstart)="drag($event)"
+                    class="bp4-button bp4-minimal polotno-close-panel"
+                    style="margin-bottom: 5px; width: 100%; font-size: 14px; font-family: Roboto;"><span
+                      class="bp4-button-text">Create body text</span></button>
+
+                </div>
+                <div class="" style="height: 100%;overflow: auto; display:flex; flex-wrap: wrap;">
+                  <option [id]="font?.id" (click)="addText(font.fontname,'25')" draggable="true"
+                    (dragstart)="drag($event)" style="padding: 5px 8px; font-size: medium;"
+                    *ngFor="let font of fontList" [value]="font.fontname" [style.font-family]="font.fontname">
+                    {{ font.fontname }}
+                  </option>
+                </div>
+              </div>
+            </mat-tab>
+            <mat-tab label="My Fonts">
+              <div style="display: flex; flex-direction: column; height: calc(100% - 50px);"><label
+                  for="fontupload"><button (click)="openFontUploadDialog('fontupload')" type="button" class="bp4-button"
+                    style="width: 100%;"><span aria-hidden="true" icon="upload" class="bp4-icon bp4-icon-upload"><svg
+                        data-icon="upload" width="16" height="16" viewBox="0 0 16 16" role="img">
+                        <path
+                          d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3 8c-.28 0-.53-.11-.71-.29L9 6.41V12c0 .55-.45 1-1 1s-1-.45-1-1V6.41l-1.29 1.3a1.003 1.003 0 01-1.42-1.42l3-3C7.47 3.11 7.72 3 8 3s.53.11.71.29l3 3A1.003 1.003 0 0111 8z"
+                          fill-rule="evenodd"></path>
+                      </svg></span><span class="bp4-button-text">Upload font</span></button><input type="file"
+                    (change)="onFileChange($event)" accept=".ttf, .otf, .woff, .woff2, .eot" id="fontupload"
+                    style="display: none;"></label>
+
+              </div>
+              <br>
+              <div class="" style="height: 100%;overflow: auto; display:flex; flex-wrap: wrap;">
+                <option (click)="setFontFamily(font)" style="padding: 5px 8px; font-size: medium;"
+                  *ngFor="let font of newfontList" [value]="font.fontname" [style.font-family]="font.fontname">
+                  {{ font.fontname }}
+                </option>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+        <div class="sidebar-panel-tab-properties-content" id="tab-resize">
+          <div class="bp4-navbar " style="height: max-content;">
+            <div style="height: 100%; overflow: auto; padding-right: 3px;">
+              <div style="padding-bottom: 15px;"><label class="bp4-control bp4-switch bp4-align-right"
+                  style="margin-top: 8px; margin-bottom: 25px;">
+                  <span class="bp4-control-indicator"></span>Use magic resize <span class="bp4-popover2-target"><span
+                      aria-hidden="true" icon="help" tabindex="0" class="bp4-icon bp4-icon-help">
+                    </span></span>
+                </label>
+                <div style="width: 50%; display: inline-block;">Width (px)</div>
+                <div style="width: 50%; display: inline-block;">
+                  <div class="bp4-control-group bp4-fill bp4-numeric-input">
+                    <div class="bp4-input-group"><input type="text" autocomplete="off" id="numericInput-0"
+                        role="spinbutton" min="10" max="10000" aria-valuemax="10000" aria-valuemin="10"
+                        aria-valuenow="1080" class="bp4-input" value="1080"></div>
+                    <div class="bp4-button-group bp4-vertical bp4-fixed"><button type="button" aria-label="increment"
+                        (click)="changeValueZero('increment')" aria-controls="numericInput-0" class="bp4-button"><span
+                          aria-hidden="true" icon="chevron-up" class="bp4-icon bp4-icon-chevron-up"><svg
+                            data-icon="chevron-up" width="16" height="16" viewBox="0 0 16 16" role="img">
+                            <path
+                              d="M12.71 9.29l-4-4C8.53 5.11 8.28 5 8 5s-.53.11-.71.29l-4 4a1.003 1.003 0 001.42 1.42L8 7.41l3.29 3.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71z"
+                              fill-rule="evenodd"></path>
+                          </svg></span></button><button type="button" aria-label="decrement"
+                        (click)="changeValueZero('decrement')" aria-controls="numericInput-0" class="bp4-button"><span
+                          aria-hidden="true" icon="chevron-down" class="bp4-icon bp4-icon-chevron-down"><svg
+                            data-icon="chevron-down" width="16" height="16" viewBox="0 0 16 16" role="img">
+                            <path
+                              d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                              fill-rule="evenodd"></path>
+                          </svg></span></button></div>
+                  </div>
+                </div>
+              </div>
+              <div style="padding-bottom: 15px;">
+                <div style="width: 50%; display: inline-block;">Height (px)</div>
+                <div style="width: 50%; display: inline-block;">
+                  <div class="bp4-control-group bp4-fill bp4-numeric-input">
+                    <div class="bp4-input-group"><input type="text" autocomplete="off" id="numericInput-1"
+                        role="spinbutton" min="10" max="10000" aria-valuemax="10000" aria-valuemin="10"
+                        aria-valuenow="1080" class="bp4-input" value="1920"></div>
+                    <div class="bp4-button-group bp4-vertical bp4-fixed"><button type="button" aria-label="increment"
+                        (click)="changeValueOne('increment')" aria-controls=" numericInput-1" class="bp4-button"><span
+                          aria-hidden="true" icon="chevron-up" class="bp4-icon bp4-icon-chevron-up"><svg
+                            data-icon="chevron-up" width="16" height="16" viewBox="0 0 16 16" role="img">
+                            <path
+                              d="M12.71 9.29l-4-4C8.53 5.11 8.28 5 8 5s-.53.11-.71.29l-4 4a1.003 1.003 0 001.42 1.42L8 7.41l3.29 3.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71z"
+                              fill-rule="evenodd"></path>
+                          </svg></span></button><button type="button" aria-label="decrement"
+                        (click)="changeValueOne('decrement')" aria-controls="numericInput-1" class="bp4-button"><span
+                          aria-hidden="true" icon="chevron-down" class="bp4-icon bp4-icon-chevron-down"><svg
+                            data-icon="chevron-down" width="16" height="16" viewBox="0 0 16 16" role="img">
+                            <path
+                              d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                              fill-rule="evenodd"></path>
+                          </svg></span></button></div>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" class="bp4-button bp4-minimal bp4-align-left"
+                (click)="changeKonvaResolution(1080 , 1920)"
+                style="width: 100%; padding-top: 10px; padding-bottom: 10px; font-size: 16px;"><i _ngcontent-bsc-c236=""
+                  class="fa fa-duotone fa-desktop "></i><span class="bp4-button-text">Vertical<span
+                    style="font-size: 0.7rem; padding-left: 20px; float: right; line-height: 1.1rem;">1080
+                    x 1920
+                    px</span></span>
+              </button>
+
+
+
+              <button type="button" class="bp4-button bp4-minimal bp4-align-left"
+                (click)="changeKonvaResolution(1920 , 1080)"
+                style="width: 100%; padding-top: 10px; padding-bottom: 10px; font-size: 16px;"><i _ngcontent-bsc-c236=""
+                  class="fa fa-duotone fa-desktop "></i><span class="bp4-button-text">Horizontal<span
+                    style="font-size: 0.7rem; padding-left: 20px; float: right; line-height: 1.1rem;">1920
+                    x 1080px</span></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-popper-arrow="true" (click)="closePrpperties()" class="sidebar-panel-tab-close"><svg width="15"
+          height="96" viewBox="0 0 15 96" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 0 C3.0011 4.42584 3.9102 9.9 7.2 13.28C7.45 13.4625 7.6 13.6 7.7 13.8048L7.8 13.8C9.8 15.8 11.6 17.6 12.9 19.7C14.0 21.6 14.7 23.9 14.9 27H15V68C15 71.7 14.3 74.3 13.0 76.6C11.7 78.8 9.9 80.5 7.8 82.6344L7.79 82.6C7.6 82.8 7.4507 83 7.27295 83.2127C3.9102 86.5228 3.0011 92.0739 3 95.4938">
+          </path>
+        </svg>
+        <div class="pointer">&lt;</div>
+      </div>
+    </div>
+    <div class="sidebar-panel-tab-inner ">
+      <!-- <div class="sidebar-panel-tab" id="local-template" *ngIf="!mediafileid"
+        (click)="changeTab('tab-local-template','local-template')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="control" class="bp4-icon bp4-icon-control"><svg
+              data-icon="control" width="16" height="16" viewBox="0 0 16 16" role="img">
+              <path
+                d="M13 8H8v5h5V8zm0-5H8v4h5V3zm2-3H1C.45 0 0 .45 0 1v14c0 .55.45 1 1 1h14c.55 0 1-.45 1-1V1c0-.55-.45-1-1-1zm-1 14H2V2h12v12zM7 3H3v10h4V3z"
+                fill-rule="evenodd"></path>
+            </svg></span></div>
+        <div style="padding-top: 5px;">Templates</div>
+      </div> -->
+      <div class="sidebar-panel-tab" id="text-tab" (click)="changeTab('tab-text','text-tab')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="new-text-box"
+            class="bp4-icon bp4-icon-new-text-box"><svg data-icon="new-text-box" width="16" height="16"
+              viewBox="0 0 16 16" role="img">
+              <path
+                d="M5 6.5c0 .28.22.5.5.5H7v3.5c0 .28.22.5.5.5s.5-.22.5-.5V7h1.5c.28 0 .5-.22.5-.5S9.78 6 9.5 6h-4c-.28 0-.5.22-.5.5zM15 2h-1V1c0-.55-.45-1-1-1s-1 .45-1 1v1h-1c-.55 0-1 .45-1 1s.45 1 1 1h1v1c0 .55.45 1 1 1s1-.45 1-1V4h1c.55 0 1-.45 1-1s-.45-1-1-1zm-2 5c-.55 0-1 .45-1 1v5H3V4h5c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1z"
+                fill-rule="evenodd"></path>
+            </svg></span></div>
+        <div style="padding-top: 5px;">Text</div>
+      </div>
+      <div class="sidebar-panel-tab " id="upload" (click)="changeTab('tab-upload','upload')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="cloud-upload"
+            class="bp4-icon bp4-icon-cloud-upload"><svg data-icon="cloud-upload" width="16" height="16"
+              viewBox="0 0 16 16" role="img">
+              <path
+                d="M8.71 7.29C8.53 7.11 8.28 7 8 7s-.53.11-.71.29l-3 3a1.003 1.003 0 001.42 1.42L7 10.41V15c0 .55.45 1 1 1s1-.45 1-1v-4.59l1.29 1.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71l-3-3zM12 4c-.03 0-.07 0-.1.01A5 5 0 002 5c0 .11.01.22.02.33a3.495 3.495 0 00.07 6.37c-.05-.23-.09-.46-.09-.7 0-.83.34-1.58.88-2.12l3-3a2.993 2.993 0 014.24 0l3 3c.54.54.88 1.29.88 2.12 0 .16-.02.32-.05.47C15.17 10.78 16 9.5 16 8c0-2.21-1.79-4-4-4z"
+                fill-rule="evenodd"></path>
+            </svg></span></div>
+        <div style="padding-top: 5px;">Upload</div>
+      </div>
+      <div class="sidebar-panel-tab  " id="background-tab" (click)="changeTab('tab-bg','background-tab')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="layout-grid"
+            class="bp4-icon bp4-icon-layout-grid"><svg data-icon="layout-grid" width="16" height="16"
+              viewBox="0 0 16 16" role="img">
+              <path
+                d="M2 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6C.9 6 0 6.9 0 8s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6C.9 0 0 .9 0 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM8 0C6.9 0 6 .9 6 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM8 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                fill-rule="evenodd"></path>
+            </svg></span></div>
+        <div style="padding-top: 5px;">Background</div>
+      </div>
+
+      <div class="sidebar-panel-tab  " id="resize-tab" (click)="changeTab('tab-resize','resize-tab')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="fullscreen"
+            class="bp4-icon bp4-icon-fullscreen"><svg data-icon="fullscreen" width="16" height="16" viewBox="0 0 16 16"
+              role="img">
+              <path
+                d="M3.41 2H5c.55 0 1-.45 1-1s-.45-1-1-1H1C.45 0 0 .45 0 1v4c0 .55.45 1 1 1s1-.45 1-1V3.41L5.29 6.7c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71L3.41 2zM6 9c-.28 0-.53.11-.71.29L2 12.59V11c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1h4c.55 0 1-.45 1-1s-.45-1-1-1H3.41l3.29-3.29c.19-.18.3-.43.3-.71 0-.55-.45-1-1-1zm9 1c-.55 0-1 .45-1 1v1.59L10.71 9.3A.965.965 0 0010 9a1.003 1.003 0 00-.71 1.71l3.3 3.29H11c-.55 0-1 .45-1 1s.45 1 1 1h4c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1zm0-10h-4c-.55 0-1 .45-1 1s.45 1 1 1h1.59l-3.3 3.29a1.003 1.003 0 001.42 1.42L14 3.41V5c0 .55.45 1 1 1s1-.45 1-1V1c0-.55-.45-1-1-1z"
+                fill-rule="evenodd"></path>
+            </svg></span></div>
+        <div style="padding-top: 5px;">Resize</div>
+      </div>
+
+       <!-- <div class="sidebar-panel-tab " (click)="navgetToUrl('image')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="fullscreen"
+            class="bp4-icon bp4-icon-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+              viewBox="0 0 16 16">
+              <path fill="#ffffff"
+                d="M13.5739,7.42604 C14.1419,7.99409 14.1419,8.91508 13.5739,9.48313 L9.81766,13.2394 C9.59865,13.4584 9.32425,13.6137 9.02378,13.6889 L7.85874,13.9801 C7.35208,14.1068 6.89316,13.6478 7.01982,13.1412 L7.31108,11.9762 C7.3862,11.6757 7.54156,11.4013 7.76057,11.1823 L11.5168,7.42604 C12.0849,6.85799 13.0058,6.85799 13.5739,7.42604 Z M7.86814,8.14193 L8.59452,8.93417 L7.05352,10.4752 C6.70635,10.8223 6.46007,11.2573 6.34099,11.7336 L6.04973,12.8987 C6.04139,12.932 6.03408,12.9653 6.02779,12.9985 L4.5,12.9985 C3.97386,12.9985 3.48569,12.836 3.08294,12.5584 L7.13101,8.14198 C7.32916,7.9258 7.66996,7.92577 7.86814,8.14193 Z M12.2952062,8.07489125 L12.2239,8.13314 L8.46767,11.8894 C8.39954,11.9575 8.34625437,12.0385938 8.31072406,12.12745 L8.28122,12.2187 L8.11455,12.8854 L8.78124,12.7187 C8.87472,12.6953 8.96211937,12.653225 9.03829969,12.5953438 L9.11055,12.5323 L12.8668,8.77602 C13.0443,8.5985 13.0443,8.31067 12.8668,8.13314 C12.7114875,7.97781 12.47165,7.95839375 12.2952062,8.07489125 Z M10.4985,2 C11.823972,2 12.9085378,3.03153766 12.9931823,4.33562452 L12.9985,4.5 L12.9985,6.04195 C12.2885615,5.90926692 11.5313331,6.09133888 10.9510537,6.58816586 L10.8098,6.71893 L9.30229,8.22639 L8.60523,7.46613 C8.04565353,6.85581471 7.1070819,6.81997581 6.50300114,7.3585633 L6.39383,7.46628 L2.38792,11.8367 C2.17736286,11.5050714 2.04275837,11.1204714 2.00859703,10.7073338 L2,10.4985 L2,4.5 C2,3.1745184 3.03153766,2.08996147 4.33562452,2.00531769 L4.5,2 L10.4985,2 Z M9.49985,4 C8.67151,4 8,4.67151 8,5.49985 C8,6.3282 8.67151,6.99971 9.49985,6.99971 C10.3282,6.99971 10.9997,6.3282 10.9997,5.49985 C10.9997,4.67151 10.3282,4 9.49985,4 Z M9.499855,5 C9.77592,5 9.99971,5.22379 9.99971,5.499855 C9.99971,5.77592 9.77592,5.99971 9.499855,5.99971 C9.22379,5.99971 9,5.77592 9,5.499855 C9,5.22379 9.22379,5 9.499855,5 Z">
+              </path>
+            </svg></span></div>
+        <div style="padding-top: 5px;">R-Editor</div>
+      </div> -->
+
+      <div class="sidebar-panel-tab " (click)="navgetToUrl('image')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="fullscreen"
+            class="bp4-icon bp4-icon-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="22"
+              viewBox="0 0 16 16">
+              <path
+                d="M13.5739,7.42604 C14.1419,7.99409 14.1419,8.91508 13.5739,9.48313 L9.81766,13.2394 C9.59865,13.4584 9.32425,13.6137 9.02378,13.6889 L7.85874,13.9801 C7.35208,14.1068 6.89316,13.6478 7.01982,13.1412 L7.31108,11.9762 C7.3862,11.6757 7.54156,11.4013 7.76057,11.1823 L11.5168,7.42604 C12.0849,6.85799 13.0058,6.85799 13.5739,7.42604 Z M7.86814,8.14193 L8.59452,8.93417 L7.05352,10.4752 C6.70635,10.8223 6.46007,11.2573 6.34099,11.7336 L6.04973,12.8987 C6.04139,12.932 6.03408,12.9653 6.02779,12.9985 L4.5,12.9985 C3.97386,12.9985 3.48569,12.836 3.08294,12.5584 L7.13101,8.14198 C7.32916,7.9258 7.66996,7.92577 7.86814,8.14193 Z M12.2952062,8.07489125 L12.2239,8.13314 L8.46767,11.8894 C8.39954,11.9575 8.34625437,12.0385938 8.31072406,12.12745 L8.28122,12.2187 L8.11455,12.8854 L8.78124,12.7187 C8.87472,12.6953 8.96211937,12.653225 9.03829969,12.5953438 L9.11055,12.5323 L12.8668,8.77602 C13.0443,8.5985 13.0443,8.31067 12.8668,8.13314 C12.7114875,7.97781 12.47165,7.95839375 12.2952062,8.07489125 Z M10.4985,2 C11.823972,2 12.9085378,3.03153766 12.9931823,4.33562452 L12.9985,4.5 L12.9985,6.04195 C12.2885615,5.90926692 11.5313331,6.09133888 10.9510537,6.58816586 L10.8098,6.71893 L9.30229,8.22639 L8.60523,7.46613 C8.04565353,6.85581471 7.1070819,6.81997581 6.50300114,7.3585633 L6.39383,7.46628 L2.38792,11.8367 C2.17736286,11.5050714 2.04275837,11.1204714 2.00859703,10.7073338 L2,10.4985 L2,4.5 C2,3.1745184 3.03153766,2.08996147 4.33562452,2.00531769 L4.5,2 L10.4985,2 Z M9.49985,4 C8.67151,4 8,4.67151 8,5.49985 C8,6.3282 8.67151,6.99971 9.49985,6.99971 C10.3282,6.99971 10.9997,6.3282 10.9997,5.49985 C10.9997,4.67151 10.3282,4 9.49985,4 Z M9.499855,5 C9.77592,5 9.99971,5.22379 9.99971,5.499855 C9.99971,5.77592 9.77592,5.99971 9.499855,5.99971 C9.22379,5.99971 9,5.77592 9,5.499855 C9,5.22379 9.22379,5 9.499855,5 Z">
+              </path>
+            </svg></span></div>
+        <div style="padding-top: 5px;">Images</div>
+      </div>
+
+
+      <div class="sidebar-panel-tab " (click)="navgetToUrl('video')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="fullscreen" class="bp4-icon bp4-icon-fullscreen">
+            <svg enable-background="new 0 0 32 32" height="22px" id="Layer_1" version="1.1" viewBox="0 0 32 32"
+              width="22px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink">
+              <path
+                d="M30,6h-0.887c-0.525,0-1.029,0.207-1.404,0.576L25,9.248V8c0-1.657-1.344-3-3-3H3  C1.346,5,0,6.345,0,8v6.972V24c0,1.656,1.343,3,3,3h19c1.656,0,3-1.344,3-3v-1.221l2.709,2.672c0.375,0.369,0.879,0.576,1.404,0.576  H30c1.104,0,2-0.895,2-2V8C32,6.895,31.104,6,30,6z M3,25c-0.552,0-1-0.449-1-1V8c0-0.553,0.447-1,1-1h19c0.551,0,1,0.448,1,1v16  c0,0.551-0.449,1-1,1H3z M30,24.027h-0.887H29l-4-4V20l-1-1v-6l5-5h0.113H30V24.027z"
+                id="video" />
+            </svg>
+
+          </span></div>
+        <div style="padding-top: 5px;">Videos</div>
+      </div>
+      
+      <!-- <div class="sidebar-panel-tab " (click)="navgetToUrl('image')">
+        <div style="font-size: 14px;"><span aria-hidden="true" icon="fullscreen"
+            class="bp4-icon bp4-icon-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+              viewBox="0 0 16 16">
+              <path fill="#ffffff"
+                d="M13.5739,7.42604 C14.1419,7.99409 14.1419,8.91508 13.5739,9.48313 L9.81766,13.2394 C9.59865,13.4584 9.32425,13.6137 9.02378,13.6889 L7.85874,13.9801 C7.35208,14.1068 6.89316,13.6478 7.01982,13.1412 L7.31108,11.9762 C7.3862,11.6757 7.54156,11.4013 7.76057,11.1823 L11.5168,7.42604 C12.0849,6.85799 13.0058,6.85799 13.5739,7.42604 Z M7.86814,8.14193 L8.59452,8.93417 L7.05352,10.4752 C6.70635,10.8223 6.46007,11.2573 6.34099,11.7336 L6.04973,12.8987 C6.04139,12.932 6.03408,12.9653 6.02779,12.9985 L4.5,12.9985 C3.97386,12.9985 3.48569,12.836 3.08294,12.5584 L7.13101,8.14198 C7.32916,7.9258 7.66996,7.92577 7.86814,8.14193 Z M12.2952062,8.07489125 L12.2239,8.13314 L8.46767,11.8894 C8.39954,11.9575 8.34625437,12.0385938 8.31072406,12.12745 L8.28122,12.2187 L8.11455,12.8854 L8.78124,12.7187 C8.87472,12.6953 8.96211937,12.653225 9.03829969,12.5953438 L9.11055,12.5323 L12.8668,8.77602 C13.0443,8.5985 13.0443,8.31067 12.8668,8.13314 C12.7114875,7.97781 12.47165,7.95839375 12.2952062,8.07489125 Z M10.4985,2 C11.823972,2 12.9085378,3.03153766 12.9931823,4.33562452 L12.9985,4.5 L12.9985,6.04195 C12.2885615,5.90926692 11.5313331,6.09133888 10.9510537,6.58816586 L10.8098,6.71893 L9.30229,8.22639 L8.60523,7.46613 C8.04565353,6.85581471 7.1070819,6.81997581 6.50300114,7.3585633 L6.39383,7.46628 L2.38792,11.8367 C2.17736286,11.5050714 2.04275837,11.1204714 2.00859703,10.7073338 L2,10.4985 L2,4.5 C2,3.1745184 3.03153766,2.08996147 4.33562452,2.00531769 L4.5,2 L10.4985,2 Z M9.49985,4 C8.67151,4 8,4.67151 8,5.49985 C8,6.3282 8.67151,6.99971 9.49985,6.99971 C10.3282,6.99971 10.9997,6.3282 10.9997,5.49985 C10.9997,4.67151 10.3282,4 9.49985,4 Z M9.499855,5 C9.77592,5 9.99971,5.22379 9.99971,5.499855 C9.99971,5.77592 9.77592,5.99971 9.499855,5.99971 C9.22379,5.99971 9,5.77592 9,5.499855 C9,5.22379 9.22379,5 9.499855,5 Z">
+              </path>
+            </svg></span></div>
+        <div style="padding-top: 5px;">R-Editor</div>
+      </div> -->
+    </div>
+
+  </div>
+  <div id="upload-dropdown">
+    <div class="bp4-popover2-transition-container bp4-overlay-content bp4-popover2-enter-done">
+      <div class="bp4-popover2 bp4-dark bp4-popover2-placement-bottom" style="transform-origin: 140px top;">
+        <div aria-hidden="true" class="bp4-popover2-arrow" data-popper-arrow="true"
+          style="position: absolute; top: -11px; left: 125px;"><svg viewBox="0 0 30 30"
+            style="transform: rotate(90deg);">
+            <path class="bp4-popover2-arrow-border"
+              d="M8.11 6.302c1.015-.936 1.887-2.922 1.887-4.297v26c0-1.378-.868-3.357-1.888-4.297L.925 17.09c-1.237-1.14-1.233-3.034 0-4.17L8.11 6.302z">
+            </path>
+            <path class="bp4-popover2-arrow-fill"
+              d="M8.787 7.036c1.22-1.125 2.21-3.376 2.21-5.03V0v30-2.005c0-1.654-.983-3.9-2.21-5.03l-7.183-6.616c-.81-.746-.802-1.96 0-2.7l7.183-6.614z">
+            </path>
+          </svg></div>
+        <div class="bp4-popover2-content">
+          <ul role="menu" class="bp4-menu">
+            <li class="bp4-menu-header">
+              <h6 class="bp4-heading">Choose Playlist</h6>
+            </li>
+            <div class="bp4-html-select bp4-fill">
+              <select [(ngModel)]="choosePlaylist">
+                <option value="none" disabled>-- choose playlist -- </option>
+                <option *ngFor="let obj of Playlist" [value]="obj.id">{{obj.filename}} <span
+                    style="color: greenyellow !important;"> &nbsp; {{obj.mediatype ==='both'?
+                    ' [Schedule]':'[Default]'
+                    }}</span>
+                </option>
+              </select>
+              <span icon="double-caret-vertical" class="bp4-icon bp4-icon-double-caret-vertical"><svg
+                  data-icon="double-caret-vertical" width="16" height="16" viewBox="0 0 16 16"
+                  aria-labelledby="iconTitle-25" role="img">
+                  <title id="iconTitle-25">Open dropdown</title>
+                  <path
+                    d="M5 7h6a1.003 1.003 0 00.71-1.71l-3-3C8.53 2.11 8.28 2 8 2s-.53.11-.71.29l-3 3A1.003 1.003 0 005 7zm6 2H5a1.003 1.003 0 00-.71 1.71l3 3c.18.18.43.29.71.29s.53-.11.71-.29l3-3A1.003 1.003 0 0011 9z"
+                    fill-rule="evenodd"></path>
+                </svg></span>
+            </div>
+            <div class="bp4-divider"></div>
+            <div class="bp4-html-select bp4-fill">
+              <select [(ngModel)]="isVertical">
+                <option [value]="'true'">vertical</option>
+                <option [value]="'false'">horizontal</option>
+              </select>
+              <span icon="double-caret-vertical" class="bp4-icon bp4-icon-double-caret-vertical"><svg
+                  data-icon="double-caret-vertical" width="16" height="16" viewBox="0 0 16 16"
+                  aria-labelledby="iconTitle-25" role="img">
+                  <title id="iconTitle-25">Open dropdown</title>
+                  <path
+                    d="M5 7h6a1.003 1.003 0 00.71-1.71l-3-3C8.53 2.11 8.28 2 8 2s-.53.11-.71.29l-3 3A1.003 1.003 0 005 7zm6 2H5a1.003 1.003 0 00-.71 1.71l3 3c.18.18.43.29.71.29s.53-.11.71-.29l3-3A1.003 1.003 0 0011 9z"
+                    fill-rule="evenodd"></path>
+                </svg></span>
+            </div>
+            <div class="bp4-divider"></div>
+            <div class="bp4-html-select bp4-fill"><select #format>
+                <option value="jpeg">JPEG</option>
+                <option value="png">PNG</option>
+                <option value="MP4">MP4</option>
+              </select><span icon="double-caret-vertical" class="bp4-icon bp4-icon-double-caret-vertical"><svg
+                  data-icon="double-caret-vertical" width="16" height="16" viewBox="0 0 16 16"
+                  aria-labelledby="iconTitle-26" role="img">
+                  <title id="iconTitle-26">Open dropdown</title>
+                  <path
+                    d="M5 7h6a1.003 1.003 0 00.71-1.71l-3-3C8.53 2.11 8.28 2 8 2s-.53.11-.71.29l-3 3A1.003 1.003 0 005 7zm6 2H5a1.003 1.003 0 00-.71 1.71l3 3c.18.18.43.29.71.29s.53-.11.71-.29l3-3A1.003 1.003 0 0011 9z"
+                    fill-rule="evenodd"></path>
+                </svg></span></div>
+            <div class="bp4-divider"></div><button (click)="saveAsImage(format.value)" type="button"
+              class="bp4-button bp4-fill bp4-intent-primary"><span class="bp4-button-text">Publish</span></button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="template-dropdown">
+    <div class="bp4-popover2-transition-container bp4-overlay-content bp4-popover2-enter-done">
+      <div class="bp4-popover2 bp4-dark bp4-popover2-placement-bottom" style="transform-origin: 140px top;">
+        <div aria-hidden="true" class="bp4-popover2-arrow" data-popper-arrow="true"
+          style="position: absolute; top: -11px; left: 125px;"><svg viewBox="0 0 30 30"
+            style="transform: rotate(90deg);">
+            <path class="bp4-popover2-arrow-border"
+              d="M8.11 6.302c1.015-.936 1.887-2.922 1.887-4.297v26c0-1.378-.868-3.357-1.888-4.297L.925 17.09c-1.237-1.14-1.233-3.034 0-4.17L8.11 6.302z">
+            </path>
+            <path class="bp4-popover2-arrow-fill"
+              d="M8.787 7.036c1.22-1.125 2.21-3.376 2.21-5.03V0v30-2.005c0-1.654-.983-3.9-2.21-5.03l-7.183-6.616c-.81-.746-.802-1.96 0-2.7l7.183-6.614z">
+            </path>
+          </svg></div>
+        <div class="bp4-popover2-content">
+          <ul role="menu" class="bp4-menu">
+            <li class="bp4-menu-header">
+              <h6 class="bp4-heading">Choose template type</h6>
+            </li>
+            <div class="bp4-html-select bp4-fill">
+              <select [(ngModel)]="choosedTemplateType">
+                <option [value]="'none'" disabled>-- choose template type -- </option>
+                <option [value]="'global'"> Global Template
+                </option>
+                <br>
+                <option [value]="'self'"> Self Template
+                </option>
+              </select>
+
+            </div>
+            <div class="bp4-divider"></div>
+            <div class="bp4-html-select bp4-fill">
+              <span> Enter template name</span>
+              <input style="width: 100%;" [(ngModel)]="templatename" type="text" placeholder="Enter template name">
+            </div>
+            <div class="bp4-divider"></div>
+            <div class="bp4-html-select bp4-fill"><select #format1>
+                <option value="jpeg">JPEG</option>
+                <option value="png">PNG</option>
+                <option value="MP4">MP4</option>
+              </select></div>
+            <div class="bp4-divider"></div><button (click)="saveAsImage(format1.value)" type="button"
+              class="bp4-button bp4-fill bp4-intent-primary"><span class="bp4-button-text">Publish</span></button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

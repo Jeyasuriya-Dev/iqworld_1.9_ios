@@ -1,0 +1,192 @@
+<section class="content">
+  <div class="row mb-1 mt-1" style="line-height: 50px;">
+
+    <div class="">
+      <h1 class="text-center text-muted" style="font-weight:900; ">Device Log History</h1>
+    </div>
+    <mat-card *ngIf="isMobile">
+      <mat-card-content>
+        <div class="row align-items-baseline">
+          <div class="col-9 align-items: baseline;">
+            <mat-form-field class="example-form-field" style="width: 100%;">
+              <mat-label>Search here...</mat-label>
+              <input matInput type="text" #ger (input)="filterRowData(ger.value)">
+              <button *ngIf="ger.value" matSuffix mat-icon-button aria-label="Clear"
+                (click)="ger.value='';filterRowData(ger.value)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-3">
+            <div class="d-flex justify-content-center" style="align-items: center;">
+              <a class="btn btn-outline-primary" (click)="exportPdf()">
+                <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                <!-- PDF -->
+              </a>
+              <a>|</a>
+              <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                <!-- EXCEL -->
+              </a>
+            </div>
+          </div>
+        </div>
+
+
+
+      </mat-card-content>
+    </mat-card>
+    <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;" *ngIf="!isMobile">
+      <!-- <div class="">
+          <mat-form-field appearance="outline">
+            <mat-label>What's on Your Mind</mat-label>
+            <input matInput placeholder="search anything here" id="quickFilter" (input)="onQuickFilterChanged()">
+          </mat-form-field>
+        </div> -->
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select #selectDevice placeholder="Enter the Device Number" multiple [(ngModel)]="allSelectedDeviceList"
+            [ngModelOptions]="{standalone: true}">
+            <!-- <mat-select-filter [placeholder]="'Filter'" [displayMember]="'username'" [array]="deviceList"
+                (filteredReturn)="filterDeviceList = $event"></mat-select-filter> -->
+            <mat-form-field class="filter-input"
+              style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+              <input type="text" #selectDeviceinput matInput (input)="filterDevices($event.target.value)"
+                placeholder="Search...">
+            </mat-form-field>
+            <div class="select-all" *ngIf="!selectDeviceinput.value">
+              <mat-checkbox [(ngModel)]="allSelectedDevice" [ngModelOptions]="{standalone: true}"
+                (change)="toggleAllSelectionForDevice()">Select All</mat-checkbox>
+            </div>
+            <mat-option (click)="onChooseDevice1(device)" *ngFor="let device of filterDeviceList"
+              [value]="device.username">
+              {{ device.username }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter A Date Range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
+            <input matStartDate matInput placeholder="Start date" (dateChange)="getFromDate($event)">
+            <input matEndDate matInput placeholder="End date" (dateChange)="getToDate($event)">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="d-flex justify-content-center"
+        style="align-items: center;margin: 0.25em 0;padding-bottom: 1.34375em;">
+
+        <a class="btn btn-outline-primary" (click)="exportPdf()">
+          <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+          PDF
+        </a>
+        <a>|</a>
+        <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+          <!-- <i class="fa fa-file-pdf-o" aria-hidden="true"></i> -->
+          <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+          EXCEL
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!isMobile">
+    <ag-grid-angular #agGrid id="myGrid" style="text-align: center;" class="ag-theme-alpine table-class" rowAnimation
+      [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData" [enableCellTextSelection]="true"
+      (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+  </div>
+
+  <br>
+  <mat-card *ngIf="isMobile">
+    <mat-card-content>
+      <div class="row">
+        <mat-card class="sample-card" *ngFor="let obj of rowData">
+          <div class="row justify-content-center">
+            <div class="col-10 d-flex align-items-center">
+              <span class="card-headline-text">{{obj.username }}
+              </span>
+            </div>
+            <div class="col-2 text-end d-flex justify-content-end align-items-center">
+              <button mat-icon-button [ngStyle]="{'color':obj?.isonline?'#9ede73':'#f55c47'}">
+                <!-- <i [ngClass]="!obj?.isdelete?'fa fa-user':'fa fa-user-times'"
+                  style=" font-size: large; margin-bottom: -0.2em; width: auto; height: auto;" aria-hidden="true"></i> -->
+                <!-- <i style=" font-size: large;  width: auto; height: auto;" class="material-icons">favorite_border</i> -->
+                <mat-icon style=" font-size: large;  width: auto; height: auto;">fiber_manual_record</mat-icon>
+              </button>
+            </div>
+          </div>
+          <!-- <div class="col-12 ">
+            <span class="card-caption"> <mat-icon
+                style=" font-size: large; margin-bottom: -0.25em; width: auto; height: auto;">pin_drop</mat-icon> {{
+              obj?.location?.area |titlecase }}, {{
+              obj?.city?.cityname |titlecase
+              }}, {{
+              obj?.district?.name|titlecase }}, {{ obj?.state?.statename |titlecase}}, {{
+              obj?.country?.countryname |titlecase}}.</span>
+          </div> -->
+          <mat-divider></mat-divider>
+          <div class=" row sample-padding-t10 ">
+            <div class="col-4">
+              <span class="pcard-title-txt">Orientation</span>
+              <br>
+              <span class="pcard-title-caption"
+                style="text-transform: none;">{{obj?.height_width=='9:16'?'Vertical':'Horizontal'}}</span>
+            </div>
+            <div class="col-4">
+              <span class="pcard-title-txt">Screen Time</span>
+              <br>
+              <span class="pcard-title-caption" style="text-transform: none;">{{obj?.timeperiod|
+                titlecase}}</span>
+            </div>
+            <div class="col-4">
+              <span class="pcard-title-txt">Status</span>
+              <br>
+              <span class="pcard-title-caption"
+                [ngStyle]="{'color':obj?.isonline?'green':'red'}">{{obj?.isonline?'online':'offline'}}</span>
+            </div>
+          </div>
+          <div class="row sample-padding-t10">
+            <div class="col-6">
+              <span class="pcard-title-txt">Model Name</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.modelname}}</span>
+            </div>
+            <div class="col-6">
+              <span class="pcard-title-txt">Customer name</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.clientname}}</span>
+            </div>
+          </div>
+          <div class="row sample-padding-t10">
+            <div class="col-6">
+              <span class="pcard-title-txt">Loggedin date</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.logindate}}</span>
+            </div>
+            <div class="col-6">
+              <span class="pcard-title-txt">logoutdate</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.logoutdate }}</span>
+            </div>
+          </div>
+          <div class="row sample-padding-t10">
+            <div class="col-6">
+              <span class="pcard-title-txt">Registration date</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.createddate}}</span>
+            </div>
+            <div class="col-6">
+              <span class="pcard-title-txt">Last Modified date</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.updateddate }}</span>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

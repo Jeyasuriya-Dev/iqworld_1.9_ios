@@ -1,0 +1,295 @@
+// .register-form {
+//     max-width: 350px;
+//     margin: auto;
+//   }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+
+
+
+form input {
+  // margin-bottom: 1em;
+  // padding: 0.5em;
+  border-radius: 2em;
+}
+
+.csc-section {
+  display: flex;
+  // padding: 2em;
+  // width: 100vw;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 2em;
+  // max-width: 800px;
+
+}
+
+.display-container {
+  width: 40%;
+  min-width: 400px;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);
+  padding: 2em;
+  background-color: aliceblue;
+  border-radius: 1em;
+  flex: 1;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: fit-content;
+  min-width: fit-content;
+  padding: 1em;
+  border-radius: 1em;
+  background-color: azure;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);
+  flex: 1;
+}
+
+form select {
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border-radius: 2em;
+}
+
+fieldset {
+  background-color: white;
+  border-radius: 1em;
+  padding: 1.5em;
+  border: transparent;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  padding: 1em;
+  border-radius: 1em;
+  background-color: white;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);
+  font-size: 1.2em;
+}
+
+h2 span {
+  float: right;
+  color: red;
+  cursor: pointer;
+  transition: all .2s ease;
+  border-radius: 100%;
+}
+
+h2 span:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 7px rgba(0, 20, 70, 0.2);
+}
+
+form .user_details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+form .user_details .input_pox {
+  margin-bottom: 15px;
+  margin: 20px 0 12px 0;
+  width: calc(100% / 2 - 20px);
+}
+
+.user_details .input_pox .datails {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.user_details .input_pox input {
+  height: 45px;
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding-left: 15px;
+  font-size: 16px;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+
+}
+
+.user_details .input_pox input:focus,
+.user_details .input_pox input:valid {
+  border-color: rgb(55, 140, 238);
+}
+
+form .gender_details .gender_title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+form .gender_details .category {
+  display: flex;
+  width: 80%;
+  margin: 14px 0;
+  justify-content: space-between;
+}
+
+.gender_details .category label {
+  display: flex;
+}
+
+.gender_details .category .dot {
+  height: 18px;
+  width: 18px;
+  background: #d9d9d9;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 5px solid transparent;
+}
+
+#dot-1:checked~.category label .one,
+#dot-2:checked~.category label .two,
+#dot-3:checked~.category label .three {
+  border-color: #d9d9d9;
+  background-color: #9b59b6;
+}
+
+form input[type="radio"] {
+  display: none;
+}
+
+form .button {
+  height: 45px;
+  margin: 45px 0;
+}
+
+form .button input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  background: linear-gradient(123deg, #71b8e7, #9b59b6);
+
+}
+
+form .button input :hover {
+  background: linear-gradient(-123deg, #71b8e7, #9b59b6);
+}
+
+@media (max-width: 584px) {
+  .container {
+    max-width: 100%;
+  }
+
+  form .user_details .input_pox {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  form .gender_details .category {
+    width: 100%;
+  }
+
+  .container form .user_details {
+    max-height: 300px;
+    overflow: scroll;
+  }
+
+  .user_details::-webkit-scrollber {
+    width: 0;
+  }
+}
+
+.location:hover {
+  color: yellowgreen;
+}
+
+.location {
+  color: green;
+  cursor: pointer;
+}
+
+
+
+
+.receipt_body {
+  margin-top: 25px;
+}
+
+table {
+  width: 100%;
+}
+
+thead,
+tfoot {
+  position: relative;
+}
+
+thead th:not(:last-child) {
+  text-align: left;
+}
+
+thead th:last-child {
+  text-align: right;
+}
+
+thead::after {
+  content: '';
+  // width: 100%;
+  border-bottom: 1px dashed #000;
+  display: block;
+  position: absolute;
+}
+
+tbody td:not(:last-child),
+tfoot td:not(:last-child) {
+  text-align: left;
+}
+
+tbody td:last-child,
+tfoot td:last-child {
+  text-align: right;
+}
+
+tbody tr:first-child td {
+  padding-top: 15px;
+}
+
+tbody tr:last-child td {
+  padding-bottom: 15px;
+}
+
+tfoot tr:first-child td {
+  padding-top: 15px;
+}
+
+tfoot::before {
+  content: '';
+  width: 100%;
+  border-top: 1px dashed #000;
+  display: block;
+  position: absolute;
+}
+
+tfoot tr:first-child td:first-child,
+tfoot tr:first-child td:last-child {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.date_time_con {
+  display: flex;
+  justify-content: center;
+  column-gap: 25px;
+}
+
+.items {
+  margin-top: 25px;
+}

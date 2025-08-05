@@ -1,0 +1,174 @@
+<div class="swiper mySwiper hide" id="swiperHide">
+    <!-- <div class="marquee-container" *ngIf="filesData?.playlist?.scrollTypeMaster?.type=='TOP'">
+        <ul class="marquee-list" style="margin-bottom: -1px !important; ">
+            <li *ngFor="let item of scrollerList"
+                [ngStyle]="{'color':item.fncolor,'background-color':item.bgcolor,'font-size':item.fnsize,'font-family':item.font_folder}">
+                {{
+                item.message }}</li>
+        </ul>
+    </div> -->
+    <!-- <marquee direction="left" behavior="scroll" id="marquee" #marquee style="position: absolute; top: -2px; z-index: 2;"
+        *ngIf="filesData?.playlist?.scrollTypeMaster?.type=='TOP'">
+        <span *ngFor="let item of scrollerList; let i = index" class="marquee-item" [style.color]="item.fncolor"
+            [style.background-color]="item.bgcolor" [style.font-size]="item.fnsize"
+            [style.font-family]="item.font_folder" [attr.data-index]="i">
+            {{ item.message }}
+        </span>
+    </marquee> -->
+    <div class="" *ngIf="filesData?.playlist?.scrollTypeMaster?.type=='TOP'">
+        <div class="ticker">
+            <div class="news-title" id="currentimage">
+                <img [src]="scrollerList[currentItemIndex]?.logo" *ngIf="scrollerList[currentItemIndex]?.logo"
+                    style="width: 40px;height: 25px;">
+            </div>
+            <div class="news">
+                <marquee class="news-content" #marquee id="marquee">
+                    <span *ngFor="let item of scrollerList; let i = index" class="marquee-item"
+                        [style.color]="item.fncolor" [style.background-color]="item.bgcolor"
+                        [style.font-size]="item.fnsize" [style.font-family]="item.font_folder" [attr.data-index]="i">
+                        {{ item.message }}
+                    </span>
+                </marquee>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-wrapper " [ngStyle]="{'width': filesData?.width+'px' ,'height':filesData?.height+'px'}">
+        <div class="swiper-slide" *ngFor="let item of filesData?.data;let i=index">
+            <ng-container *ngIf="item.type === 'image'; else videoTemplate">
+                <img style="width: 100% !important; height: 100% !important;" [src]="item.url" alt="Image">
+            </ng-container>
+            <ng-template #videoTemplate>
+                <ng-container *ngIf="item.type === 'video'; else pdfTemplate">
+                    <video style="width: 100% !important; height: 100% !important; object-fit: fill;" controls>
+                        <source [src]="item.url" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </ng-container>
+            </ng-template>
+            <ng-template #pdfTemplate>
+                <ng-container *ngIf="item.type === 'pdf'; else youtubeTemplate">
+                    <app-pdf-viewer [url]="item.url"></app-pdf-viewer>
+                </ng-container>
+            </ng-template>
+            <ng-template #youtubeTemplate>
+                <ng-container *ngIf="item.type === 'youtube';">
+                    <app-youtube-player [url]="item?.url"></app-youtube-player>
+                </ng-container>
+            </ng-template>
+        </div>
+    </div>
+    <!-- <img [src]="scrollerList[currentItemIndex]?.logo" height="20px">
+    <div class="marquee-container" #marqueeContainer>
+        <marquee direction="left" scrolldelay="50" behavior="loop" #marquee (loadstart)="getCurrentIndex()">
+            <span *ngFor="let item of scrollerList; let i = index" class="marquee-item" [style.color]="item.fncolor"
+                [style.background-color]="item.bgcolor" [style.font-size]="item.fnsize"
+                [style.font-family]="item.font_folder">
+                {{ item.message }}
+            </span>
+        </marquee>
+    </div> -->
+    <!-- <div class="current-image-container hide" id="currentimage"
+        style="position: absolute; z-index: 10; bottom: 10%; left: 3.5%; ">
+        <img [src]="scrollerList[currentItemIndex]?.logo" width="80px">
+
+        style="filter: drop-shadow(0px 0px 3px rgb(0, 0, 0));"
+    </div> -->
+    <!-- <marquee direction="left" behavior="scroll" class="hide" #marquee id="marquee"
+        style="position: absolute; bottom: 0; z-index: 2;"
+        *ngIf="filesData?.playlist?.scrollTypeMaster?.type=='BOTTOM'">
+        <span *ngFor="let item of scrollerList; let i = index" class="marquee-item" [style.color]="item.fncolor"
+            [style.background-color]="item.bgcolor" [style.font-size]="item.fnsize"
+            [style.font-family]="item.font_folder" [attr.data-index]="i">
+            {{ item.message }}
+        </span>
+    </marquee> -->
+    <!-- <span style="display: flex; ">
+        <span *ngFor="let o of scrollerList ; let i = index;">
+            <marquee *ngIf="i!=o.in" behavior="" direction=""> {{o.in+'.'}} {{o?.message}}
+            </marquee>
+        </span>
+    </span> -->
+    <!-- <div class="marquee-container" *ngIf="filesData?.playlist?.scrollTypeMaster?.type=='BOTTOM'">
+        <ul class="marquee-list" style="margin-bottom: 0PX !important;">
+            <li *ngFor="let item of scrollerList"
+                [ngStyle]="{'color':item.fncolor,'background-color':item.bgcolor,'font-size':item.fnsize,'font-family':item.font_folder}">
+                {{
+                item.message }}</li>
+        </ul>
+    </div> -->
+
+    <div class="" *ngIf="filesData?.playlist?.scrollTypeMaster?.type=='BOTTOM'">
+        <div class="ticker" style="bottom: 0;">
+            <div class="news-title" id="currentimage">
+                <img [src]="scrollerList[currentItemIndex]?.logo" *ngIf="scrollerList[currentItemIndex]?.logo"
+                    style="width: 40px;height: 25px;">
+            </div>
+            <div class="news">
+                <marquee class="news-content" #marquee id="marquee">
+                    <span *ngFor="let item of scrollerList; let i = index" class="marquee-item"
+                        [style.color]="item.fncolor" [style.background-color]="item.bgcolor"
+                        [style.font-size]="item.fnsize" [style.font-family]="item.font_folder" [attr.data-index]="i">
+                        {{item.message }}
+                    </span>
+                </marquee>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" id="overlay" *ngIf="filesData?.playlist?.categoryid || filesData?.playlist?.categoryname"
+        [ngStyle]="{'bottom':filesData?.playlist?.scrollTypeMaster?.type=='BOTTOM' && scrollerList.length>0?'25px':0}">
+        <div class="overlay-content">
+            <div class="address-container">
+                <div class="card">
+                    <div class="bar"></div>
+                    <div class="card_form">
+                        <div class="mapouter">
+                            <div class="gmap_canvas"><iframe width="100" height="100" id="gmap_canvas"
+                                    src="https://maps.google.com/maps?q=Tirupati&t=k&z=13&ie=UTF8&iwloc=&output=embed"
+                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+
+                                <style>
+                                    .mapouter {
+                                        position: relative;
+                                        text-align: right;
+                                        height: 100px;
+                                        width: 100px;
+                                    }
+                                </style>
+
+                                <style>
+                                    .gmap_canvas {
+                                        overflow: hidden;
+                                        background: none !important;
+                                        height: 100px;
+                                        width: 100px;
+                                    }
+                                </style>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card_data">
+                        <div class="data">
+                            <div class="text">
+                                <label class="text_m">Geographic Location</label>
+                                <div class="cube text_s">
+                                    <label class="side front">{{ 'Store name: '+ filesData?.playlist?.store?.name
+                                        +',Category name: '
+                                        +filesData?.playlist?.categoryname}}</label>
+                                    <label class="side top"> {{'Playlist : '+filesData?.playlist?.filename }}</label>
+                                </div>
+                                <label class="text_d" id="geocodeResult">
+
+                                </label>
+                            </div>
+                        </div>
+                        <!-- <span title="Download playlist">Download</span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<app-loader id="appLoader"></app-loader>

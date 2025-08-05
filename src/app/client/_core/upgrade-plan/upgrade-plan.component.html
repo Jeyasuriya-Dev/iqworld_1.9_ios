@@ -1,0 +1,163 @@
+<h2 style="color: #0e1422;font-weight: bold;font-size: x-large;">Plan Upgrade</h2>
+<div class="wrapper">
+  <main class="main1">
+    <div id="main-container">
+      <section class="header">
+        <h1>Pricing</h1>
+        <p>
+          <!-- <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+          <span>Yearly</span>
+          <strong class="decorated">Save 20%</strong> -->
+          <strong class="decorated"> IQWORLD </strong>
+        </p>
+      </section>
+      <div class="pricing-plan">
+        <div class="plan best" *ngIf="versionMasterId==1 && versionMasterId<=3">
+          <span class="plan-ribbon yellow">Barato</span>
+          <div class="first-cut">
+            <div>
+              <h2>Basic</h2>
+              <div class="price">
+                <p class="whole">₹299</p>
+                <div class="price-details">
+                  <p class="cent">.00</p>
+                  <p>monthly</p>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <button *ngIf="versionMasterId!=1" class="button" [disabled]="versionMasterId!=1"
+                    (click)="upgradeRequest('BASIC')"><span
+                      *ngIf="versionMasterId <=3 && versionMasterId!=1">Upgrade</span> </button>
+                  <button *ngIf="versionMasterId==1" class="button" style="background-color: green; "> <span> Current
+                      Plan</span></button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="title">For Basic members:</p>
+              <ul>
+                <li>Playlist Management</li>
+                <li>Schedule Management</li>
+                <li>Device Management</li>
+                <li>Scrolling Text Messages</li>
+                <li>Support 24/7</li>
+
+                <!-- <li ><span class="label">EXPERT</span>Label</li> -->
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <p class="title">Extra Benefits:</p>
+            <p class="text-muted">-----------------</p>
+          </div>
+        </div>
+        <div class="plan best" *ngIf="versionMasterId==1 || versionMasterId==2 && versionMasterId<=3">
+          <!-- <div class="popular">
+            <div class="inner">
+              <p>Most Popular</p>
+            </div>
+          </div> -->
+          <span class="plan-ribbon green">POPULAR</span>
+          <div class="first-cut">
+            <div>
+              <h2>Lite</h2>
+              <div class="price">
+                <p class="whole">₹599</p>
+                <div class="price-details">
+                  <p class="cent">.00</p>
+                  <p>monthly</p>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <!-- <button class="button" *ngIf="versionMasterId!=2" (click)="upgradeRequest('LITE')"><span
+                      *ngIf="versionMasterId==3">Degrade</span> <span *ngIf="versionMasterId==1">Upgrade</span>
+                  </button> -->
+                  <button class="button" *ngIf="versionMasterId!=2" [disabled]="versionMasterId==3"
+                    (click)="upgradeRequest('LITE')"> <span>Upgrade</span>
+                  </button>
+                  <button *ngIf="versionMasterId==2" class="button" style="background-color: green; "> <span> Current
+                      Plan</span></button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="title">For Lite members:</p>
+              <ul>
+                <!-- <li>All Basic features plus</li> -->
+                <li>Dashboard / Analytics</li>
+                <li>Playlist Management</li>
+                <li>Schedule Management</li>
+                <li>Device Management</li>
+                <li>Scrolling Text Messages</li>
+                <li>OTP authentication for content upload</li>
+                <li>Support 24/7</li>
+
+                <!-- <li ><span class="label">PRO</span>Label</li> -->
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <p class="title">Extra Benefits:</p>
+            <p>OTP Authentication While Uploading the New Content! </p>
+          </div>
+
+
+        </div>
+        <div class="plan best">
+          <span class="plan-ribbon red">HOT</span>
+          <div class="first-cut">
+            <div>
+              <h2>Pro</h2>
+              <div class="price">
+                <p class="whole">₹999</p>
+                <div class="price-details">
+                  <p class="cent">.00</p>
+                  <p>monthly</p>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <button class="button" *ngIf="versionMasterId!=3" (click)="upgradeRequest('PRO')">Upgrade</button>
+                  <button *ngIf="versionMasterId==3" class="button" style="background-color: green; "> <span> Current
+                      Plan</span></button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="title">For Pro members:</p>
+              <ul>
+                <!-- <li>All Lite features plus</li> -->
+                <li>Dashboard / Analytics</li>
+                <li>Playlist Management</li>
+                <li>Schedule Management</li>
+                <li>Device Management</li>
+                <li>Scrolling Text Messages</li>
+                <li>Intelligent split screen </li>
+                <li>On Demand Screen Orientation</li>
+                <li>OTP authentication for content upload</li>
+                <li>IQ-Editor (In-Built Editor)</li>
+                <li>Support 24/7</li>
+                <!-- <li ><span class="label">Pro</span>Label</li> -->
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <p class="title">Extra Benefits:</p>
+            <p>In-Built Editor For Edting Text , image & Video Content! ,Intelligent Split Screen </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

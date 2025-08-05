@@ -1,0 +1,564 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'ag-grid-community/styles//ag-grid.css';
+@import 'ag-grid-community/styles//ag-theme-alpine.css';
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap');
+
+// @import "~swiper/swiper-bundle.css";
+@font-face {
+    font-family: SF;
+    src: url("assets/fonts/SFUIDisplay-Regular.otf");
+    format: "opentype";
+    font-display: block;
+}
+
+mat-label {
+    text-transform: capitalize !important;
+}
+
+.OpenHours {
+    color: #fc0101 !important;
+    font-size: small !important;
+}
+
+@font-face {
+    font-family: norwester;
+    src: url("assets/fonts/norwester.otf");
+    format: "opentype";
+}
+
+
+
+.swal2-shown {
+    padding-right: 0px !important;
+}
+
+// .mat-select-panel {
+//     margin-top: 2%;
+// }
+// .mat-select-panel {
+//     margin-top: 8% !important;
+// }
+
+.custom-dialog-container .mat-mdc-dialog-container {
+    padding: 0px;
+    // width: max-content;
+    // height: max-content;
+    background-color: var(--color-2);
+    height: fit-content;
+}
+
+
+:root {
+    --panel-back: #141629;
+    --panel-stroke: #222544;
+    --main-back: #070a1b;
+    --main-text-color: #fff;
+    --secondary-text-color: #a0a5d0;
+    --input-color: #22233e;
+    --accent-color: #166ef1;
+    --button-hover: #262746;
+    --color-1: #ee7344;
+    --color-2: #d1d4db;
+    --main-blue: #71b7e6;
+    --main-purple: #9b59b6;
+    --main-grey: #ccc;
+    --sub-grey: #d9d9d9;
+}
+
+// mat-form-field {
+//     width: 100%;
+// }
+
+.cell-wrap-text {
+    white-space: normal !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    line-height: 20px;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:focus {
+    box-shadow: unset !important;
+}
+
+.mat-mdc-menu-panel {
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+.mat-expansion-panel-header {
+    padding: 0px 15px !important;
+}
+
+.bp4-navbar-group .mat-menu-panel {
+    border-radius: 2px !important;
+    overflow: hidden !important;
+}
+
+.mat-mdc-menu-panel.mat-mdc-menu-panel {
+    max-width: 320px !important;
+}
+
+.mdc-menu-surface.mat-mdc-select-panel {
+    padding: 0px 0px 0px 0px !important;
+    overflow-x: hidden;
+}
+
+.filter-input .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+}
+
+canvas {
+    font-family: "SF" !important;
+}
+
+html,
+body {
+    height: 100%;
+    // font-family: "Poppins", sans-serif !important;
+    // font-family: "SF";
+    font-family: "SF" !important;
+    text-transform: capitalize;
+
+}
+
+.btn-check:focus+.btn,
+.btn:focus {
+    outline: 0;
+    box-shadow: none !important;
+}
+
+// input:focus {
+//     outline: rgba(45, 114, 210, 0.6) solid 0px;
+//     outline-offset: 2px;
+// }
+
+// .mat-select-panel-wrap {
+//     margin-top: 14% !important;
+// }
+
+
+.ag-header {
+    background-color: #17a3b83e !important;
+
+}
+
+.ag-ltr .ag-cell-focus:not(.ag-cell-range-selected):focus-within {
+    border: 0px solid !important;
+}
+
+.ag-header-cell-label {
+    justify-content: center;
+}
+
+.order-class .mat-mdc-dialog-container {
+    position: relative;
+    overflow: hidden !important;
+
+}
+
+// .ag-cell-value {
+//     text-align: center !important;
+// }
+
+// .ag-cell-wrapper {
+//     display: inline-flex;
+// }
+
+.table-class {
+    // height: 78vh;
+    text-align: center;
+}
+
+body {
+    margin: 0;
+
+}
+
+.mat-card {
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.396);
+}
+
+h6 {
+    font-size: 1rem !important;
+}
+
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 6px;
+    background-color: #F5F5F5;
+    cursor: pointer !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 170, 255, 0.826);
+    border: 0px solid #555555;
+}
+
+// .content {
+//     padding: 1%;
+//     box-shadow: 0px 0px 2px 2px #55555547;
+// }
+.canvasjs-chart-credit {
+    visibility: hidden;
+}
+
+.loader-upload .mat-mdc-dialog-container {
+    padding: 0px !important;
+}
+
+.rotateMedia .mat-mdc-dialog-container {
+    overflow: hidden;
+    padding: 10px !important;
+
+    .mdc-dialog__surface {
+        overflow: hidden !important;
+    }
+}
+
+input::-webkit-input-placeholder {
+    // color:    red !important;
+    max-width: 95% !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+}
+
+input:-moz-placeholder {
+    // color:    red !important;
+    max-width: 95% !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+}
+
+#editor {
+    position: relative;
+    width: 80% !important;
+    height: 60% !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.swal2-html-container {
+    display: flex !important;
+}
+
+#tab-text {
+    .mat-tab-label {
+        min-width: 25px !important;
+        padding: 5px;
+        background-color: transparent;
+        color: inherit;
+        font-weight: 700;
+    }
+
+    /* Styles for the active tab label */
+    .mat-tab-label.mat-tab-label-active {
+        min-width: 25px !important;
+        padding: 5px;
+        background-color: transparent;
+        color: inherit;
+        font-weight: 700;
+    }
+}
+
+/** No CSS for this example */
+::ng-deep .mat-step-header .mat-step-icon-state-number {
+    /* background-color: #ba2805; */
+    background-color: rgba(0, 0, 0, 0.54);
+    color: #fff;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-selected,
+::ng-deep .mat-step-header .mat-step-icon-state-done,
+::ng-deep .mat-step-header .mat-step-icon-state-edit {
+    background-color: #ba2805;
+    color: #fff;
+}
+
+.swal2-radio label {
+    display: flex;
+}
+
+.swal2-modal .swal2-radio label {
+    margin-left: 0px !important;
+}
+
+.bp4-dark .bp4-button .bp4-minimal:hover {
+    background: rgba(143, 153, 168, 0.15);
+    display: none !important;
+}
+
+:focus {
+    outline: rgba(45, 114, 210, 0.6) solid 0px !important;
+    outline-offset: 2px;
+    -moz-outline-radius: 6px;
+}
+
+#add-licences {
+    button {
+        height: auto;
+    }
+}
+
+.mat-mdc-tab-body-content {
+    height: 100%;
+    overflow: hidden !important;
+}
+
+.mat-progress-bar {
+    padding: 10px;
+    padding-left: 0px;
+}
+
+.my-progress-bar {
+    width: 300px;
+    text-align: left;
+}
+
+.mdc-notched-outline__notch {
+    border-right: none;
+}
+
+.mat-raised-button {
+    border-radius: 5px;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm:focus {
+    box-shadow: none !important;
+}
+
+//font ==============
+
+// @font-face {
+//     font-family: Aller;
+//     src: url("assets/fonts/Aller/AllerDisplay.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: Amatic;
+//     src: url("assets/fonts/amatic/AmaticSC-Regular.ttf");
+//     format: "opentype";
+// }
+
+
+// @font-face {
+//     font-family: Antonio;
+//     src: url("assets/fonts/antonio/Antonio-Regular.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: Caviar-Dreams;
+//     src: url("assets/fonts/Caviar-Dreams/CaviarDreams.ttf");
+//     format: "opentype";
+// }
+
+// // ---- 
+
+// @font-face {
+//     font-family: Chunkfive;
+//     src: url("assets/fonts/chunkfive/ChunkFive-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: Cooper-hewitt;
+//     src: url("assets/fonts/cooper-hewitt/CooperHewitt-Semibold.otf");
+//     format: "opentype";
+// }
+
+
+// @font-face {
+//     font-family: FFF-Tusj;
+//     src: url("assets/fonts/FFF-Tusj/FFF_Tusj.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: fira-sans;
+//     src: url("assets/fonts/fira-sans/FiraSans-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: josefin-sans;
+//     src: url("assets/fonts/josefin-sans/JosefinSans-Regular.ttf");
+//     format: "opentype";
+// }
+
+
+// @font-face {
+//     font-family: kaushan-script;
+//     src: url("assets/fonts/kaushan-script/KaushanScript-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: lato;
+//     src: url("assets/fonts/lato/Lato-Regular.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: League-Gothic;
+//     src: url("assets/fonts/League-Gothic/LeagueGothic-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: league-spartan;
+//     src: url("assets/fonts/league-spartan/LeagueSpartan-Bold.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: Lobster;
+//     src: url("assets/fonts/Lobster/Lobster_1.3.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: lobster-two;
+//     src: url("assets/fonts/lobster-two/LobsterTwo-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: montserrat;
+//     src: url("assets/fonts/montserrat/Montserrat-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: norwester;
+//     src: url("assets/fonts/norwester/norwester.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: open-sans;
+//     src: url("assets/fonts/open-sans/OpenSans-Regular.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: ostrich-sans;
+//     src: url("assets/fonts/ostrich-sans/ostrich-regular.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: oswald;
+//     src: url("assets/fonts/oswald/Oswald-Regular.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: pacifico;
+//     src: url("assets/fonts/pacifico/Pacifico.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: playfair-display;
+//     src: url("assets/fonts/playfair-display/PlayfairDisplay-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: poppins;
+//     src: url("assets/fonts/poppins/Poppins-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: pt-sans;
+//     src: url("assets/fonts/pt-sans/PTC55F.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: raleway;
+//     src: url("assets/fonts/raleway/Raleway-Regular.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: red-hat;
+//     src: url("assets/fonts/red-hat/RedHatText-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: roboto;
+//     src: url("assets/fonts/roboto/Roboto-Regular.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: SeasideResortNF;
+//     src: url("assets/fonts/SeasideResortNF/SEASRN__.ttf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: sofia;
+//     src: url("assets/fonts/sofia/Sofia-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: source-sans-pro;
+//     src: url("assets/fonts/source-sans-pro/SourceSansPro-Regular.otf");
+//     format: "opentype";
+// }
+
+// @font-face {
+//     font-family: Titillium;
+//     src: url("assets/fonts/Titillium/Titillium-Regular.otf");
+//     format: "opentype";
+// }
+
+/* Ensure the picker container is centered */
+.picker-dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed !important;
+    /* or absolute, depending on your needs */
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    // background: rgba(0, 0, 0, 0.5);
+    /* Optional: adds a semi-transparent background */
+    // z-index: 9999;
+    /* Ensure it's on top */
+    background-color: transparent !important;
+}
+
+.picker-dialog iframe {
+    max-width: 100%;
+    max-height: 100%;
+    // border: none;
+}
+
+.btn {
+    padding: 0.375rem 0.75rem !important;
+}
+
+
+div:where(.swal2-container) input:where(.swal2-input):focus {
+    border: 1px solid gray !important;
+    box-shadow: none !important;
+}

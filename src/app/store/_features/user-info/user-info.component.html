@@ -1,0 +1,89 @@
+<section class="content">
+    <h1 class="text-center text-muted" style="font-weight:900; ">Users Info</h1>
+    <div class="row mb-1">
+        <div class="col-12 col-md-6">
+
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="d-flex justify-content-center " style="align-items: center;" style="float: right;">
+                <button mat-mini-fab (click)="open(userForm)">
+                    <mat-icon>add</mat-icon>
+                </button>
+                &nbsp; &nbsp;
+                <!-- <a class="btn btn-outline-primary" (click)="exportPdf()">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    PDF
+                </a>
+                <a>|</a> -->
+                <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    EXCEL
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <mat-card>
+            <mat-card-content>
+                <ag-grid-angular #agGrid id="myGrid" style="text-align: center;" domLayout='autoHeight'
+                    (selectionChanged)="onSelectionChanged()" [rowSelection]="'multiple'" class="ag-theme-alpine"
+                    rowAnimation [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData"
+                    [enableCellTextSelection]="true" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</section>
+
+<ng-template #userForm>
+    <div class="container p-3">
+        <h1 class="text-center">User Registration Form</h1>
+        <form class="example-form" [formGroup]="userFormGroup" (ngSubmit)="saveForm()">
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="username">
+                    <mat-error *ngIf="userFormGroup.get('username').hasError('required')">
+                        Username is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-error *ngIf="userFormGroup.get('email').hasError('required')">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="userFormGroup.get('email').hasError('email')">
+                        Please enter a valid email address
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label> Password</mat-label>
+                    <input matInput formControlName="password" type="password">
+                    <mat-error *ngIf="userFormGroup.get('password').hasError('required')">
+                        Password is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Enter phone number</mat-label>
+                    <input matInput formControlName="phone" type="tel">
+                    <mat-error *ngIf="userFormGroup.get('phone').hasError('required')">
+                        Phone number is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="userFormGroup.get('phone').hasError('pattern')">
+                        Phone number must be 10 digits
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <button mat-raised-button type="submit" color="warn" [disabled]="!userFormGroup.valid">Submit</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

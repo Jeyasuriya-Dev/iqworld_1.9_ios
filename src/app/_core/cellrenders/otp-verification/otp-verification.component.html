@@ -1,0 +1,33 @@
+<div class="container-fluid bg-body-tertiary d-block">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4" style="min-width: 500px;">
+            <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
+                <div class="card-body p-5 text-center">
+                    <h1 class="verify">OTP Verification</h1>
+                    <p style="color: rgb(103, 23, 105);">An <span style="color: rgb(230, 130, 17);">OTP</span> has been
+                        sent to <span style="text-transform: none; color: rgb(16, 63, 37);">{{email}}</span></p>
+                    <div class="otp-field mb-4">
+                        <input type="number" />
+                        <input type="number" disabled />
+                        <input type="number" disabled />
+                        <input type="number" disabled />
+                        <input type="number" disabled />
+                        <input type="number" disabled />
+                    </div>
+                    <div class="d-flex justify-content-evenly mb-3">
+                        <button class="btn btn-success" accesskey="s" style=" line-height: 1 !important; padding:6px 12px;"
+                            (click)="confirmOtp()">
+                            Verify
+                        </button>
+                        <button class="btn btn-danger" style=" line-height: 1 !important;" (click)="close()">
+                            Cancel
+                        </button>
+                    </div>
+                    <p class="resend text-muted mb-0">
+                        Didn't receive code? <a (click)="resendOtp()">Resend OTP</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

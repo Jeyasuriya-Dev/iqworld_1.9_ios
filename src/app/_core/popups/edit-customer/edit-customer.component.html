@@ -1,0 +1,200 @@
+<div class="head">
+  <div class="container">
+    <div class="title">
+      <h1>Edit Customer Details</h1>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="container" style="height: 450px; min-width: 350px; overflow-y:scroll; border-top: 0px;">
+    <form [formGroup]="form">
+      <div class="first">
+        <label for="first" *ngIf="customer.gender!='organization'">First name:</label>
+        <label for="first" *ngIf="customer.gender=='organization'">Organization:</label>
+        <div class="clear"></div>
+        <input type="text" name="first name" id="first"
+          [placeholder]="customer.gender!='organization'? 'Enter first name' :'Enter Organization'" required
+          formControlName="fname">
+      </div>
+      <div class="last" *ngIf="customer.gender!='organization'">
+        <label for="last">last name:</label>
+        <div class="clear"></div>
+        <input type="text" name="last name" id="last" placeholder="Enter last name" required formControlName="lname">
+      </div>
+      <div class="email" *ngIf="!customer?.isDistributor">
+        <label for="email">e-mail:</label>
+        <div class="clear"></div>
+        <input type="email" name="email" id="email" placeholder="Enter email" required formControlName="email">
+      </div>
+      <div class="first" *ngIf="!customer?.isDistributor">
+        <label for="first">mobile:</label>
+        <div class="clear"></div>
+        <input type="number" maxLength="10" min="0" (keydown)="onKeydown($event)" id="first" placeholder="Enter mobile"
+          required formControlName="phone">
+      </div>
+      <!-- <div class="last" *ngIf="customer.gender!='organization'">
+        <label for="last">company name:</label>
+        <div class="clear"></div>
+        <input type="text" name="last name" id="last" placeholder="Enter company name" required
+          formControlName="company">
+      </div> -->
+      <div class="last">
+        <label for="cars">Is Premium:</label>
+        <select name="cars" id="cars" formControlName="ispremium">
+          <option [value]="true" [disabled]="customer?.isDistributor?!distributor?.ispremium:false">Yes, Premium
+          </option>
+          <option [value]="false" [disabled]="customer?.isDistributor?!distributor?.ispremium:false">NO, Not Premium
+          </option>
+        </select>
+      </div>
+      <div class="last">
+        <label for="cars">Choose a Country:</label>
+        <select name="cars" id="cars" (change)="onChooseCountry($event)" formControlName="country">
+          <option *ngFor="let state of countryList" value="{{state.countryname}}" [disabled]="state.id=='0'">
+            {{state.countryname |
+            titlecase}}</option>
+        </select>
+      </div>
+
+
+
+      <div class="last" *ngIf="selectedLocationByPin?.country =='INDIA'">
+        <label for="cars">Choose a state:</label>
+        <select name="cars" id="cars" (change)="onChooseState($event)" formControlName="state">
+          <option *ngFor="let state of stateList" value="{{state.statename}}" [disabled]="state.id=='0'">
+            {{state.statename |
+            titlecase}}</option>
+        </select>
+      </div>
+      <div class="last" *ngIf="selectedLocationByPin?.country =='INDIA'">
+        <label for="cars">Choose a district:</label>
+        <select name="cars" id="cars" (change)="onChooseDistrict($event)" formControlName="district">
+          <option *ngFor="let state of districtList" value="{{state.name}}" [disabled]="state.id=='0'">{{state.name |
+            titlecase}}</option>
+        </select>
+      </div>
+      <div class="last" *ngIf="selectedLocationByPin?.country =='INDIA'">
+        <label for="cars">Choose a city:</label>
+        <select name="cars" id="cars" formControlName="city" (change)="onChooseCity($event)">
+          <option *ngFor="let city of cityListByStateid" value="{{city.cityname}}">{{city.cityname |
+            titlecase}}</option>
+        </select>
+      </div>
+      <!-- <div class="last">
+        <label for="last">location name:</label>
+        <div class="clear"></div>
+        <input type="text" name="last name" id="last" placeholder="enter location name" required formControlName="location">
+      </div> -->
+      <div class="last" *ngIf="selectedLocationByPin?.country =='INDIA'">
+        <label for="city">location: <a class="text-primary" style="text-decoration: underline; cursor: pointer;"
+            (click)="chooseOrEnterCity()" *ngIf="!isEnter"> choose Location ?</a>
+          <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterCity()"
+            *ngIf="isEnter"> Enter Location ?</a> </label><br />
+        <select #city name="city" id="city" (change)="onChooseLocation($event)" *ngIf="isEnter">
+          <option [value]="null">-- Select Your Location --</option>
+          <option *ngFor="let location of locationList" [value]="location.area">
+            {{ location.area }}
+          </option>
+        </select>
+        <input class="form-control" placeholder="Enter Location" formControlName="location" type="text"
+          *ngIf="!isEnter">
+      </div>
+
+      <div class="last" style="position: relative;">
+        <label for="last">Pin/Zip code:</label>
+        <div class="clear"></div>
+        <input type="text" name="last name" id="last" placeholder="Enter last name"
+          (input)="getLocationByPincode($event)" required formControlName="zip">
+        <div id="locationByPin" *ngIf="selectedLocationByPin?.country !='INDIA'" style="z-index: 1; max-height: 240px; overflow-y: auto; position: absolute; left: 0; width: -webkit-fill-available; background-color: white;  
+        padding:0 1.5em;
+        border: transparent;
+        box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);">
+          <mat-list role="list" style="position: relative;" *ngIf="!selectedLocationByPin">
+            <mat-list-item *ngFor="let l of locationsByPincodeList" role="listitem" style="cursor: pointer;"
+              (click)="selectLocationByPin(l)">
+              <!-- <mat-icon matListItemIcon>my_location</mat-icon> -->
+              <div matListItemTitle>{{l?.location}}</div>
+              <div matListItemLine>{{l?.city }} {{ l?.district }} {{l?.state }} {{ l?.country}}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <div *ngIf="selectedLocationByPin?.country !='INDIA'" class="text-center text-primary fw-600 mt-2">
+          {{selectedLocationByPin?.location}} {{selectedLocationByPin?.city }} {{
+          selectedLocationByPin?.district }} {{selectedLocationByPin?.state }} {{ selectedLocationByPin?.country}}
+        </div>
+      </div>
+      <div class="last" *ngIf="selectedLocationByPin?.country !='INDIA'">
+        <label for="city">location:</label>
+        <input class="form-control" placeholder="Enter Location" formControlName="location" type="text">
+      </div>
+      <div class="last" *ngIf="customer?.ispremium">
+        <label for="cars">Choose a plan:</label>
+        <select name="cars" id="cars" formControlName="versionid">
+          <option *ngFor="let plan of planVersionList" value="{{plan.id}}">{{plan.version |
+            titlecase}}</option>
+        </select>
+      </div>
+      <div class="last" *ngIf="!customer?.ispremium">
+        <label for="cars">Choose a plan:</label>
+        <select name="cars" id="cars" formControlName="versionid">
+          <ng-container *ngFor="let plan of planVersionList">
+            <option *ngIf="customer?.versionMaster?.id<=plan?.id" [value]="plan.id">{{ plan.version | titlecase }}
+            </option>
+          </ng-container>
+        </select>
+      </div>
+      <div class="cpass" *ngIf="customer?.gender=='organization' && !customer?.isDistributor">
+        <label for="Cpass">GST Number:</label>
+        <div class="clear"></div>
+        <input type="text" name="gst" placeholder="Enter Gst Number" required formControlName="gst_no">
+      </div>
+      <div class="cpass" *ngIf="customer?.gender=='organization' && !customer?.isDistributor">
+        <label for="Cpass">TAN Number:</label>
+        <div class="clear"></div>
+        <input type="text" name="tan" placeholder="Enter Tan Number" required formControlName="tan_no">
+      </div>
+      <div class="pass" *ngIf="!customer?.isDistributor">
+        <label for="pass">username:</label>
+        <div class="clear"></div>
+        <input type="text" name="pass" id="pass" placeholder="Enter username" required formControlName="username">
+      </div>
+      <div class="cpass" *ngIf="!customer?.isDistributor">
+        <label for="Cpass">password:</label>
+        <div class="clear"></div>
+        <input type="password" name="pass" id="Cpass" placeholder="Enter  password" required formControlName="password">
+        <div style=" z-index: 1020;   position: relative;right: 4px;bottom: 25px;">
+          <i *ngIf="!isShow" (click)="showPassword()" class="fa  fa-eye-slash"
+            style="font-size:medium; color: #3e9fee; z-index: 1021; cursor: pointer; position: absolute; right: 0%;"></i>
+          <i *ngIf="isShow" (click)="hidePassword()" class="fa fa-eye"
+            style="font-size:medium; color: #3e9fee; z-index: 1021; cursor: pointer; position: absolute; right: 0%;"></i>
+        </div>
+      </div>
+      <div class="pass" *ngIf="!customer?.isDistributor">
+        <label for="pass" style="color: red;">Pricing:</label>
+        <div class="first" *ngFor="let plan of customer?.versionlist; let i = index">
+          <label [for]="'price-' + i">{{ plan.version }}:</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 3px; bottom: 10px;">₹</span>
+            <input
+              id="price-{{i}}"
+              style="text-indent: 4px;"
+              type="number"
+              min="0"
+              [(ngModel)]="customer?.versionlist[i].price" [ngModelOptions]="{standalone: true}"
+              (keydown)="onKeydown($event)"
+              placeholder="Enter price of a device"
+              required
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="submit" style="display: flex; justify-content: space-between; margin: 3%;">
+    <!-- <input type="submit" (click)="onsubmit()" value="sign up"> -->
+
+    <button mat-stroked-button (click)="closeMe()" color="accent">Cancel</button>
+    <button mat-stroked-button (click)="onsubmit()" color="primary">Submit</button>
+  </div>
+</div>

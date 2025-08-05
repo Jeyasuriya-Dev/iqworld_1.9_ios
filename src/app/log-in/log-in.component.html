@@ -1,0 +1,108 @@
+
+<div class="container-bg" *ngIf="!isMobile">
+  <div class="background-image" style="display: flex; justify-content: left; align-items: center;">
+  </div>
+  <img src="assets/images/login/appwebproducts.png" alt="Overlay Image" class="overlay">
+  <div style="position: absolute;  width: 100%; bottom: 1%; color: aliceblue;">
+    <h3 style="text-align: center;"><span style="font-size: medium;"><i class="fa fa-copyright" aria-hidden="true"></i>
+      </span>{{currentDate}} IQWORLD <span style="text-transform: lowercase;">
+        {{CURRENT_VERSION}}
+        - <span style="text-transform: capitalize;"> {{RELEASE_DATE}}</span>
+      </span>
+    </h3>
+  </div>
+</div>
+<div class="overlay" style="overflow: hidden;" *ngIf="!isMobile">
+  <div class="row">
+    <div class="col-4" style="display: flex; justify-content: center; align-items: center; height: 80vh;">
+      <div>
+        <div style="display: flex; justify-content: center; margin-left: 50px; margin-bottom: 25px;">
+          <img height="125px" src="assets/images/login/appweblogo.png" alt="">
+        </div>
+        <div class="box">
+          <form class="form" [formGroup]="signInForm" (ngSubmit)="onSignInSubmit(signInForm)">
+            <div style="color: aliceblue; display: flex; justify-content: center; ">
+              <img style="border-radius: 50%;  height: 100px; " src="assets/images/login/avatar.png" alt="" srcset="">
+            </div>
+            <h2>SIGN IN</h2>
+            <div class="input-icon-wrap" style="margin-bottom: 5%;">
+              <span class="input-icon"><span class="fa fa-user" style="    padding-left: 3px;"></span></span>
+              <input type="text" class="input-with-icon" autocomplete="on" id="form-name1" placeholder="Username"
+                required formControlName="username">
+            </div>
+            <div class="input-icon-wrap">
+              <span class="input-icon"><i class="fa fa-key" aria-hidden="true"></i></span>
+              <input type="password" class="input-with-icon" (keyup)="getPass($event)" id="password"
+                placeholder="Password" autocomplete="on" required formControlName="password">
+            </div>
+            <div *ngIf="passLength" style=" z-index: 1020;   position: absolute;right: 32px;bottom: 39%;">
+              <i *ngIf="!isShow" (click)="showPassword()" class="fa  fa-eye-slash"
+                style="font-size:medium; color: #3e9fee; z-index: 1021; cursor: pointer; position: absolute; right: 0%;"></i>
+              <i *ngIf="isShow" (click)="hidePassword()" class="fa fa-eye"
+                style="font-size:medium; color: #3e9fee; z-index: 1021; cursor: pointer; position: absolute; right: 0%;"></i>
+            </div>
+            <div class="links">
+              <a (click)="navgetToUrl('/recovery-password')" class="forgot-password-btn">Forget password ?</a>
+              <a class="forgot-password-btn">Signup</a>
+            </div>
+            <div class="input-icon-wrap" style="width: 100%;">
+              <input type="submit" style="color: white; font-size: larger;" value="Login" class="input-with-icon"
+                id="form-name2" placeholder="Username">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="background-image-mobile" style="display: flex; justify-content: center; align-items: center;"
+  *ngIf="isMobile">
+  <div style="display: block; margin-bottom: auto;">
+    <div style="display: flex; justify-content: center;margin-bottom: 25px;margin-top: 25px;">
+      <img height="80px" src="assets/images/login/appweblogo.png" alt="">
+    </div>
+    <div class="box" style="margin: 0px;">
+      <form class="form" [formGroup]="signInForm" (ngSubmit)="onSignInSubmit(signInForm)">
+        <div style="color: aliceblue; display: flex; justify-content: center; ">
+          <img style="border-radius: 50%;  height: 100px; " src="assets/images/login/avatar.png" alt="" srcset="">
+        </div>
+        <h2>SIGN IN</h2>
+        <div class="input-icon-wrap" style="margin-bottom: 5%;">
+          <span class="input-icon"><span class="fa fa-user" style="    padding-left: 3px;"></span></span>
+          <input type="text" class="input-with-icon" id="form-name3" placeholder="Username" required
+            formControlName="username">
+        </div>
+        <div class="input-icon-wrap">
+          <span class="input-icon"><i class="fa fa-key" aria-hidden="true"></i></span>
+          <input type="password" class="input-with-icon" (keyup)="getPass($event)" id="password" placeholder="Password"
+            required formControlName="password">
+        </div>
+        <div *ngIf="passLength" style=" z-index: 1020;   position: absolute;right: 32px;bottom: 39%;">
+          <i *ngIf="!isShow" (click)="showPassword()" class="fa  fa-eye-slash"
+            style="font-size:medium; color: #3e9fee; z-index: 1021; cursor: pointer; position: absolute; right: 0%;"></i>
+          <i *ngIf="isShow" (click)="hidePassword()" class="fa fa-eye"
+            style="font-size:medium; color: #3e9fee; z-index: 1021; cursor: pointer; position: absolute; right: 0%;"></i>
+        </div>
+        <div class="links">
+          <a (click)="navgetToUrl('/recovery-password')" class="forgot-password-btn">Forget password ?</a>
+          <a class="forgot-password-btn" style="display: flex;"> <input type="checkbox"
+              formControlName="isRememberMeChecked">&nbsp;remember me</a>
+        </div>
+        <div class="input-icon-wrap" style="width: 100%;">
+          <input type="submit" style="color: white; font-size: larger;" value="Login" class="input-with-icon"
+            id="form-name4" placeholder="Username">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- <div style="position: absolute;  width: 100%; bottom: 0; color: aliceblue;">
+    <h3 style="text-align: center; background: #00000029;"><span style="font-size: medium;"><i class="fa fa-copyright"
+          aria-hidden="true"></i>
+      </span>{{currentDate}} IQWORLD <span style="text-transform: lowercase;">
+        {{CURRENT_VERSION}}
+        - <span style="text-transform: capitalize;"> {{RELEASE_DATE}}</span>
+      </span></h3>
+  </div>
+</div> -->
+

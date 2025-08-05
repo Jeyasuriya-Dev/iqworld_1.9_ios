@@ -1,0 +1,180 @@
+<section class="content">
+    <div class="">
+        <h1 class="text-center text-muted" style="font-weight:900; ">Complaint List</h1>
+    </div>
+    <mat-card *ngIf="isMoblie">
+        <mat-card-content>
+            <div class="row align-items-baseline">
+                <div class="col-12 align-items: baseline;">
+                    <mat-form-field class="example-form-field" style="width: 100%;">
+                        <mat-label>Search here...</mat-label>
+                        <input matInput type="text" #ger (input)="filterRowData(ger.value)">
+                        <button *ngIf="ger.value" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="ger.value='';filterRowData(ger.value)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-3">
+                    <div class="d-flex justify-content-center" style="align-items: center;">
+                        <a class="btn btn-outline-primary" (click)="exportPdf()">
+                  <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                  PDF
+                </a>
+                <a>|</a>
+                        <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                            EXCEL
+                        </a>
+                    </div>
+                </div> -->
+            </div>
+
+
+
+        </mat-card-content>
+    </mat-card>
+    <div class="row mb-1 mt-1" style="line-height: 50px;" *ngIf="!isMoblie">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <!-- <div class="">
+                <form class="form">
+                    <mat-form-field class="width" appearance="outline">
+                        <mat-label>Choose Client</mat-label>
+                        <mat-icon title="clear" style="cursor: pointer;opacity: 0.4;" matSuffix
+                            *ngIf="countryCtrl.value" (click)="clearCountryCtrl()">clear</mat-icon>
+                        <input type="search" matInput placeholder="Choose Client" aria-label="Country"
+                            [matAutocomplete]="auto" [formControl]="countryCtrl" required />
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option (click)="onChooseClient(client.username)"
+                                *ngFor="let client of filteredClients | async" [value]="client?.username">
+                                <span>{{ client?.username }}</span>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </form>
+            </div> -->
+            <div class="">
+                <mat-form-field appearance="outline">
+                    <mat-label>What's on Your Mind</mat-label>
+                    <input matInput placeholder="search anything here" id="quickFilter"
+                        (input)="onQuickFilterChanged()">
+                </mat-form-field>
+            </div>
+            <div class="d-flex justify-content-center"
+                style="align-items: center;margin: 0.25em 0;padding-bottom: 1.34375em;">
+
+                <!-- <a class="btn btn-outline-primary" (click)="exportPdf()">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    PDF
+                </a> -->
+                <a>|</a>
+                <!-- <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+                 
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    EXCEL
+                </a> -->
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isMoblie">
+        <ag-grid-angular #agGrid id="myGrid" domLayout='autoHeight' class="ag-theme-alpine" rowAnimation
+            [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData" [enableCellTextSelection]="true"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+    <br>
+    <mat-card *ngIf="isMoblie">
+        <mat-card-content>
+            <div class="row">
+                <mat-card class="sample-card" *ngFor="let obj of rowData">
+                    <div class="row justify-content-center">
+                        <div class="col-12 d-flex align-items-center">
+                            <span class="card-headline-text">{{obj.subject | titlecase }}
+                            </span>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="row sample-padding-t10">
+                        <div class="col-6">
+                            <span class="pcard-title-txt"> Distributor </span>
+                            <br>
+                            <span class="pcard-title-caption" style="text-transform: none;">
+                                {{obj?.distributor ? obj?.distributor:'N/A'}} </span>
+                        </div>
+                        <div class="col-6" *ngIf="obj?.type?.type!='DISTRIBUTOR_CREATION'">
+                            <span class="pcard-title-txt"> Customer </span>
+                            <br>
+                            <span class="pcard-title-caption" style="text-transform: none;">
+                                {{obj.clientname?obj.clientname:'N/A'}}</span>
+                        </div>
+                    </div>
+                    <div class="row sample-padding-t10">
+                        <div class="col-6">
+                            <span class="pcard-title-txt">Requested On</span>
+                            <br>
+                            <span class="pcard-title-caption">{{obj?.createddate}}</span>
+                        </div>
+                        <div class="col-6">
+                            <span class="pcard-title-txt">Resolved On</span>
+                            <br>
+                            <span class="pcard-title-caption">{{obj?.updateddate ? obj?.updateddate:'N/A'}}</span>
+                        </div>
+                    </div>
+
+                    <div class="row sample-padding-t10">
+                        <div>
+                            <span class="pcard-title-txt">Description</span>
+                            <br>
+                            <span class="card-caption"> {{obj?.description}}</span>
+                        </div>
+                    </div>
+
+                    <div class="row sample-padding-t10">
+                        <div class="col-12">
+                            <span class="pcard-title-txt">Remarks</span>
+                            <br>
+                            <span class="card-caption"> {{obj?.comments?obj?.comments:'N/A'}}</span>
+                        </div>
+                    </div>
+                    <div class="row sample-padding-t10">
+                        <div class="col-6">
+                            <span class="pcard-title-txt">Issue Media</span>
+                            <br>
+                            <div style="width: 60px ; height: 60px;">
+                                <img style="height: 100%; width: 100%;" *ngIf="!obj.image_url.includes('mp4')"
+                                    (click)="viewMedia(obj.image_url,'image')" [src]="obj.image_url" alt="">
+                                <video style="height: 100%; width: 100%;" [src]="obj.image_url"
+                                    *ngIf="obj.image_url.includes('mp4')"
+                                    (click)="viewMedia(obj.image_url,'video')"></video>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <span class="pcard-title-txt">Resolve Media</span>
+                            <br>
+                            <div style="width: 60px ; height: 60px;">
+                                <img style="height: 100%; width: 100%;" *ngIf="!obj.resolved_url.includes('mp4')"
+                                    (click)="viewMedia(obj.resolved_url,'image')" [src]="obj.resolved_url" alt="">
+                                <video style="height: 100%; width: 100%;" [src]="obj.resolved_url"
+                                    *ngIf="obj.resolved_url.includes('mp4')"
+                                    (click)="viewMedia(obj.resolved_url,'video')"></video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+                    <div class="row mt-2" id="add-more">
+                        <div class="col-12 d-flex justify-content-end">
+                            <button mat-raised-button
+                                (click)="obj.isactive? obj?.type.type.includes('UPGRADE')?'':obj.isresolved?'':solveComplaint(obj):''"
+                                [color]="obj.isactive? obj?.type.type.includes('UPGRADE')?'accent':obj.isresolved?'primary':'warn':'primary'">
+                                <!-- {{obj.isactive}} -->
+                                {{obj.isactive?
+                                obj?.type.type.includes('UPGRADE')?'Upgrade':obj.isresolved?'Resolved':'pending':'Resolved'}}
+                            </button>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</section>

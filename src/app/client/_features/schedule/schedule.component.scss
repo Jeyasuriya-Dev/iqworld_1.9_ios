@@ -1,0 +1,74 @@
+td {
+
+    a {
+        cursor: pointer;
+
+        color: rgb(82, 82, 230);
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    a:hover {
+        color: blue;
+        text-decoration: underline blue;
+    }
+}
+
+.seach-field {
+    outline: none;
+}
+
+.table-class {
+    height: 70vh;
+}
+
+.gallery-card {
+    max-width: 300px;
+    margin: 10px;
+}
+
+.mat-form-field {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    width: inherit !important;
+    // text-transform: capitalize;
+}
+
+.my-fab {
+    position: relative;
+    top: -12px;
+    right: -87%;
+
+}
+
+.custom-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.custom-input:focus {
+    border-color: #007bff;
+    /* Change border color on focus */
+}
+
+/* Add margin for spacing */
+.custom-input+.custom-input {
+    margin-top: 10px;
+}
+
+.search input {
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    // font-size: 18px; 
+    outline: none;
+    background-color: var(--white-color);
+    color: var(--grey-color);
+    border: 1px solid rgba(128, 128, 128, 0.314);
+    padding: 8px 20px;
+}

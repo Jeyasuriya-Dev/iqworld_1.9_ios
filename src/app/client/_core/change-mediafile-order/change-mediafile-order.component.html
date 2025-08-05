@@ -1,0 +1,151 @@
+<!-- <gridster [options]="options">
+    <gridster-item [item]="item" *ngFor="let item of dashboard ; " (itemChange)="onItemChange($event)"
+        style="width: 100px; height: 100px;">
+        <div class="button-holder">
+            <div class="item-buttons">
+              
+                <ng-container *ngIf="item?.type.includes('image'); else videoOrIframeTemplate">
+                   
+                    <img style="width: 100% !important; height: 100% !important;" [src]="item.url" alt="Image">
+                </ng-container>
+                <ng-template #videoOrIframeTemplate>
+                  
+                    <ng-container *ngIf="item?.type.includes('video'); then videoTemplate else iframeTemplate">
+                    </ng-container>
+                </ng-template>
+                <ng-template #videoTemplate>
+                   
+                    <video style="width: 100% !important; height: 100% !important; object-fit: fill !important;"
+                        [muted]="item.isMuted" autoplay loop>
+                        <source [src]="item?.url" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </ng-template>
+                <ng-template #iframeTemplate>
+                  
+                    <iframe width="560" height="315" [src]="item.url" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </ng-template>
+            </div>
+
+        </div>
+    </gridster-item>
+</gridster> -->
+
+<h1 style="position: sticky; margin-top: 1em; color: #010e27; text-align: center;"> {{ type =='split' ?"Change the order
+    of Zone layouts"
+    :type =='zone'? "Change the order of zone media files": "Change the order of media files"}}
+</h1>
+<div class="m-2" style="display: flex;justify-content: center; align-items: center;">
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+        <span *ngFor="let item of dashboard;track item">
+            <div class="example-box" cdkDrag *ngIf="type === 'vertical' || type === 'horizontal'">
+                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            
+                <ng-container [ngSwitch]="item?.type">
+                    <ng-container *ngSwitchCase="'image'">
+                        <img class="media-image" [src]="item.url" alt="Image">
+                        <ng-template #imagePreview>
+                            <img *cdkDragPreview [src]="item.url" height="300px" width="250px" [alt]="item.filename">
+                        </ng-template>
+                    </ng-container>
+                    
+                    <ng-container *ngSwitchCase="'video'">
+                        <video class="media-video" [muted]="item.isMuted" loop>
+                            <source [src]="item?.url" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <ng-template #videoPreview>
+                            <video *cdkDragPreview [src]="item.url" height="300px" width="250px" autoplay></video>
+                        </ng-template>
+                    </ng-container>
+            
+                    <ng-container *ngSwitchCase="'youtube'">
+                        <app-youtube-player class="media-youtube" [url]="item?.url"></app-youtube-player>
+                        <ng-template #youtubePreview>
+                            <app-youtube-player *cdkDragPreview [url]="item?.url" height="300px" width="250px"></app-youtube-player>
+                        </ng-template>
+                    </ng-container>
+            
+                    <ng-container *ngSwitchCase="'pdf'">
+                        <app-pdf-viewer class="media-pdf" [url]="item?.url"></app-pdf-viewer>
+                        <ng-template #pdfPreview>
+                            <app-pdf-viewer *cdkDragPreview class="pdf-preview" [url]="item?.url"></app-pdf-viewer>
+                        </ng-template>
+                    </ng-container>
+                </ng-container>
+            
+                <div class="media-info">
+                    Order id: {{item.order_id + 1}}<br>
+                    Filename: {{item.filename}}<br>
+                    Mediatype: {{item.type}}<br>
+                    <!-- Duration: {{item.duration}} <br> -->
+                </div>
+            
+                <!-- Drag Preview Logic -->
+                <ng-container *ngIf="item?.type === 'image'; then imagePreview; else (item?.type === 'youtube' ? youtubePreview : videoPreview)"></ng-container>
+                <ng-container *ngIf="item?.url.includes('pdf'); then pdfPreview"></ng-container>
+            </div>
+            
+            
+            
+            <div cdkDrag *ngIf="type =='split'" style="cursor: pointer;">
+                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-4 ">
+                        <h1 style="font-size: 30px; color: #f0414138; font-family:'norwester' !important;">
+                            Zone Layout
+                        </h1>
+                    </div>
+                    <div class="col-6" style="color: #010e27d0;">
+                        Order id: {{item.order_id+1}}<br>
+                        layoutname: {{item.layoutname}} <br>
+                        zonecount: {{item.zonecount}} <br>
+                        <!-- Duration: {{item.duration}} <br> -->
+                    </div>
+                </div>
+            </div>
+            <div class="example-box" cdkDrag *ngIf="type =='zone'">
+                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                <ng-container *ngIf="item?.type.includes('image'); else videoOrIframeTemplate">
+                    <img style="width: 100px !important; height: 100px !important;" [src]="item.url" alt="Image">
+                </ng-container>
+                <ng-template #videoOrIframeTemplate>
+                    <ng-container *ngIf="item?.type.includes('video'); then videoTemplate else iframeTemplate">
+                    </ng-container>
+                </ng-template>
+                <ng-template #videoTemplate>
+                    <video style="width: 100px !important; height: 100px !important; object-fit: fill !important;"
+                        [muted]="item.isMuted" loop>
+                        <source [src]="item?.url" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </ng-template>
+                <ng-template #iframeTemplate>
+                    <iframe width="560" height="315" [src]="item.url" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </ng-template>
+                <div style="color: #010e27;">
+                    Order id: {{item.order_id+1}}<br>
+                    <!-- Filename: {{item.filename}} <br> -->
+                    Mediatype: {{item.type}} <br>
+                    <!-- Duration: {{item.duration}} <br> -->
+                </div>
+                <span *ngIf="item?.type.includes('image')">
+                    <img *cdkDragPreview [src]="item.url" height="300px" width="250px" [alt]="item.filename">
+                </span>
+                <span *ngIf="item?.type.includes('video')">
+                    <video *cdkDragPreview [src]="item.url" height="300px" width="250px" autoplay></video>
+                </span>
+            </div>
+        </span>
+
+    </div>
+</div>
+<br>
+<div style="display: flex; justify-content: end;">
+    <button [mat-dialog-close]="true" mat-raised-button color="primary">Close</button> &nbsp; &nbsp;
+    <button (click)="saveSplitScreen()" mat-raised-button color="accent">Save</button>&nbsp; &nbsp;
+</div>

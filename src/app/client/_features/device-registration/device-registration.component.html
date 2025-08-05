@@ -1,0 +1,600 @@
+<section class="csc-section">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h1 class="text-muted" style="text-align: center; font-weight:900; ">New Device Registration </h1>
+    <h3 style="text-align: center; color: #ff4081;" *ngIf="routerState">{{deviceUsername}}</h3>
+    <mat-form-field appearance="outline" *ngIf="routerState">
+      <mat-label>Customer Id</mat-label>
+      <input matInput placeholder="Customer Id" formControlName="clientid" required />
+    </mat-form-field>
+    <button mat-raised-button color="warn" (click)="CustomerDetails()" *ngIf="routerState">
+      get details </button>
+    <mat-card-content style="display: flex; justify-content: space-around; flex-wrap: wrap;    align-items: end;">
+      <!-- <mat-form-field appearance="outline">
+                <mat-label>Country</mat-label>
+                <mat-select [(value)]="selectedHrCountry"  formControlName="country" >
+                    <span *ngFor="let state of countryList">
+                        <mat-option (click)="onChooseCountry(state.countryname)" *ngIf="state.id !='0'"
+                            value="{{state.countryname}}"  [disabled]="state.id=='0'">{{state.countryname |
+                            titlecase}}</mat-option>
+                    </span>
+                    
+                </mat-select>
+            </mat-form-field> -->
+      <mat-form-field appearance="outline">
+        <mat-label>State</mat-label>
+        <mat-select [(value)]="selectedHrState" formControlName="state">
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+            <input type="text" matInput (input)="filterStates($event.target.value)" placeholder="Search...">
+          </mat-form-field>
+          <span *ngFor="let state of filteredStateList">
+            <mat-option (click)="onChooseState(state)" *ngIf="state.id !='0'"
+              value="{{state?.statename}}">{{state.statename |
+              titlecase}}</mat-option>
+          </span>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>district</mat-label>
+        <mat-select [(value)]="selectedDistrict" formControlName="district" required>
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+            <input type="text" matInput (input)="filterDistricts($event.target.value)" placeholder="Search...">
+          </mat-form-field>
+          <span *ngFor="let district of filterDistrictList">
+            <mat-option (click)="onChooseDistrict(district)" *ngIf="district.id !='0'"
+              value="{{district.name}}">{{district.name |
+              titlecase}}</mat-option>
+          </span>
+        </mat-select>
+      </mat-form-field>
+      <div style="display: grid;">
+        <!-- <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterCity()"
+          *ngIf="isEnter"> choose City ?</a>
+        <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterCity()"
+          *ngIf="!isEnter"> Enter City ?</a> -->
+
+        <mat-form-field appearance="outline" *ngIf="isEnter">
+          <mat-label>City </mat-label>
+          <input matInput placeholder="" [value]="selectedHrCity" formControlName="city" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" *ngIf="!isEnter">
+          <mat-label>City</mat-label>
+          <mat-select [(value)]="selectedHrCity" formControlName="city">
+            <mat-form-field class="filter-input"
+              style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+              <input type="text" #selectStateinput matInput (input)="filterCities($event.target.value)"
+                placeholder="Search...">
+            </mat-form-field>
+            <mat-option *ngFor="let city of filtercityListByStateid" (click)="onChooseCity(city)"
+              value="{{city.cityname}}">{{city.cityname |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="display: grid;">
+        <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterArea()"
+          *ngIf="isEnterArea"> choose Location ?</a>
+        <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterArea()"
+          *ngIf="!isEnterArea"> Enter Location ?</a>
+
+        <mat-form-field appearance="outline" *ngIf="isEnterArea">
+          <mat-label>Location </mat-label>
+          <input matInput placeholder="" [value]="selecetedlocation" formControlName="location" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" *ngIf="!isEnterArea">
+          <mat-label>Location </mat-label>
+          <mat-select formControlName="location" [(value)]="selecetedlocation">
+            <mat-form-field class="filter-input"
+              style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+              <input type="text" #selectStateinput matInput (input)="filterLocation($event.target.value)"
+                placeholder="Search...">
+            </mat-form-field>
+            <mat-option *ngFor="let city of filterlocationList" value="{{city.area}}">{{city.area |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="example-form-field" appearance="outline">
+        <!-- <mat-label>Enter landmark</mat-label> -->
+        <mat-label>Enter Device Location</mat-label>
+        <input matInput type="text" [(ngModel)]="landmark" formControlName="landmark">
+      </mat-form-field>
+      <!-- <mat-form-field class="example-form-field" appearance="outline" *ngIf="!routerState">
+        <mat-label>How Many ?</mat-label>
+        <input matInput type="number" [(ngModel)]="count" min="1" formControlName="count" required>
+      </mat-form-field> -->
+      <mat-form-field class="width" appearance="outline" *ngIf="routerState">
+        <mat-label>Choose Model Name</mat-label>
+        <mat-icon title="clear" style="cursor: pointer;opacity: 0.4;" matSuffix *ngIf="countryCtrl?.value"
+          (click)="clearCountryCtrl()">clear</mat-icon>
+        <input type="search" matInput placeholder="Choose Model Name" aria-label="Country" [matAutocomplete]="auto"
+          [formControl]="countryCtrl" required />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option (click)="onChooseModel(client)" *ngFor="let client of filteredModels | async"
+            [value]="client.modelname">
+            <span>{{ client.modelname }}</span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="margin: 0px !important;" *ngIf="routerState">
+        <mat-label>Choose Plan</mat-label>
+        <mat-select name="countryString" placeholder="Choose Plan" [value]="selectedPlanId"
+          (selectionChange)="onSelectPlans($event)">
+          <span *ngFor="let version of versionList;">
+            <mat-option [value]="version.id">{{version.version}}</mat-option>
+          </span>
+        </mat-select>
+      </mat-form-field>
+      <mat-divider></mat-divider>
+
+    </mat-card-content>
+    <div class="gender_details">
+      <input type="radio" name="height_width" value="9:16" id="dot-1" formControlName="height_width">
+      <input type="radio" name="height_width" value="16:9" id="dot-2" formControlName="height_width">
+      <span class="gender_title"> Orientation</span>
+      <div class="category">
+        <label for="dot-1">
+          <span class="dot one"></span>
+          <span class="gender">Vertical</span>
+        </label>
+        <label for="dot-2">
+          <span class="dot two"></span>
+          <span class="gender">Horizontal</span>
+        </label>
+
+      </div>
+    </div>
+    <fieldset *ngIf="!routerState">
+      <h3>Choose devices:
+      </h3>
+      <!-- <div class="item-container">
+        <mat-accordion>
+          <ng-container *ngFor="let device of modelList; let i = index">
+            <mat-expansion-panel>
+
+              <mat-expansion-panel-header>
+                <div style="display: flex; justify-content: center;">
+                  <img (click)="openImage($event,device)" src="assets/images/models/{{device.modelname}}.png"
+                    height="50" width="50" style="margin-right: 20%;" alt="">
+                </div>
+                <mat-panel-title>
+                  <mat-checkbox (change)="onCheckboxChange($event,device)">
+                  </mat-checkbox> &nbsp;{{device.modelname}} &nbsp;&nbsp;[<span class="text-primary">
+                    {{device.size}}" </span> ]
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="row" style="align-items: center;">
+                <div class="col-12 col-sm-3 d-flex">
+                  count: <input (keydown)="onCheckboxChange($event,device)" (change)="onCheckboxChange($event,device)"
+                    style="width: 50%; padding-left: 4%; border-radius: inherit; border-color: rgb(163, 245, 245); margin-left: 4%;"
+                    type="number" min="1" step="1" value="1"> <button
+                    style="border: 1px #0d6efd solid; border-radius: 2px; margin-left: 3%;  background-color: #0d6efd; color: white; padding: 2px 5px;">save</button>
+
+                </div>
+                <div class="col-12 col-sm-3 text-muted">
+                  Size: {{device.size}} Inchs.
+                </div>
+                <div class="col-12 col-sm-3 text-muted">
+                  Price: Rs. {{device.price}}
+                </div>
+                <div class="col-6 col-sm-4 text-muted">
+                  Plan: <span style="color: blueviolet; font-weight: 500;">
+                    {{client?.versionMaster?.version | titlecase }}</span>
+                </div>
+                <div class="col-12 col-sm-3 text-muted">
+                  <mat-form-field appearance="outline" style="margin: 0px !important;">
+                    <mat-label>Choose Plan</mat-label>
+                    <mat-select name="countryString" placeholder="Choose Plan" [value]="client?.versionMaster?.id"
+                      (selectionChange)="onSelectPlan($event,device)">
+                      <span *ngFor="let version of versionList; let i = index">
+                        <mat-option *ngIf="i<client?.versionMaster?.id" [value]="version.id">{{version.version}}
+                        </mat-option>
+                        <mat-option [value]="version.id">{{version.version}}
+                        </mat-option>
+                      </span>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </ng-container>
+        </mat-accordion>
+      </div> -->
+
+      <div class="item-container">
+        <div style="display: flex; flex-wrap: wrap;">
+          <mat-card class="example-card"
+            style="max-width: 300px; margin: 0.5%;  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;"
+            *ngFor="let device1 of modelList1; let i = index">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title>
+                  <div style="display: flex;">
+                    <img (click)="openImage($event,device1)" [src]="device1?.imageurl" height="260" width="230"
+                      style="margin-right: 30% !important; cursor: pointer;" alt="">
+                  </div>
+                </mat-card-title>
+                <mat-card-subtitle>{{device1?.model}}</mat-card-subtitle>
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="item-container">
+                <mat-accordion>
+                  <ng-container *ngFor="let device of device1?.list; let j = index">
+                    <mat-expansion-panel>
+
+                      <mat-expansion-panel-header>
+                        <!-- <div style="display: flex; justify-content: center;">
+                          <img (click)="openImage($event,device)" src="assets/images/models/{{device.modelname}}.png"
+                            height="50" width="50" style="margin-right: 20%;" alt="">
+                        </div> -->
+                        <mat-panel-title>
+                          <mat-checkbox (change)="onCheckboxChange($event,device)">
+                          </mat-checkbox>
+                          &nbsp;{{device.modelname}} &nbsp;&nbsp;[<span class="text-primary">
+                            {{device.size}}" </span> ]
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="row" style="align-items: center;">
+                        <div class="col-12  d-flex mb-1">
+                          count: <input (keydown)="onCheckboxChange($event,device)"
+                            (change)="onCheckboxChange($event,device)"
+                            style="width: 50%; padding-left: 4%; border-radius: inherit; border-color: rgb(163, 245, 245); margin-left: 4%;"
+                            type="number" min="1" step="1" value="1"> <button
+                            style="border: 1px #0d6efd solid; border-radius: 2px; margin-left: 3%;  background-color: #0d6efd; color: white; padding: 2px 5px;"
+                            (click)="saveThis(device?.id)" [id]="'save'+device?.id">save</button>
+                          <span [id]="device?.id+'SAVE'"
+                            style="color: green; font-size: small; margin-top: 2.5%;"></span>
+                        </div>
+                        <div class="col-12 mb-1 text-muted">
+                          Size: {{device.size}} Inchs.
+                        </div>
+                        <!-- <div class="col-12  text-muted">
+                          Price: Rs. {{device.price}}
+                        </div>
+                        <div class="col-6  text-muted">
+                          Plan: <span style="color: blueviolet; font-weight: 500;">
+                            {{client?.versionMaster?.version | titlecase }}</span>
+                        </div> -->
+                        <div class="col-12  text-muted mb-1">
+                          <mat-form-field appearance="outline" style="margin: 0px !important;">
+                            <mat-label>Choose Plan</mat-label>
+                            <!-- <mat-select name="countryString" placeholder="Choose Plan"
+                              [value]="client?.versionMaster?.id" (selectionChange)="onSelectPlan($event,device)">
+                              <span *ngFor="let version of versionList; let i = index">
+                                <mat-option *ngIf="i<client?.versionMaster?.id" [value]="version.id">{{version.version}}
+                                </mat-option>
+                                <mat-option [value]="version.id">{{version.version}}
+                                </mat-option>
+                              </span>
+                            </mat-select> -->
+                            <mat-select name="countryString" placeholder="Choose Plan" [value]="selectedPlanId"
+                              (selectionChange)="onSelectPlan($event,device)">
+                              <span *ngFor="let version of versionList; let  z= index">
+                                <mat-option
+                                  *ngIf="client?.ispremium ? client?.ispremium : client?.versionMaster?.id <= (z+1)"
+                                  [value]="version.id">{{version.version}}</mat-option>
+                              </span>
+
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </mat-expansion-panel>
+                  </ng-container>
+                </mat-accordion>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+      </div>
+    </fieldset>
+
+    <fieldset *ngIf="!routerState">
+      <div class="container">
+        <div class="receipt_body">
+          <div class="items">
+            <table>
+              <thead style="border-bottom: 1px black dashed;">
+                <th>Model</th>
+                <th>Size</th>
+                <th>Plan</th>
+                <th>Quantity</th>
+                <!-- <th>Price</th> -->
+                <!-- <th>AMT</th> -->
+              </thead>
+              <tbody *ngFor="let device of DeviceList">
+                <tr>
+                  <td>{{device?.modelname}}</td>
+                  <td>{{device?.size}} Inchs.</td>
+                  <td>{{device?.version}}</td>
+                  <td>{{device?.count}}</td>
+                  <!-- <td>{{device.price}} Rs</td> -->
+                  <!-- <td>{{ mathRound(device.count * device.price)}}</td> -->
+                </tr>
+              </tbody>
+              <tfoot>
+                <!-- <tr>
+                  <td>Change</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>{{totalAmount1}}</td>
+                </tr>
+                <tr style="color: red;">
+                  <td>Discount</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td> <input type="number" (change)="discountCalculator($event)" (keyup)="discountCalculator($event)"
+                      value="0" step="0.1" min="0" style="width: 45px; border: 1px; margin-left: 5%;"
+                      formControlName="discount"> % - {{FinaltotalAmount}}</td>
+                </tr>
+                <tr style="color: rgb(4, 63, 36); font-weight: 700; font-size: larger;">
+                  <td>Total</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>{{mathRound(totalAmount1-FinaltotalAmount)}}</td>
+                </tr> -->
+                <tr style="color: rgb(4, 63, 36); font-weight: 700; font-size: larger;">
+                  <td>Total</td>
+                  <td></td>
+                  <td></td>
+                  <td>{{totalquantity}}</td>
+                </tr>
+              </tfoot>
+
+            </table>
+            <!-- <div style="display: flex; justify-content: center; border-top: 2px rgb(154, 196, 243) dashed;">
+                    <button style="margin-top: 1%; " mat-raised-button color="primary">Make Payment</button>
+              </div> -->
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <!-- <fieldset>
+      <mat-label style="font-size: medium; font-weight: 500; margin-bottom: 1%;">Do you want to upgrade? :</mat-label>
+      <br>
+      <div>
+        <label [ngClass]=" isNeedUpgrade ? 'text-primary' : 'text-muted'">1) Hey! You have selected devices on an
+          upgrade
+          plan, do you want to upgrade your plan?: </label>
+        <br>
+        <mat-radio-group [ngModelOptions]="{standalone: true}" [(ngModel)]="isSelectedNeedUpgrade"
+          style="display: flex; justify-content: space-evenly; width: 45%; margin-top: 1%;" [disabled]="!isNeedUpgrade"
+          name="radioButtons" >
+          <mat-radio-button [value]="true">Yes</mat-radio-button>
+          <mat-radio-button [value]="false">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <br>
+      <div>
+        <label [ngClass]=" isNeedUpgrade ? 'text-primary' : 'text-muted'">2) Hey! You selected Yes to upgrade, do you
+          want to update all your devices?: </label>
+        <br>
+        <mat-radio-group [ngModelOptions]="{standalone: true}" [(ngModel)]="isSelectedAllNeedUpgrade"
+          style="display: flex; justify-content: space-evenly; width: 45%; margin-top: 1%;" [disabled]="!isNeedUpgrade"
+          name="radioButtons" >
+          <mat-radio-button [value]="true">Yes</mat-radio-button>
+          <mat-radio-button [value]="false">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </fieldset> -->
+    <fieldset *ngIf="!routerState">
+      <mat-label class="text-info" style="font-size: medium; font-weight: 500;  margin-bottom: 1%;">Do you want to
+        upgrade? :</mat-label>
+      <br>
+      <br>
+      <div>
+        <label [ngClass]=" isNeedUpgrade ? 'text-primary' : 'text-muted'">1) You have selected devices on an
+          upgrade
+          plan, do you want to upgrade your plan? : </label>
+        <br>
+        <br>
+        <mat-radio-group [ngModelOptions]="{standalone: true}" [(ngModel)]="isSelectedNeedUpgrade"
+          (ngModelChange)="onRadioButtonChange($event)" [disabled]="!isNeedUpgrade">
+          <mat-radio-button class="example-radio-button" [value]="true">yes, I want to upgrade my plan <span
+              class="tooltip">
+              <span class="tooltip-point">?</span>
+              <span class="tooltip-content">Lorem ipsum dolor sit</span>
+            </span>
+          </mat-radio-button><br>
+          <br>
+          <mat-radio-button class="example-radio-button" [value]="false">No, I don't want to upgrade my plan
+          </mat-radio-button><br>
+        </mat-radio-group><br><br>
+      </div>
+      <!-- <div>
+        <label [ngClass]=" isSelectedNeedUpgrade ? 'text-primary' : 'text-muted'">2) You selected Yes to upgrade your
+          Plan, do you
+          want to update all your devices? : </label>
+        <br>
+        <br>
+        <mat-radio-group [ngModelOptions]="{standalone: true}" [(ngModel)]="isSelectedAllNeedUpgrade"
+          (ngModelChange)="onRadioButtonChange1($event)" [disabled]="!isSelectedNeedUpgrade || !isNeedUpgrade">
+          <mat-radio-button class="example-radio-button" [value]="true">yes</mat-radio-button><br>
+          <br>
+          <mat-radio-button class="example-radio-button" [value]="false">no</mat-radio-button><br>
+
+        </mat-radio-group>
+      </div> -->
+    </fieldset>
+    <fieldset>
+      <div class="form-group form-check">
+        <input type="checkbox" formControlName="acceptTerms"
+          [ngClass]="{ 'is-invalid': submitted && f['acceptTerms'].errors }" />
+        <label for="acceptTerms"> &nbsp; I have read and agree to the <a style="color: #0d6efd;"> Terms
+          </a></label>
+        <div *ngIf="submitted && f['acceptTerms'].errors" class="invalid-feedback"
+          style="position: absolute; width: auto;">
+          Accept Terms is required
+        </div>
+      </div>
+    </fieldset>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary m-2">Register</button>
+      <button type="button" (click)="onReset()" class="btn btn-warning float-right">
+        Reset
+      </button>
+    </div>
+  </form>
+</section>
+<!-- <section class="csc-section">
+    <mat-accordion>
+        <mat-expansion-panel >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Panel 1
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <form class="horizontal-form">
+            <div class="form-group">
+              <mat-checkbox>
+                Check me!
+              </mat-checkbox>
+            </div>
+            <div class="form-group">
+              <mat-form-field>
+                <input matInput placeholder="Device Name" required>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field>
+                <input matInput placeholder="Device Type" required>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <button mat-raised-button color="primary" type="submit">Register Device</button>
+            </div>
+          </form>
+        </mat-expansion-panel>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary m-2">Register</button>
+            <button type="button" (click)="onReset()" class="btn btn-warning float-right">
+                Reset
+            </button>
+        </div>
+      </mat-accordion>
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <mat-card-content style="display: flex; justify-content: space-around; flex-wrap: wrap; align-items: end;">
+            <mat-form-field appearance="outline" *ngIf="routerState">
+                <mat-label>Customer Id</mat-label>
+                <input matInput placeholder="Customer Id" formControlName="clientid" required />
+            </mat-form-field>
+          
+            <mat-form-field appearance="outline">
+                <mat-label>State</mat-label>
+                <mat-select [(value)]="selectedHrState" formControlName="state">
+                    <span *ngFor="let state of stateList">
+                        <mat-option (click)="onChooseState(state.statename)" *ngIf="state.id !='0'"
+                            value="{{state.statename}}">{{state.statename |
+                            titlecase}}</mat-option>
+                    </span>
+                </mat-select>
+            </mat-form-field>
+
+            <div style="display: grid;">
+                <a class="text-primary" style="text-decoration: underline; cursor: pointer;"
+                    (click)="chooseOrEnterCity()" *ngIf="isEnter"> choose City ?</a>
+                <a class="text-primary" style="text-decoration: underline; cursor: pointer;"
+                    (click)="chooseOrEnterCity()" *ngIf="!isEnter"> Enter City ?</a>
+
+                <mat-form-field appearance="outline" *ngIf="isEnter">
+                    <mat-label>City </mat-label>
+                    <input matInput placeholder="" formControlName="city" />
+                </mat-form-field>
+                <mat-form-field appearance="outline" *ngIf="!isEnter">
+                    <mat-label>City</mat-label>
+                    <mat-select [(value)]="selectedHrCity" formControlName="city">
+                        <mat-option *ngFor="let city of cityListByStateid" (click)="onChooseCity(city.cityname)" value="{{city.cityname}}">{{city.cityname |
+                            titlecase}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div style="display: grid;">
+                <a class="text-primary" style="text-decoration: underline; cursor: pointer;"
+                    (click)="chooseOrEnterArea()" *ngIf="isEnterArea"> choose Location ?</a>
+                <a class="text-primary" style="text-decoration: underline; cursor: pointer;"
+                    (click)="chooseOrEnterArea()" *ngIf="!isEnterArea"> Enter Location ?</a>
+
+                <mat-form-field appearance="outline" *ngIf="isEnterArea">
+                    <mat-label>Location </mat-label>
+                    <input matInput placeholder="" formControlName="area" />
+                </mat-form-field>
+                <mat-form-field appearance="outline" *ngIf="!isEnterArea">
+                    <mat-label>Location </mat-label>
+                    <mat-select  formControlName="area">
+                        <mat-option *ngFor="let city of locationList" value="{{city.area}}">{{city.area |
+                            titlecase}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+         
+            <mat-form-field class="example-form-field" appearance="outline">
+                <mat-label>Enter landmark</mat-label>
+                <input matInput type="text" [(ngModel)]="landmark" formControlName="landmark">
+            </mat-form-field>
+            <mat-form-field class="example-form-field" appearance="outline" *ngIf="!routerState">
+                <mat-label>How Many ?</mat-label>
+                <input matInput type="number" [(ngModel)]="count" min="1" formControlName="count" required>
+            </mat-form-field>
+            <mat-form-field class="width" appearance="outline" >
+                <mat-label>Choose Model Name</mat-label>
+                <mat-icon title="clear" style="cursor: pointer;opacity: 0.4;" matSuffix *ngIf="countryCtrl.value"
+                    (click)="clearCountryCtrl()">clear</mat-icon>
+                <input type="search" matInput placeholder="Choose Model Name" aria-label="Country"
+                    [matAutocomplete]="auto" [formControl]="countryCtrl" required />
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option (click)="onChooseModel(client)" *ngFor="let client of filteredModels | async"
+                        [value]="client.modelname">
+                        <span>{{ client.modelname }}</span>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-divider></mat-divider>
+
+        </mat-card-content>
+        <div class="gender_details">
+            <input type="radio" name="height_width" value="9:16" id="dot-1" formControlName="height_width">
+            <input type="radio" name="height_width" value="16:9" id="dot-2" formControlName="height_width">
+            <span class="gender_title"> Orientation</span>
+            <div class="category">
+                <label for="dot-1">
+                    <span class="dot one"></span>
+                    <span class="gender">Vertical</span>
+                </label>
+                <label for="dot-2">
+                    <span class="dot two"></span>
+                    <span class="gender">Horizontal</span>
+                </label>
+
+            </div>
+        </div>
+        <fieldset>
+            <div class="form-group form-check">
+                <input type="checkbox" formControlName="acceptTerms" class="form-check-input"
+                    [ngClass]="{ 'is-invalid': submitted && f['acceptTerms'].errors }" />
+                <label for="acceptTerms" class="form-check-label">I have read and agree to the <a > Terms
+                    </a></label>
+                <div *ngIf="submitted && f['acceptTerms'].errors" class="invalid-feedback"
+                    style="position: absolute; width: auto;">
+                    Accept Terms is required
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary m-2">Register</button>
+            <button type="button" (click)="onReset()" class="btn btn-warning float-right">
+                Reset
+            </button>
+        </div>
+    </form>
+</section> -->

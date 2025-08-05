@@ -1,0 +1,179 @@
+<h1 class="text-center " style="font-weight: bold; color: #3498db;">Scroller Design</h1>
+<mat-card>
+  <mat-card-content>
+    <div class="container">
+      <div class="row">
+        <!-- Box 1 (col-12 on all screens) -->
+        <div class="col-12 col-xs-5  col-xl-6 custom-box">
+          <label for="" style="color: blueviolet;"> Title name</label>
+          <div class="input-box">
+            <input type="text" #newsroller [(ngModel)]="scrollname" placeholder="Name" id="nameInput">
+            <!-- <input type="text" placeholder="Description" id="descriptionInput">
+                    <input type="text" placeholder="Price" id="priceInput"> -->
+          </div>
+          <div style="overflow-y: scroll; height: 110px;">
+            <div class="item-list" *ngFor="let o of scrollList">
+              <div class="list-item">
+                <div class="title">{{o.name | titlecase}}</div>
+                <!-- <div class="title">Description</div>
+                            <div class="title">Price</div> -->
+                <div class="actions">
+                  <button class="edit-button" (click)="editSroller(o)">Edit</button>
+                  <button class="remove-button" (click)="deleteScroller(o?.id)">Remove</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-12 col-xs-5 col-xl-5 custom-box">
+          <label for="" style="color: blueviolet;"> Enter The Content</label>
+          <div  class="textarea-container">
+            <textarea id="myTextarea" minlength="100" maxlength="100" placeholder="Enter your text here"
+              [(ngModel)]="marqueeMessage"></textarea>
+          </div>
+        </div>
+        <!-- Box 3 (col-12 on all screens) -->
+        <div class="col-12 col-xs-5 col-xl-6 custom-box">
+          <h2 style="background-color: #3498db; color: aliceblue; font-weight: bold; margin-top: -15px; ">
+            Property </h2>
+
+          <div class="row " style="height: 140px; overflow-y: scroll;">
+            <div class="col-6" style="text-transform: none;">
+              <!-- <label for="file-upload" class="custom-file-upload"> <i class="fa fa-upload" aria-hidden="true"></i>
+                Choose
+                a font</label>
+              <input id="file-upload" (change)="onFileChange($event)" accept=".ttf,.otf" type="file"
+                style="display: none" /> -->
+            </div>
+            <div class="col-6">
+              <!-- <label for="fontDropdown">Select Font Family:</label> -->
+              <select class="input" id="fontDropdown" [style.font-family]="selectedFont" [(ngModel)]="selectedFont">
+                <!-- <option style="padding: 5px 8px;" value="none" [disabled]="true">-- Select Font Family--</option>
+              <option style="padding: 5px 8px;" *ngFor="let font of fontList" [value]="font.style.fontFamily"
+                [style.font-family]="font.style.fontFamily">
+                {{ font.name }}
+              </option> -->
+
+                <option style="padding: 5px 8px;" value="none" [disabled]="true">-- Select Font Family--</option>
+                <option style="padding: 5px 8px;" *ngFor="let font of fontList" [value]="font.fontname"
+                  [style.font-family]="font.fontname">
+                  {{ font.fontname }}
+                </option>
+              </select>
+
+            </div>
+            <!-- <div>
+            <label for="name">Scroll Position:</label>
+            <select class="input" [(ngModel)]="ScrollerType" id="name">
+              <option  disabled [value]="null">--Select Scroll Position--</option> 
+              <option *ngFor="let obj of ScrollerTypeList" [value]="obj?.id">{{obj?.type | titlecase}}</option> 
+            </select>
+          </div> -->
+            <div class="col-6">
+              <label for="name">Scroll:</label>
+              <input type="text" id="name" [value]="scrollname" disabled placeholder="">
+              <!-- <br>
+                        <label for="name">Top:</label>
+                        <input type="number" [(ngModel)]="top" id="name" max="155" placeholder="" min="0">
+                        <br>
+                        <label for="name">Height:</label>
+                        <input type="number" id="name" [(ngModel)]="height" placeholder="" min="24"> -->
+              <br>
+              <label for="name">BGcolor:</label>
+              <input type="color" id="name" [(ngModel)]="background" placeholder="">
+              <br>
+              <label for="name">FNsize:</label>
+        
+              <input type="number" id="name" [(ngModel)]="fontSize" (keyup)="fontSize = fontSize > 150 ? 20 : fontSize"
+                placeholder="Enter font size" min="12" max="150">
+            </div>
+            <div class="col-6">
+              <label for="name">Type:</label>
+              <select class="input" disabled [(ngModel)]="behavior" id="name">
+                <option value="scroll">Scroll</option>
+                <option value="slide">Slide</option>
+                <option value="alternate">Alternate</option>
+              </select>
+              <!-- <br>
+                        <label for="name">Right:</label>
+                        <input type="number" id="name" [(ngModel)]="right" placeholder="" min="0">
+                        <br>
+                        <label for="name">width:</label>
+                        <input type="number" id="name" [(ngModel)]="width" placeholder="" min="100"> -->
+              <br>
+
+              <label for="name">FNcolor:</label>
+              <input type="color" id="name" [(ngModel)]="color" placeholder="">
+              <br>
+
+              <!-- <label for="name">Speed: </label>
+            <input type="number" id="name" [(ngModel)]="scrollamount" placeholder="" min="5" max="60"> -->
+              <label for="name">Speed:</label>
+              <select class="input" [(ngModel)]="scrollamount" id="name">
+                <option value="5">Low</option>
+                <option value="10">Medium</option>
+                <option value="35">High</option>
+              </select>
+            </div>
+
+            <div class="col-md-6 col-12 mt-3">
+              <span style="color: blueviolet;"> do you want previous logo?
+                <mat-slide-toggle [(ngModel)]="isPreviouslogo">{{
+                  isPreviouslogo?'Yes':'No'}}</mat-slide-toggle></span>
+            </div>
+
+            <div class="col-md-6 col-12 mt-2">
+              <label
+                [ngStyle]="{'border':isPreviouslogo ||selectedLogo!='none'?'1px solid grey':'0.6px solid  #3498db','color':isPreviouslogo ||selectedLogo!='none'?'grey':'#3498db'}"
+                style="border-radius: 5px; width: 100%;  padding: 0.5em 0.8em;" for="logoUpload">
+                {{ logos.length!=0?logos[0].file.name:'choose logo'}}
+              </label>
+              <input [disabled]="isPreviouslogo" style="display: none;" id="logoUpload" (change)="onLogoChange($event)"
+                type="file" accept="image/*">
+            </div>
+            <!-- <div class="col-12 col-md-6">
+              <br>
+           
+              <mat-form-field appearance="outline">
+                <mat-select [(value)]="selectedLogo" [disabled]="isPreviouslogo || logos.length!=0">
+                  <mat-option value="none" [disabled]="true">-- choose Logo--</mat-option>
+                  <mat-option *ngFor="let o of logoList ; let i=index" [value]="o"
+                    style="margin: 0.4em 0; display: flex; justify-content: center;">
+                    {{i}} &nbsp;&nbsp;<img with="50" height="50" [src]="o">
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+          </div>
+        </div>
+
+        <!-- Box 4 (col-12 on all screens) -->
+        <div class="col-12 col-xs-5 col-xl-5 custom-box text-dark" style="position: relative; overflow: hidden;">
+          <marquee [height]="height" [ngStyle]="mStyle" #marquee id="marquee" [width]="width" [behavior]="behavior" loop
+            [direction]="direction"> {{marqueeMessage}}</marquee>
+          <span style="  position: absolute;left: 0px;top: 18px;background: rgb(255, 255, 255); padding: 0px 3px;">
+            <span (click)="removeLogo()" *ngIf="selectedLogo !='none' || isPreviouslogo ||logos[0]"
+              style="position: absolute;top: 0;font-size: small; border-radius: 0px 0px 6px 0px;left: 0; background: #3498db; cursor: pointer; color: white;">x</span>
+            <img *ngIf="isPreviouslogo" style="height: 64px; max-width: 100px;" [src]="logoList[logoList.length-1]"
+              alt="">
+            <img *ngIf="!isPreviouslogo" style="height: 64px; max-width: 100px;"
+              [src]="selectedLogo !='none' ?selectedLogo: logos[0]? logos[0].url :selectedLogo" alt="">
+          </span>
+
+        </div>
+        <hr>
+        <div class="col-12 d-flex justify-content-center">
+          <button mat-raised-button color="accent" id="addItemButton" *ngIf="!scrollObj?.id"
+            (click)="addScroller(newsroller)">Add</button>
+          &nbsp; &nbsp;<button mat-raised-button color="primary" *ngIf="scrollObj?.id"
+            (click)="saveStyle(marquee)">Save</button>
+          &nbsp; &nbsp;<button mat-raised-button color="warn" (click)="reset()">Reset</button>
+        </div>
+
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

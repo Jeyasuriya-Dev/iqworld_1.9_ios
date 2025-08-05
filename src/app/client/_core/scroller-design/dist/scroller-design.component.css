@@ -1,0 +1,221 @@
+.custom-box {
+  height: 200px;
+  background-color: white;
+  border: 1px solid #2980b9;
+  text-align: center;
+  padding: 20px;
+  margin: 10px;
+  color: #fff;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+textarea {
+  width: 300px;
+  height: 150px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #3498db4d;
+  border-radius: 8px;
+  outline: none;
+  resize: none;
+  /* Disable textarea resizing */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect */
+textarea:hover {
+  border-color: #2980b9;
+}
+
+/* Focus effect */
+textarea:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.6);
+}
+
+/* Styling for the input box */
+.input-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#addItemButton {
+  line-height: 28px;
+  margin-left: 1%;
+}
+
+/* Styling for the input fields */
+.input-box input[type=number] {
+  padding: 5px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+#nameInput {
+  width: 100%;
+}
+
+input,
+.input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 5px;
+  width: auto;
+  font-size: 16px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s;
+}
+
+/* Add a subtle shadow on hover */
+input:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+input:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Style the placeholder text */
+input::placeholder {
+  color: #999;
+}
+
+/* Add a border on focus */
+input[type=text]:focus {
+  border: 1px solid #3498db;
+}
+
+input[type=number]:focus {
+  border: 1px solid #3498db;
+}
+
+/* Styling for the Add button */
+.input-box button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Styling for the item list */
+.item-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Styling for list item titles and actions */
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 3px;
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+  padding-top: 8px;
+  color: #3498db;
+}
+
+.name {
+  color: #c0392b;
+  font-size: larger;
+}
+
+.actions {
+  display: flex;
+}
+
+/* Styling for Remove and Edit buttons */
+.remove-button,
+.edit-button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 3px;
+}
+
+/* Hover effect for Remove and Edit buttons */
+.remove-button:hover,
+.edit-button:hover {
+  background-color: #c0392b;
+}
+
+/* Styling for the two-column layout */
+.two-column {
+  display: flex;
+  align-items: center;
+}
+
+/* Styling for each column */
+.column {
+  margin-right: 20px;
+}
+
+/* Styling for the label */
+.column label {
+  font-weight: bold;
+}
+
+label {
+  color: #3498db;
+  margin-left: 1px;
+  font-weight: bold;
+}
+
+#name {
+  width: 50%;
+  outline: none;
+  margin: 2%;
+}
+
+/* Styling for the input field */
+.column input[type=text] {
+  width: 200px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.column input[type=number] {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+@media screen and (max-width: 600px) {
+  #name {
+    width: 100%;
+    outline: none;
+    margin: 2%;
+  }
+}
+.custom-file-upload {
+  font-family: "Niramit", sans-serif;
+  background: #FFF;
+  color: #22a722;
+  padding: 5px 15px;
+  border: 1.4px rgba(255, 0, 0, 0.932) dotted;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.custom-file-upload:hover {
+  color: white;
+  background: #22a722;
+}

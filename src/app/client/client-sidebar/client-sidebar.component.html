@@ -1,0 +1,658 @@
+<!-- navbar -->
+<span class="sideBars">
+
+	<nav class="navbar">
+		<!-- <div class="logo_item">
+        <i class="bx bx-menu" id="sidebarOpen" (click)="openSidebar()">
+            <img src="assets/images/iq-world.png" alt=""></i>CodingNepal
+    </div> -->
+
+
+		<!-- Added New Back Button Into NavBar  -->
+		<div>
+			<button *ngIf="showNavbarBackBtn" class="back-btn" (click)="goBack()">く</button>
+		</div>
+		
+		<div class="logo_item">
+			<i class="bx bx-menu" id="sidebarOpen" (click)="openSidebar()">
+			</i> <img style="height: 43px;width: auto; border-radius: 0px;" src="assets/images/iq.png" alt="">
+		</div>
+
+		<div style="display: none;">
+			<app-idle-time-out></app-idle-time-out>
+		</div>
+		<div>
+			<span *ngIf="clientname && !isMoblie" style="color: gray; font-size: medium; text-transform: none;">Hello!!,
+				<span *ngIf="client?.gender=='male'">Mr.</span> <span *ngIf="client?.gender=='female'">Mrs.</span> <span
+					*ngIf="client?.gender=='organization'">M/s.</span> <span style="color: #3498db
+          ; font-weight: 400; text-transform: capitalize;">
+					{{clientname}}</span> Welcome to
+				customer portal, Have a nice day!!</span>
+		</div>
+		<div class="search_bar">
+			<input matInput type="text" placeholder="Search" />
+		</div>
+		<div [ngStyle]="isMoblie?{'display': 'none'}:{'display': 'block'}"
+			style="color: #f5548a;font-weight: 500;font-family: SF; font-size: medium;">
+			<!-- <iframe
+        src="https://free.timeanddate.com/clock/i999kef6/n54/fcf5548a/tt0/tw0/tm3/td2/tb4" frameborder="0" width="113"
+        height="34"></iframe> -->
+			<iframe *ngIf="client?.country?.countryname=='INDIA'"
+				src="https://free.timeanddate.com/clock/i999kz21/n553/fs16/fcf5548a/tt0/tw0/tm3/th1/tb2" frameborder="0"
+				width="149" height="20"></iframe>
+			<span id="timezone" style="white-space: nowrap;
+      font-family: Arial, Helvetica,sans-serif;
+      font-size: 16px;
+      color: #f5548a;
+      text-decoration: none;"></span>
+
+		</div>
+		<!-- <div id="timer" *ngIf="!isMoblie" style="color: #ff4081;font-weight: 700;font-family: Verdana, Geneva, Tahoma, sans-serif;"></div> -->
+		<!-- <div class="search_bar">
+            <div id="searchBox">
+                <i class="fa fa-microphone fa-x m-1" *ngIf="isSearch" style="color:rgba(49, 65, 65, 0.235);" id="googleIcon"></i>
+                <input type="text" placeholder="Search " />
+                <i class="fa fa-search fa-x" (click)="search()"></i>
+               
+            </div>
+        </div> -->
+
+		<div class="navbar_content">
+			<!-- <i class="bi bi-grid"></i> -->
+			<!-- <i class='bx bx-sun' id="darkLight" (click)="changeMode()"></i> -->
+
+			<button mat-icon-button [matMenuTriggerFor]="notiMenu" (click)="setIsViewForClient()">
+				<mat-icon style="color: rgb(55, 140, 238);"
+					[matBadge]="client?.isviewed?'':notilist.length>0? notilist.length:''" matBadgeColor="warn">android
+				</mat-icon>
+				<!-- <mat-icon style="color: rgb(55, 140, 238);" *ngIf="notilist.length=='0'" matBadgeColor="warn">notifications
+        </mat-icon> -->
+			</button>
+
+			<button mat-icon-button *ngIf="client?.ismbc" (click)="navgetToUrl('','schedule-info')">
+				<mat-icon style="color: rgb(55, 140, 238);" [matBadge]="notifyCount.length>0? notifyCount.length:''"
+					matBadgeColor="warn">notifications
+				</mat-icon>
+			</button>
+			<mat-menu #notiMenu="matMenu">
+				<ul class="notify-drop p-2">
+					<div class="notify-drop-title" style="position: relative;">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-xs-6"
+								style="font-weight: 500; color: #378cee; min-width:100px;">
+								notifications
+								(<b>{{notilist.length}}</b>)
+								<hr>
+							</div>
+							<!-- <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="tümü okundu."><i class="fa fa-dot-circle-o"></i></a></div> -->
+						</div>
+					</div>
+					<!-- end notify title -->
+					<!-- notify content -->
+					<br>
+					<div class="drop-content" style=" overflow: hidden;">
+						<li style="display: flex;" *ngFor="let noti of notilist ,index as i">
+							<div class="col-1">
+								{{i+1}}).
+								<!-- <div class="notify-img"><img style="border-radius: 50%;width: 55px; 
+                                height: 55px;" src="https://cdn-icons-png.flaticon.com/512/146/146031.png" alt="">
+                </div> -->
+							</div>
+							<div class="col-11"><span style="font-size:small;">{{noti}}
+									<br>
+									<hr><br>
+								</span>
+
+								<!-- <hr>
+                <p class="time text-muted">2 hours ago</p> -->
+							</div>
+
+						</li>
+
+						<!-- <li style="display: flex; ">
+              <div class="col-3">
+                <div class="notify-img"><img style="border-radius: 50%;width: 55px; 
+                                height: 55px;" src="https://cdn-icons-png.flaticon.com/512/146/146031.png" alt="">
+                </div>
+              </div>
+              <div class="col-10"><a href="">devanandham v,</a> <span class="text-muted"> New Ticket
+                  Raised New Ticket Raised New
+                  Ticket Raised</span>
+                <hr>
+                <p class="time text-muted">1 hours ago</p>
+              </div>
+            </li>
+            <li style="display: flex;">
+              <div class="col-3">
+                <div class="notify-img"><img style="border-radius: 50%;width: 55px; 
+                                height: 55px;" src="https://cdn-icons-png.flaticon.com/512/146/146031.png" alt="">
+                </div>
+              </div>
+              <div class="col-10"><a href="">devanandham v,</a> <span class="text-muted"> New Ticket
+                  Raised New Ticket Raised New
+                  Ticket Raised</span>
+                <hr>
+                <p class="time text-muted">2 hours ago</p>
+              </div>
+            </li> -->
+
+
+					</div>
+					<!-- <hr>
+                    <div class="notify-drop-footer text-center bg-primary">
+                        <a  class="text-light"><i class="fa fa-eye"></i> View More..</a>
+                    </div> -->
+				</ul>
+			</mat-menu>
+			<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+				<mat-icon style="color: rgb(55, 140, 238);">account_circle</mat-icon>
+			</button>
+
+			<!-- <i class="bx bxs-user-circle profile" style="font-size: 30px;" ></i> -->
+			<mat-menu #menu="matMenu">
+				<div class="row" style="align-items: center; margin:0px 0px 8px 10px;">
+					<div class="col-3">
+
+						<div style="border: #86bdf0 1px solid; border-radius: 50%; height: 50px; width: 50px;">
+							<img style="height: 100%;" src="assets/images/pro.webp" alt="">
+
+						</div>
+					</div>
+					<div class="col-8 row" style="margin-top: 2.5%;">
+						<div class="col-12">
+
+							<span class="text-profile space">{{clientname}}&nbsp;<i class="fa fa-edit text-primary"
+									(click)="editCustomer(editOption)" style="font-size: large; cursor: pointer;"></i>
+							</span>
+						</div>
+						<div class="col-12" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+							<span style="font-size: small; text-transform: lowercase;  " class="text-muted">
+								{{client?.email}}</span>
+						</div>
+						<div class="col-12">
+							<span style="font-size: small;" class="text-muted"> +91 {{client?.phone}}</span>
+						</div>
+						<div class="col-12">
+							<span style="font-size: small;" class="text-muted"> {{client?.clientcode}}</span>
+						</div>
+						<div class="col-12">
+							<span style="font-size: small;" class="text-muted"> client id: {{client?.id}}</span>
+						</div>
+					</div>
+					<div class="col-1">
+						<i class="fa fa-smile-o text-warning fa-2x" aria-hidden="true"></i>
+
+					</div>
+
+				</div>
+
+				<hr style="color: rgba(104, 101, 98, 0.5) !important;">
+				<!-- <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Account Settings</span>
+        </button> -->
+				<button mat-menu-item (click)="returnToAdmin()" *ngIf="isAdmin">
+					<mat-icon style="transform: rotate(-90deg);">logout</mat-icon>
+					<span>Return Admin</span>
+				</button>
+				<button mat-menu-item (click)="returnToDistributor()" *ngIf="isDistributor">
+					<mat-icon style="transform: rotate(-90deg);">logout</mat-icon>
+					<span>Return Distributor</span>
+				</button>
+				<button mat-menu-item (click)="signOut()">
+					<mat-icon>logout</mat-icon>
+					<span>Log out</span>
+				</button>
+				<hr style="color: rgba(104, 101, 98, 0.5) !important;">
+				<br>
+				<div class="row" style="align-items: center; ">
+					<!-- <div class="col-2  text-muted d-flex justify-content-center" style="align-items: center; margin-left: 5%;">
+            <mat-icon>nature_people</mat-icon>
+          </div> -->
+					<div class="col-2  text-muted d-flex justify-content-center" style="align-items: center; ">
+						<!-- <mat-icon>nature_people</mat-icon> -->
+					</div>
+					<div class="col-7 row">
+						<div class="col-12">
+							<span style="font-size: large; ">Distributor</span>
+						</div>
+						<div class="col-12">
+							<span style="font-size: medium;opacity: 0.7;" class="text-primary">{{distributor |
+								titlecase}}</span>
+						</div>
+
+					</div>
+					<div class="col-3">
+
+					</div>
+				</div>
+				<hr style="color: rgba(104, 101, 98, 0.5) !important;">
+				<br>
+				<div class="row" style="align-items: center;">
+					<!-- <div class="col-2 text-muted d-flex justify-content-center" style="align-items: center; margin-left: 5%; ">
+            <mat-icon>av_timer</mat-icon>
+          </div> -->
+					<div class="col-2 text-muted d-flex justify-content-center" style="align-items: center; ">
+						<!-- <mat-icon>av_timer</mat-icon> -->
+					</div>
+					<div class="col-10 row">
+						<div class="col-12 d-flex">
+							<span style="font-size: large; display: flex;">Current Plan <span class="upgrade-button"
+									(click)="navgetToUrl($event,'setting/upgrade-plan')"
+									*ngIf="planName=='BASIC' || planName=='LITE'">
+									&nbsp;Upgrade 🚀&nbsp;
+								</span>
+								<span disabled style="display: flex; border: 1px gray dashed; margin-left: 3px;"
+									*ngIf="planName=='PRO'">
+									&nbsp;Upgrade 🚀&nbsp;</span>
+							</span>
+						</div>
+						<div class="col-12">
+							<span style="font-size: medium; opacity: 0.7;" class="text-primary">{{planName |
+								titlecase}} </span>
+
+						</div>
+					</div>
+					<!-- <div class="col-3">
+            <button class="upgrade-button" (click)="navgetToUrl('setting/upgrade-plan')"
+              *ngIf="planName=='BASIC' || planName=='LITE'">
+              Upgrade <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+            </button>
+            <button disabled style="display: flex; border: 1px gray dashed; padding: 10%; line-height: 20px;"
+              *ngIf="planName=='PRO'">
+              Upgrade <i style="margin-top: 5.5%; margin-left: 5.5%;" class="fa fa-cloud-upload" aria-hidden="true"></i>
+            </button>
+          </div> -->
+				</div>
+			</mat-menu>
+			<mat-menu #menu1="matMenu">
+				<img style="border-radius: 50%;width: 150px; margin:0px 50px ;
+                height: 150px;	border: 2px solid #8e9681;	padding: 5px;" src="assets/images/profile-icon-9.png" alt="">
+				<div style="text-align: center; margin: 8px ;">
+
+					<span class="text-profile space">{{clientname}}</span>
+				</div>
+				<div style="text-align: center; margin: 8px;">
+					<span style="font-weight: 600; color: #024438; margin-bottom: 5%;">Customer id:
+						{{clientid}}</span>
+					<br>
+					<span style="font-weight: 600; color: #024438; margin-bottom: 5%;">Customer code:
+						{{clientcode}}</span>
+					<!-- <hr> -->
+					<br>
+					<span style="color: #024438; font-weight: 600;">distributor: {{distributor}}</span>
+					<br>
+					<span style="color: #024438; font-weight: 600;">Current Plan: {{planName}} </span>
+					<br>
+					<button (click)="navgetToUrl($event,'setting/upgrade-plan')"
+						*ngIf="planName=='BASIC' || planName=='LITE'" class="upgrade-button">Upgrade <i
+							class="fa fa-upload"></i></button>
+				</div>
+				<!-- <button mat-menu-item>
+          <mat-icon>account_box</mat-icon>
+          <span>Account</span>
+        </button>
+        <button mat-menu-item disabled>
+          <mat-icon>voicemail</mat-icon>
+          <span>Check voice mail</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>mail</mat-icon>
+          <span>Messages</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button> -->
+				<hr>
+				<button mat-menu-item (click)="returnToAdmin()" *ngIf="isAdmin">
+					<button mat-stroked-button color="warn">
+						<mat-icon style="color: #f44336;" aria-hidden="false">logout</mat-icon>
+						<span>Return TO Admin</span>
+					</button>
+				</button>
+				<button mat-menu-item (click)="returnToDistributor()" *ngIf="isDistributor">
+					<button mat-stroked-button color="warn">
+						<mat-icon style="color: #f44336;" aria-hidden="false">logout</mat-icon>
+						<span>Return TO Distibutor</span>
+					</button>
+				</button>
+				<button color="warn" mat-menu-item (click)="signOut()">
+
+					<button mat-stroked-button color="warn" style="width: 100%;">
+						<mat-icon style="color: #f44336;" aria-hidden="false">logout</mat-icon>
+						<span>LogOut</span>
+					</button>
+				</button>
+			</mat-menu>
+			<!-- <i class="bx bxs-user-circle profile" style="font-size: 30px;" (click)="showProfile()"></i> -->
+			<!-- <img src="images/profile.jpg"  alt="" class="profile" /> -->
+		</div>
+
+	</nav>
+
+	<!-- sidebar -->
+	<nav class="sidebar" (mouseleave)="mouseLeave()" (mouseenter)="mouseEnter()">
+		<div class="menu_content">
+			<ul class="menu_items">
+				<div class="menu_title menu_dahsboard"></div>
+				<!-- duplicate or remove this li tag if you want to add or remove navlink with submenu -->
+				<!-- start -->
+				<li class="item" (click)="onClickItem()" *ngIf="client?.ismbc?client?.ismbc:!isBasic">
+					<div class="nav_link submenu_item" (click)="navgetToUrl($event,'client-dashboard')">
+						<span class="navlink_icon">
+							<!-- <i class="bx bx-home-alt"></i> -->
+							<!-- <mat-icon style="padding: 0px; margin: 0px;">dashboard</mat-icon> -->
+							<!-- <i class="bi bi-columns-gap"></i> -->
+							<!-- <i class="fa fa-th-large" aria-hidden="true"></i> -->
+							<i class='bx bxs-dashboard' style="font-size: x-large;"></i>
+						</span>
+						<!-- <span class="navlink">Home</span> -->
+						<span class="navlink">Dashboard</span>
+						<!-- <i class="bx bx-chevron-right arrow-left"></i> -->
+					</div>
+					<!-- <ul class="menu_items submenu">
+            (click)="closeSidebar()"
+            <a (click)="navgetToUrl('client-dashboard')" class="nav_link sublink">Dashboard</a>
+            <a (click)="navgetToUrl('playlist')" class="nav_link sublink">Playlist</a>
+            <a (click)="navgetToUrl('schedule')" class="nav_link sublink">Schedule</a>
+           
+          </ul> -->
+				</li>
+				<li class="item" (click)="onClickItem()" *ngIf="client?.ismbc">
+					<div class="nav_link submenu_item" (click)="navgetToUrl($event,'stores-info')">
+						<span class="navlink_icon">
+							<i class='bx bx-store-alt' style="font-size: x-large;"></i>
+						</span>
+						<span class="navlink">Stores Info</span>
+
+					</div>
+
+				</li>
+				<!-- <li class="item" (click)="onClickItem()">
+          <div class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-store-alt' style="font-size: x-large;"></i>
+            </span>
+            <span class="navlink">Store</span>
+            <i class="bx bx-chevron-right arrow-left"></i>
+          </div>
+          <ul class="menu_items submenu">
+            <a (click)="navgetToUrl($event,'store-registration')" class="nav_link sublink">New Store</a>
+            <a (click)="navgetToUrl($event,'screen')" class="nav_link sublink">Store Info</a>
+          </ul>
+        </li> -->
+				<li class="item" (click)="onClickItem()" *ngIf="client?.ismbc">
+					<div class="nav_link submenu_item" (click)="navgetToUrl($event,'categery-info/0')">
+						<span class="navlink_icon">
+							<i class='bx bx-category' style="font-size: x-large;"></i>
+						</span>
+						<span class="navlink">Category</span>
+						<!-- <i class="bx bx-chevron-right arrow-left"></i> -->
+					</div>
+					<!-- <ul class="menu_items submenu">
+            <a (click)="navgetToUrl($event,'device-registration')" class="nav_link sublink">New Category</a>
+            <a (click)="navgetToUrl($event,'screen')" class="nav_link sublink">Category Info</a>
+          </ul> -->
+				</li>
+				<li class="item" (click)="onClickItem()">
+					<div class="nav_link submenu_item">
+						<span class="navlink_icon">
+							<i class="fa fa-laptop" aria-hidden="true"></i>
+						</span>
+						<span class="navlink">Devices</span>
+						<i class="bx bx-chevron-right arrow-left"></i>
+					</div>
+					<ul class="menu_items submenu">
+						<a (click)="navgetToUrl($event,'device-registration')" class="nav_link sublink">New Device</a>
+						<a (click)="navgetToUrl($event,'screen')" class="nav_link sublink">Device Info</a>
+						<a (click)="navgetToUrl($event,'device-log-history')" *ngIf="!isBasic"
+							class="nav_link sublink">Device
+							Logs</a>
+					</ul>
+				</li>
+				<!-- end -->
+
+				<!-- duplicate this li tag if you want to add or remove  navlink with submenu -->
+				<!-- start -->
+				<!-- <li class="item" (click)="onClickItem()">
+                    <div class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class="bx bx-grid-alt"></i>
+                            <i class="fa fa-ticket" aria-hidden="true"></i>
+
+                        </span>
+                        <span class="navlink">Tickets</span>
+                        <i class="bx bx-chevron-right arrow-left"></i>
+                    </div>
+                    <ul class="menu_items submenu">
+                        <a class="nav_link sublink"(click)="navgetToUrl('raise-new-ticket')">New Ticket</a>
+                        <a class="nav_link sublink">Assigned</a>
+                        <a class="nav_link sublink">OnProgress</a>
+                        <a class="nav_link sublink">Finished</a>
+                        <a class="nav_link sublink">Re-Assigned</a>
+                        <a class="nav_link sublink">History</a>
+                    </ul>
+                </li> -->
+				<!-- end -->
+			</ul>
+
+			<ul class="menu_items">
+				<div class="menu_title menu_editor"></div>
+				<!-- duplicate these li tag if you want to add or remove navlink only -->
+				<!-- Start -->
+				<li class="item" (click)="onClickItem()" *ngIf="!client?.ismbc">
+					<div class="nav_link submenu_item" (click)="navgetToUrl($event,'playlist')">
+						<span class="navlink_icon">
+							<i class="fa fa-folder" aria-hidden="true"></i>
+						</span>
+						<span class="navlink">Playlist</span>
+					</div>
+				</li>
+				<li class="item" (click)="onClickItem()" *ngIf="client?.ismbc">
+					<div class="nav_link submenu_item" (click)="navgetToUrl($event,'playlist-info')">
+						<span class="navlink_icon">
+							<i class="fa fa-folder" aria-hidden="true"></i>
+						</span>
+						<span class="navlink">Playlist</span>
+					</div>
+				</li>
+				<li class="item" (click)="onClickItem()" *ngIf="client?.ismbc">
+					<div class="nav_link submenu_item" (click)="navgetToUrl($event,'schedule-info')">
+						<span class="navlink_icon">
+							<i class="fa fa-calendar-alt" aria-hidden="true"></i>
+						</span>
+						<span class="navlink">Schedule Info</span>
+					</div>
+				</li>
+				<li class="item" (click)="onClickItem()" *ngIf="!client?.ismbc">
+					<div class="nav_link submenu_item" (click)="navgetToUrl($event,'schedule')">
+						<span class="navlink_icon">
+							<i class="fa fa-calendar-alt" aria-hidden="true"></i>
+						</span>
+						<span class="navlink">Schedule</span>
+					</div>
+				</li>
+				<li class="item">
+					<a class="nav_link" (click)="navgetToUrl($event,'scroll')">
+						<span class="navlink_icon">
+							<i class="bx bxs-magic-wand"></i>
+
+						</span>
+						<span class="navlink">Scroller</span>
+					</a>
+				</li>
+				<!-- <li class="item" (click)="navgetToUrl('lay-out')" *ngIf="isPro">
+          <a class="nav_link">
+            <span class="navlink_icon">
+              <i class="bx bx-layer"></i>
+            </span>
+            <span class="navlink">Layouts</span>
+          </a>
+        </li> -->
+
+				<!-- End -->
+
+				<!-- <li class="item">
+                    <a class="nav_link">
+                        <span class="navlink_icon">
+                            <i class="bx bx-loader-circle"></i>
+                        </span>
+                        <span class="navlink">Filters</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="nav_link">
+                        <span class="navlink_icon">
+                            <i class="bx bx-filter"></i>
+                        </span>
+                        <span class="navlink">Filter</span>
+                    </a>
+                </li> -->
+				<li class="item" *ngIf="isPro && !client?.ismbc">
+					<!-- (click)="navgetToUrl('canvas')" -->
+					<a class="nav_link" (click)="navgetToUrl($event,'r-editor')">
+						<span class="navlink_icon">
+							<i class="bx bx-cloud-upload"></i>
+						</span>
+						<span class="navlink">IQ Editor</span>
+					</a>
+				</li>
+
+				<li class="item" *ngIf="client?.ismbc">
+					<div class="nav_link submenu_item" (click)="navgetToUrl($event,'gellary')">
+						<span class="navlink_icon" style="font-size: x-large;">
+							<i class='bx bx-images'></i>
+						</span>
+						<span class="navlink">Gallery</span>
+					</div>
+				</li>
+				<!-- <li class="item" *ngIf="isPro">
+          <a class="nav_link" (click)="navgetToUrl($event,'REDITOR')">
+            <span class="navlink_icon">
+              <i class="bx bx-cloud-upload"></i>
+            </span>
+            <span class="navlink">R Editor</span>
+          </a>
+        </li> -->
+			</ul>
+			<ul class="menu_items">
+				<div class="menu_title menu_setting"></div>
+				<!-- <li class="item">
+          <a class="nav_link">
+            <span class="navlink_icon">
+              <i class="bx bx-flag"></i>
+            </span>
+            <span class="navlink">Notice board</span>
+          </a>
+        </li> -->
+				<!-- <li class="item">
+                    <a class="nav_link">
+                        <span class="navlink_icon">
+                            <i class="bx bx-medal"></i>
+                        </span>
+                        <span class="navlink">Award</span>
+                    </a>
+                </li> -->
+
+				<!-- <li class="item" *ngIf="isPro">
+          <a class="nav_link" (click)="navgetToUrl('r-editor')">
+            <span class="navlink_icon">
+              <i class="bx bx-cog"></i>
+            </span>
+            <span class="navlink">R-Editor</span>
+          </a>
+        </li> -->
+
+				<!-- <li class="item">
+          <a class="nav_link" (click)="navgetToUrl('user-settings')">
+            <span class="navlink_icon">
+              <i class="bx bx-cog"></i>
+            </span>
+            <span class="navlink">user setting</span>
+          </a>
+        </li> -->
+				<li class="item">
+					<a class="nav_link" (click)="navgetToUrl($event,'raise-new-ticket')">
+						<span class="navlink_icon">
+							<i class="fa fa-life-ring" aria-hidden="true"></i>
+							<!-- <i class="bx bx-cog"></i> -->
+						</span>
+						<span class="navlink"> Support</span>
+					</a>
+				</li>
+				<li class="item">
+					<a class="nav_link" (click)="navgetToUrl($event,'c-setting')">
+						<span class="navlink_icon">
+							<i class="bx bx-cog"></i>
+						</span>
+						<span class="navlink">Settings</span>
+					</a>
+				</li>
+			</ul>
+			<!-- <div class="bottom_content">
+        <h3 class="ver ">
+          {{currentVersion}}</h3>
+      </div> -->
+			<!-- Sidebar Open / Close -->
+			<div class="bottom_content">
+
+				<div class="bottom expand_sidebar" (click)="expandSidebar()">
+					<span> Expand</span>
+					<i class='bx bx-log-in'></i>
+				</div>
+				<div class="bottom collapse_sidebar" (click)="closeSidebar()">
+					<span> Collapse</span>
+					<i class='bx bx-log-out'></i>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<span *ngIf="!isMoblie">
+		<div [ngClass]=" isOpened ? 'content-wrapper-mid' : 'content-wrapper'">
+			<br><br><br>
+			<router-outlet></router-outlet>
+		</div>
+	</span>
+	<span>
+		<div *ngIf="isMoblie" style="padding: 10px;">
+			<br>
+			<br>
+			<br>
+			<router-outlet></router-outlet>
+		</div>
+	</span>
+
+</span>
+
+
+<ng-template id="editOption" #editOption let-data>
+	<div id="feedback-form">
+		<h1 style="text-align: center; font-size: x-large; color: #35441d;">Edit Customer Details</h1>
+		<div>
+			<form>
+				<label for="feedback-notify">&nbsp; &nbsp; Username</label>
+				<input type="text" name="name" #username placeholder="Username" disabled [value]="data.username" />
+				<label for="feedback-notify">&nbsp; &nbsp; Email</label>
+				<input type="email" name="email" #email placeholder="Email" [value]="data.email" />
+				<label for="feedback-notify">&nbsp; &nbsp; Phone number</label>
+				<input type="number" maxLength="10" (keydown)="onKeydown($event)" #phone name="phone"
+					placeholder="Phone number" [value]="data.phone" />
+
+				<!-- <div style="position: relative;">
+          <label for="feedback-notify">&nbsp; &nbsp; Password</label>
+          <input type="password" #pass name="name" placeholder="Password" [value]="data.password" />
+          <div class="Eye" style="position: absolute; right: 10px; bottom: 5px;">
+            <i (click)="eyePassword(pass)" class="{{isPassword ? 'fa fa-eye' : 'fa fa-eye-slash'}}"
+              aria-hidden="true"></i>
+          </div>
+        </div> -->
+				<div class="d-flex">
+					<button class="button1" (click)="closePopup()">close</button>
+					<button type="submit" (click)="saveCustomer(email,phone,username)">save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</ng-template>

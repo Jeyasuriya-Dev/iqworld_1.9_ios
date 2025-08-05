@@ -1,0 +1,16 @@
+<section class="content">
+    <div class="row mb-2 mt-2 justify-content-between">
+        <div class="col-12">
+            <h1 class="text-center text-muted" style="font-weight: 900;">Schedule Info</h1>
+        </div>
+    </div>
+
+    <mat-card>
+        <div class="row">
+            <ag-grid-angular #agGrid id="myGrid" class="ag-theme-alpine table-class" rowAnimation
+                [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData"
+                [enableCellTextSelection]="true" (gridReady)="onGridReady($event)">
+            </ag-grid-angular>
+        </div>
+    </mat-card>
+</section>

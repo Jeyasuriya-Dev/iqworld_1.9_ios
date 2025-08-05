@@ -1,0 +1,147 @@
+<div class="container">
+    <div class="title">
+        <p> {{store?"Edit Store Details":"Store Registration"}}</p>
+    </div>
+    <form [formGroup]="storeRegistrationForm" (ngSubmit)="onSubmit()">
+        <div class="user_details">
+            <div class="input_box">
+                <label for="name">Store Name</label>
+                <input type="text" id="name" placeholder="Enter your name" formControlName="name" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['name'].errors }" required>
+                <div *ngIf="isSubmitted && f['name'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['name'].errors['required']">Store Name is required</div>
+                </div>
+            </div>
+            <div class="input_box">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" formControlName="username"
+                    class="form-control" [ngClass]="{ 'is-invalid': isSubmitted && f['username'].errors }" required>
+                <div *ngIf="isSubmitted && f['username'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['username'].errors['required']">Username is required</div>
+                </div>
+            </div>
+            <div class="input_box">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" formControlName="email"
+                    class="form-control" [ngClass]="{ 'is-invalid': isSubmitted && f['email'].errors }" required>
+                <div *ngIf="isSubmitted && f['email'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['email'].errors['required']">Email is required</div>
+                    <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+                </div>
+            </div>
+            <div class="input_box">
+                <label for="pass">Password</label>
+                <input [type]="isPassword? 'password':'text'" id="pass" placeholder="Enter your password"
+                    formControlName="password" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['password'].errors }" required>
+                <span style="position: absolute; cursor: pointer;right: 10px;top: 2.6em;">
+                    <i class="fa fa-eye" (click)="isPassword=!isPassword" *ngIf="isPassword" aria-hidden="true"></i>
+                    <i (click)="isPassword=!isPassword" class="fa fa-eye-slash" *ngIf="!isPassword"
+                        aria-hidden="true"></i>
+                </span>
+                <div *ngIf="isSubmitted && f['password'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['password'].errors['required']">Password is required</div>
+                </div>
+            </div>
+            <div class="input_box">
+                <label for="phone1">Phone Number 1</label>
+                <input type="number" onKeyPress="if(this.value.length==10) return false;" id="phone1"
+                    placeholder="Enter your number" class="form-control" formControlName="phone"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['phone'].errors }">
+                <div *ngIf="isSubmitted && f['phone'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['phone'].errors['required']">Mobile is required</div>
+                    <div *ngIf="f['phone'].errors['pattern']">
+                        Mobile number must be 10 digits.
+                    </div>
+                </div>
+            </div>
+            <div class="input_box">
+                <label class="phone3" for="phone2">Phone Number 2</label>
+                <input type="number" onKeyPress="if(this.value.length==10) return false;" id="phone2"
+                    placeholder="Enter your number">
+            </div>
+            <div class="input_box">
+                <label for="country">Country</label>
+                <select id="country" formControlName="country" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['country'].errors }" (change)="onCountrySelect($event)">
+                    <option value="" disabled>Select Country</option>
+                    <option mat-option *ngFor="let c of countryList" [value]="c.id">
+                        {{c.countryname | titlecase}}
+                    </option>
+                </select>
+                <div *ngIf="isSubmitted && f['country'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['country'].errors['required']">Country is required</div>
+                </div>
+            </div>
+            <div class="input_box">
+                <label for="state">State</label>
+                <select id="state" formControlName="state" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['state'].errors }" (change)="onStateSelect($event)">
+                    <option value="" disabled>Select State</option>
+                    <option *ngFor="let s of stateList" [value]="s.id">{{s.statename | titlecase}}</option>
+
+                </select>
+                <div *ngIf="isSubmitted && f['state'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['state'].errors['required']">State is required</div>
+                </div>
+            </div>
+            <div class="input_box">
+                <label for="district">District</label>
+                <select id="district" formControlName="district" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['district'].errors }"
+                    (change)="onDistrictSelect($event)">
+                    <option value="" disabled>Select District</option>
+                    <option *ngFor="let d of districtList" [value]="d.id">{{d.name}}</option>
+                </select>
+
+                <div *ngIf="isSubmitted && f['district'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['district'].errors['required']">District is required</div>
+                </div>
+            </div>
+            <div class="input_box">
+                <label for="city">City</label>
+                <select id="city" formControlName="city" class="form-control" (change)="onCitySelect($event)"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['city'].errors }">
+                    <option value="" disabled>Select City</option>
+                    <option *ngFor="let c of cityList" [value]="c.id">{{c.cityname}}</option>
+
+                </select>
+
+                <div *ngIf="isSubmitted && f['city'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['city'].errors['required']">City is required</div>
+                </div>
+            </div>
+            <div class="input_box">
+                <div class="d-flex">
+                    <label for="location">Location</label>
+                    <a style="margin-left: 1em; color: blue;" (click)=" store?.id?'': toggleLocation('locationEnter')">
+                        {{ isEnter ? 'Select Location ?' : 'Enter Location ?' }}
+                    </a>
+                </div>
+                <input type="text" id="locationEnter" *ngIf="isEnter" placeholder="Enter location" class="form-control"
+                    formControlName="location" [ngClass]="{ 'is-invalid': isSubmitted && f['location'].errors }">
+                <select *ngIf="!isEnter" id="location" formControlName="location" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['location'].errors }">
+                    <option value="" disabled>Select Location</option>
+                    <option *ngFor="let l of locationList" [value]="l.id">{{ l.area }}</option>
+                </select>
+                <div *ngIf="isSubmitted && f['location'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['location'].errors['required']">Location is required</div>
+                </div>
+            </div>
+
+            <div class="input_box">
+                <label for="zip">Zip/Pin Code</label>
+                <input type="number" id="zip" placeholder="Enter Zip Code" formControlName="zip"
+                    onKeyPress="if(this.value.length==6) return false;" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['zip'].errors }">
+                <div *ngIf="isSubmitted && f['zip'].errors" class="invalid-feedback error">
+                    <div *ngIf="f['zip'].errors['required']">Zip/Pin Code is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="reg_btn">
+            <input type="submit" [value]="store?'Save':'Register'">
+        </div>
+    </form>
+</div>

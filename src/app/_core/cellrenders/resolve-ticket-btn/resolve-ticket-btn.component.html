@@ -1,0 +1,8 @@
+<div class="d-flex">
+
+    <button style="margin-right: 10px;" *ngIf="isSolved" mat-stroked-button color="accent" (click)="resolveAction()">Are
+        You Solved
+        ?</button>
+
+    <button mat-stroked-button class="text-success" *ngIf="!isSolved">Solved</button>
+</div>

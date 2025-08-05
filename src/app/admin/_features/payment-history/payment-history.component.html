@@ -1,0 +1,49 @@
+<section class="content">
+    <div class="">
+        <h1 class="text-center text-muted" style="font-weight:900; ">Payment History </h1>
+    </div>
+
+    <div class="row mb-1 mt-1" style="line-height: 50px;">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <div class="">
+                <mat-form-field appearance="outline">
+                    <mat-label>What's on Your Mind</mat-label>
+                    <input matInput placeholder="search anything here" id="quickFilter"
+                        (input)="onQuickFilterChanged()">
+                </mat-form-field>
+            </div>
+            <div class="d-flex justify-content-center"
+                style="align-items: center;margin: 0.25em 0;padding-bottom: 1.34375em;">
+
+                <!-- <a class="btn btn-outline-primary" (click)="exportPdf()">
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+            PDF
+          </a>
+          <a>|</a> -->
+                <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+                    <!-- <i class="fa fa-file-pdf-o" aria-hidden="true"></i> -->
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    EXCEL
+                </a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <mat-chip-listbox>
+            <mat-chip-option mat-stroked-button color="warn"  (selectionChange)="getPaymentHistoryByMode('1')">Online
+            </mat-chip-option>
+            <mat-chip-option mat-stroked-button color="primary"
+                (selectionChange)="getPaymentHistoryByMode('0')">Offline
+            </mat-chip-option>
+            <mat-chip-option (click)="getPaymentHistoryByMode('2')" mat-stroked-button color="accent" selected>All
+            </mat-chip-option>
+        </mat-chip-listbox>
+    </div>
+    <div class="row">
+        <ag-grid-angular domLayout='autoHeight' #agGrid id="myGrid" class="ag-theme-alpine table-class" rowAnimation
+            [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData" [enableCellTextSelection]="true"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+
+</section>

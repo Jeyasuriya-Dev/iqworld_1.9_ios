@@ -1,0 +1,78 @@
+<div class="row1">
+    <h1>
+        Category Info
+    </h1>
+    <div class="button-group">
+        <button (click)="OpenCreateCategoryPopUp(storeInfo,false)" mat-mini-fab *ngIf="userRole==='STORE'"
+            aria-label="Example icon button with a menu icon">
+            <mat-icon>add</mat-icon>
+        </button>&nbsp; &nbsp;
+        <a class="btn btn-outline-success float-right" (click)="exportAsExcelFile()">
+            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+            EXCEL
+        </a>
+
+    </div>
+</div>
+<div class="dashboard">
+    <div class="card" *ngFor="let c of categoryList">
+        <div class="top-section">
+            <div class="border"></div>
+            <div class="icons">
+                <div class="logo">
+
+                    <i class='bx bxs-category-alt'></i>
+                    <!-- <i class='bx bxs-category' ></i> -->
+                    <!-- <i class='bx bx-category' ></i> -->
+                </div>
+                <div class="social-media">
+                    <span class="icon" (click)="showPlaylistByCategory(c)" title="playlist info">
+                        <!-- <i class='bx bxs-plus-circle'></i> -->
+                        <i class='bx bxs-folder'></i>
+                    </span>
+                    <span class="icon" (click)="OpenCreateCategoryPopUp(storeInfo,c)" title="edit category">
+                        <i class='bx bxs-edit'></i>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+        <div class="bottom-section" (click)="showDevicesByCategory(c,'all')">
+            <span class="title">{{c.categoryname}}
+            </span>
+            <span class="sub-title">{{c.categorycode}}</span>
+            <div class="row row1">
+                <div class="item" style="color: rgb(162, 0, 255);" (click)="showDevicesByCategory(c,'all')">
+                    <span class="big-text">{{c.total_device_count}}</span>
+                    <span class="regular-text">Total</span>
+                </div>
+                <div class="item" style="color: rgb(2, 83, 2);" (click)="showDevicesByCategory(c,'online')">
+                    <span class="big-text">{{c.online_device_count}}</span>
+                    <span class="regular-text">Online</span>
+                </div>
+                <div class="item" style="color: rgb(216, 4, 4)" (click)="showDevicesByCategory(c,'offline')">
+                    <span class="big-text">{{c.offline_device_count}}</span>
+                    <span class="regular-text">Offline</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #storeInfo let-data>
+    <div class="m-2 row">
+        <h1> {{!isCategoryEdit? 'Category Registration':'Edit Category'}}</h1>
+        <br>
+        <br>
+        <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Category Name</mat-label>
+                <input matInput formControlName="name" required>
+            </mat-form-field>
+            <div class="d-flex justify-content-center">
+                <button mat-raised-button type="submit"> Save </button>
+            </div>
+        </form>
+    </div>
+
+</ng-template>

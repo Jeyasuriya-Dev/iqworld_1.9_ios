@@ -1,0 +1,34 @@
+<section class="content">
+    <div class="row mb-2 mt-2 justify-content-between">
+        <div class="col-12">
+            <h1 class="text-center text-muted" style="font-weight: 900;">Schedule History</h1>
+        </div>
+        <hr>
+        <div class="col-12">
+            <mat-form-field appearance="outline">
+                <mat-label>Enter A Date Range</mat-label>
+                <mat-date-range-input [formGroup]="range" [max]="max" [rangePicker]="picker">
+                    <input matStartDate formControlName="start" placeholder="Start date">
+                    <input matEndDate formControlName="end" placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker>
+                    <mat-date-range-picker-actions>
+                        <button mat-button matDateRangePickerCancel>Cancel</button>
+                        <button mat-raised-button (click)="getScheduleHistory()" color="primary"
+                            matDateRangePickerApply>Apply</button>
+                    </mat-date-range-picker-actions>
+                </mat-date-range-picker>
+
+            </mat-form-field>
+        </div>
+    </div>
+    <mat-card>
+        <div class="row">
+            <ag-grid-angular #agGrid id="myGrid" class="ag-theme-alpine table-class" rowAnimation
+                [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData"
+                [enableCellTextSelection]="true" (gridReady)="onGridReady($event)">
+            </ag-grid-angular>
+        </div>
+    </mat-card>
+</section>

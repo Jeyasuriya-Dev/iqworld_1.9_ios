@@ -1,0 +1,426 @@
+<section class="csc-section">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" style="min-width: 320px;">
+    <h1 style="float: right; position: absolute; margin:1px" *ngIf="!isAndroid &&!selectedType"><span
+        style="cursor: pointer;" (click)=" copyText()" class="material-icons"
+        [ngStyle]="{'color':isCopied?'green':'orange'}">content_copy</span>
+    </h1>
+    <h1 class="text-muted" style="text-align: center; font-weight:900; ">distributor Registration </h1>
+    <div>
+      <mat-form-field class="market-country-select" appearance="outline">
+        <mat-label class="market-label">Choose Organization/Person </mat-label>
+        <mat-select (selectionChange)="onChooseSelectedType($event)" required [(ngModel)]="selectedType"
+          [ngModelOptions]="{standalone: true}">
+          <mat-option value="organization">
+            Organization
+          </mat-option>
+          <mat-option value="person">
+            Individual
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="user_details" *ngIf="selectedType">
+      <div class="input_pox">
+        <fieldset style="position: relative;">
+          <span class="datails">Distributor Name:*</span>
+          <input type="text" [placeholder]=" selectedType=='person'? 'Enter Distributor name':'Enter Organization name'"
+            [ngClass]="{ 'is-invalid': submitted && f['distributor'].errors }" formControlName="distributor" required>
+          <div *ngIf="submitted && f['distributor'].errors" class="invalid-feedback"
+            style="position: absolute; width: auto; bottom: 3px;">
+            <div *ngIf="f['distributor'].errors['required']">Distributor is required</div>
+            <div *ngIf="f['distributor'].errors['pattern']">Distributor must be in text</div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="input_pox">
+        <fieldset style="position: relative;">
+          <span class="datails">Email:*</span>
+          <input type="text" placeholder="Enter your Email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+            formControlName="email" required>
+          <div *ngIf="submitted && f['email'].errors" class="invalid-feedback"
+            style="position: absolute; width: auto; bottom: 3px;">
+            <div *ngIf="f['email'].errors['required']">Email is required</div>
+            <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="input_pox">
+        <fieldset style="position: relative;">
+          <span class="datails">Phone Number:*</span>
+          <input type="number" maxLength="10" min="0" (keydown)="onKeydown($event)" placeholder="Enter your Phone"
+            [ngClass]="{ 'is-invalid': submitted && f['phone'].errors }" maxlength="10" formControlName="phone"
+            onlyNumber required>
+          <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback"
+            style="position: absolute; width: auto; bottom: 3px;">
+            <div *ngIf="f['phone'].errors['required']">Enter valid Phone Number.</div>
+            <div *ngIf="f['phone'].errors['minlength']">
+              Phone must be 10 characters long.
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="input_pox">
+        <fieldset style="position: relative;">
+          <span class="datails">Alternate Phone Number:(optional)</span>
+          <input type="number" maxLength="10" min="0" (keydown)="onKeydown($event)" placeholder="Enter your Phone"
+            [ngClass]="{ 'is-invalid': submitted && f['phone'].errors }" maxlength="10" formControlName="phone2"
+            onlyNumber>
+          <!-- <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback"
+            style="position: absolute; width: auto; bottom: 3px;">
+            <div *ngIf="f['phone'].errors['required']">Enter valid Phone Number.</div>
+            <div *ngIf="f['phone'].errors['minlength']">
+              password must be 10 characters long.
+            </div>
+          </div> -->
+        </fieldset>
+      </div>
+      <!-- <div class="input_pox " style="position: relative;">
+                <fieldset>
+                    <span class="location" (click)="getAddress()" style="position: absolute; right: 40%;" ><i class="fa fa-map-marker" aria-hidden="true"></i> Auto Detect</span>
+                    <span class="datails">State : </span>
+                    <input type="text" placeholder="Enter your state" [(ngModel)]="statename"
+                        [ngClass]="{ 'is-invalid': submitted && f['state'].errors }" formControlName="state" onlyNumber
+                        required>
+                    <div *ngIf="submitted && f['state'].errors" class="invalid-feedback"
+                        style="position: absolute; width: auto;">
+                        <div *ngIf="f['state'].errors['required']">State is required</div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="input_pox">
+                <fieldset>
+                    <span class="datails">City :</span>
+                    <input type="text" placeholder="city" [(ngModel)]="cityname"
+                        [ngClass]="{ 'is-invalid': submitted && f['city'].errors }" formControlName="city" onlyNumber
+                        required>
+
+                    <div *ngIf="submitted && f['city'].errors" class="invalid-feedback"
+                        style="position: absolute; width: auto;">
+                        <div *ngIf="f['city'].errors['required']">City is required</div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="input_pox">
+                <fieldset>
+                    <span class="datails">Area :</span>
+                    <input type="text" placeholder="Enter your area" [(ngModel)]="area"
+                        [ngClass]="{ 'is-invalid': submitted && f['area'].errors }" formControlName="area" onlyNumber
+                        required>
+                    <div *ngIf="submitted && f['area'].errors" class="invalid-feedback"
+                        style="position: absolute; width: auto;">
+                        <div *ngIf="f['area'].errors['required']">Area is required</div>
+
+                    </div>
+                </fieldset>
+            </div> -->
+      <!-- <div class="input_pox">
+                <fieldset>
+                    <span class="datails">Postal / Zip:</span>
+                    <input type="text" placeholder="Pincode" [(ngModel)]="pincode"
+                        [ngClass]="{ 'is-invalid': submitted && f['zipcode'].errors }" maxlength="6"
+                        formControlName="zipcode" onlyNumber required>
+
+                    <div *ngIf="submitted && f['zipcode'].errors" class="invalid-feedback"
+                        style="position: absolute; width: auto;">
+                        <div *ngIf="f['zipcode'].errors['required']">zip is required</div>
+                        <div *ngIf="f['zipcode'].errors['minlength'] ">
+                            zip must be 6 characters
+                        </div>
+                    </div>
+                </fieldset>
+            </div> -->
+
+      <div class="input_pox">
+        <fieldset style="position: relative;">
+          <span class="datails">Username:*</span>
+          <input type="text" [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" formControlName="username"
+            placeholder="Enter your Username" required>
+          <div *ngIf="submitted && f['username'].errors" class="invalid-feedback"
+            style="position: absolute; width: auto; bottom: 3px;">
+            <div *ngIf="f['username'].errors['required']">Username is required</div>
+            <div *ngIf="f['username'].errors['minlength']">
+              Username must be at least 4 characters
+            </div>
+            <div *ngIf="f['username'].errors['maxlength']">
+              Username must not exceed 8 characters
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="input_pox">
+        <fieldset style="position: relative;">
+          <span class="datails">Password:*</span>
+          <span *ngIf="!isShow" style="position: absolute; right: 22px; bottom: 40%; cursor: pointer;"
+            class="fa fa-eye-slash" (click)="showPassword()"></span>
+          <span *ngIf="isShow" style="position: absolute; right: 22px; bottom: 40%;  cursor: pointer;"
+            class="fa fa-fw fa-eye " (click)="hidePassword()"></span>
+          <input type="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+            formControlName="password" id="password" placeholder="Enter your Password" required>
+          <div *ngIf="submitted && f['password'].errors" class="invalid-feedback"
+            style="position: absolute; width: auto;bottom: 3px;">
+            <div *ngIf="f['password'].errors['required']">Password is required</div>
+            <div *ngIf="f['password'].errors['minlength'] ">
+              Password must be at least 6 characters
+            </div>
+            <div *ngIf="f['password'].errors['maxlength']">
+              Password must not exceed 10 characters
+            </div>
+            <div class="help is-danger"
+              *ngIf="f['password'].errors['strong'] && !f['password'].errors['minlength'] && !f['password'].errors['maxlength'] && !f['password'].errors['required']">
+              Must have at least one number, one lowercase and one uppercase letter.</div>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- <div class="input_pox">
+                <fieldset>
+                    <span class="datails">Postal / Zip:</span>
+                    <input type="text" placeholder="Pincode" [ngClass]="{ 'is-invalid': submitted && f['zip'].errors }"
+                        maxlength="6" formControlName="zip" onlyNumber required>
+
+                    <div *ngIf="submitted && f['zip'].errors" class="invalid-feedback"
+                        style="position: absolute; width: auto;">
+                        <div *ngIf="f['zip'].errors['required']">zip is required</div>
+                        <div *ngIf="f['zip'].errors['minlength'] ">
+                            zip must be 6 characters
+                        </div>
+                    </div>
+                </fieldset>
+            </div> -->
+    </div>
+    <div class="gender_details" *ngIf="selectedType == 'person' ">
+      <input type="radio" name="gender" value="male" id="dot-1" formControlName="gender">
+      <input type="radio" name="gender" value="female" id="dot-2" formControlName="gender">
+      <input type="radio" name="gender" value="none" id="dot-3" formControlName="gender">
+      <span class="gender_title"> Gender</span>
+      <div class="category">
+        <label for="dot-1">
+          <span class="dot one"></span>
+          <span class="gender">Male</span>
+        </label>
+        <label for="dot-2">
+          <span class="dot two"></span>
+          <span class="gender">Female</span>
+        </label>
+      </div>
+
+    </div>
+    <fieldset style="position: relative;" *ngIf="selectedType">
+      <div class="form-group form-check">
+        <label style="color: #ff4081; font-size: medium;">Is Premium ?</label>
+        <br>
+        <br>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+          formControlName="ispremium">
+          <mat-radio-button class="example-radio-button" [value]="true">Yes</mat-radio-button> &nbsp;
+          <mat-radio-button class="example-radio-button" [value]="false">no</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </fieldset>
+    <!-- <fieldset>
+      <label for="country">Country:</label><br /><br />
+      <select #country name="country" id="country" (change)="onCountryChange($event)">
+        <option [value]="null">-- Select Your Country --</option>
+        <option *ngFor="let country of countries" [value]="country | json">
+          {{ country.flag }}&nbsp;&nbsp;{{ country.name }}
+        </option>
+      </select>
+      <select #country name="country" id="country">
+        <option>
+          INDIA
+        </option>
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <label for="state">State:</label><br /><br />
+      <select *ngIf="states" #state name="state" id="state" (change)="onStateChange($event)">
+        <option [value]="null">-- Select Your State --</option>
+        <option *ngFor="let state of states" [value]="state | json">
+          {{ state.name }}
+        </option>
+      </select>
+    </fieldset>
+    <fieldset>
+      <label for="city">City:</label><br /><br />
+      <select *ngIf="cities" #city name="city" id="city" (change)="onCityChange($event)">
+        <option [value]="null">-- Select Your City --</option>
+        <option *ngFor="let city of cities" [value]="city | json">
+          {{ city.cityname }}
+        </option>
+      </select>
+    </fieldset> -->
+    <fieldset *ngIf="selectedType">
+      <label for="country">Country:*</label><br /><br />
+      <!-- <select #country name="country" id="country" (change)="onCountryChange($event)">
+          <option [value]="null">-- Select Your Country --</option>
+          <option *ngFor="let country of countries" [value]="country | json">
+            {{ country.flag }}&nbsp;&nbsp;{{ country.name }}
+          </option>
+        </select>
+        <select #country name="country" id="country">
+          <option>
+            INDIA
+          </option>
+        </select> -->
+      <select #country name="country" id="country" [(ngModel)]="selectedCountryn" [ngModelOptions]="{standalone: true}"
+        (change)="getStateListByCountrynameOrId($event)">
+        <option [value]="null">-- Select Your Country --</option>
+        <option *ngFor="let country of countryList" [value]="country.countryname">
+          {{ country.countryname }}
+        </option>
+      </select>
+    </fieldset>
+
+    <fieldset *ngIf="selectedType && selectedCountryn=='INDIA'">
+      <label for="state">State:*</label><br /><br />
+      <select *ngIf="stateList" #state name="state" id="state" [(ngModel)]="choosedStateId"
+        [ngModelOptions]="{standalone: true}" (change)="getDistrictListByStatenameOrId($event)">
+        <option [value]="null">-- Select Your State --</option>
+        <option *ngFor="let state of stateList" [value]="state.id">
+          {{ state.statename }}
+        </option>
+      </select>
+    </fieldset>
+    <fieldset *ngIf="selectedType && selectedCountryn=='INDIA'">
+      <label for="city">District:*</label><br /><br />
+      <select *ngIf="districtList" name="city" id="city" [(ngModel)]="choosedDistrictId"
+        [ngModelOptions]="{standalone: true}" (change)="getCityListByDistrictnameOrId($event)">
+        <option [value]="null">-- Select Your District --</option>
+        <option *ngFor="let district of districtList" [value]="district.id">
+          {{ district.name }}
+        </option>
+      </select>
+    </fieldset>
+    <fieldset *ngIf="selectedType && selectedCountryn=='INDIA'">
+      <label for="city">City:*</label><br /><br />
+      <select *ngIf="cityList" #city name="city" id="city" [(ngModel)]="choosedCityId"
+        [ngModelOptions]="{standalone: true}" (change)="onCityChange($event)">
+        <option [value]="null">-- Select Your City --</option>
+        <option *ngFor="let city of cityList" [value]="city.id">
+          {{ city.cityname }}
+        </option>
+      </select>
+    </fieldset>
+
+    <fieldset *ngIf="selectedType  && selectedCountryn=='INDIA'">
+      <label for="city">location:*<a class="text-primary" style="text-decoration: underline; cursor: pointer;"
+          (click)="chooseOrEnterCity()" *ngIf="!isEnter"> choose Location ?</a>
+        <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterCity()"
+          *ngIf="isEnter"> Enter Location ?</a> </label><br /><br />
+      <select #city name="city" id="city" (change)="onChooseLocation($event)" [(ngModel)]="locationName"
+        [ngModelOptions]="{standalone: true}" *ngIf="isEnter">
+        <option [value]="null">-- Select Your Location --</option>
+        <option *ngFor="let location of locationList" [value]="location.area">
+          {{ location.area }}
+        </option>
+      </select>
+      <input class="form-control" placeholder="Enter Location" type="text" *ngIf="!isEnter"
+        (keyup)="onChooseLocation($event)">
+    </fieldset>
+    <div class="user_details" *ngIf="selectedType">
+      <div class="input_pox" *ngIf="selectedType">
+        <fieldset style="position: relative;">
+          <span class="datails">Postal / Zip:*</span>
+          <input type="text" (input)="getLocationByPincode($event)" placeholder="Pincode"
+            [ngClass]="{ 'is-invalid': submitted && f['zipcode'].errors }" formControlName="zipcode" required>
+          <div *ngIf="submitted && f['zipcode'].errors" class="invalid-feedback"
+            style="position: absolute; width: auto;bottom: 3px;">
+            <div *ngIf="f['zipcode'].errors['required']">zip is required</div>
+            <div *ngIf="f['zipcode'].errors['minlength'] ">
+              zip must be 6 characters
+            </div>
+          </div>
+          <div id="locationByPin" style="z-index: 1; max-height: 180px; overflow-y: auto; position: absolute; left: 0; width: -webkit-fill-available; background-color: white;     border-radius: 1em;
+          padding:0 1.5em;
+          border: transparent;
+          box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);">
+            <mat-list role="list" style="position: relative;" *ngIf="!selectedLocationByPin">
+              <mat-list-item *ngFor="let l of locationsByPincodeList" role="listitem" style="cursor: pointer;"
+                (click)="selectLocationByPin(l)">
+                <!-- <mat-icon matListItemIcon>my_location</mat-icon> -->
+                <div matListItemTitle>{{l?.location}}</div>
+                <div matListItemLine>{{l?.city }} {{ l?.district }} {{l?.state }} {{ l?.country}}</div>
+              </mat-list-item>
+            </mat-list>
+            <div *ngIf="selectedCountryn!='INDIA'" class="text-center text-primary fw-600 mt-2">
+              {{selectedLocationByPin?.location}} {{selectedLocationByPin?.city }} {{
+              selectedLocationByPin?.district }} {{selectedLocationByPin?.state }} {{ selectedLocationByPin?.country}}
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <fieldset *ngIf="selectedType  && selectedCountryn!='INDIA'">
+      <label for="city" class="mb-1">location:*</label>
+      <input class="form-control" style="height: 45px;
+      width: 100%;
+      outline: none; box-shadow: none !important;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      padding-left: 15px;
+      font-size: 16px;
+      border-bottom-width: 2px;
+      transition: all 0.3s ease;" placeholder="Enter Location" [value]="locationName" type="text"
+        (keyup)="onChooseLocation($event)">
+    </fieldset>
+    <div class="user_details" *ngIf="selectedType && selectedType != 'person'">
+      <div class="input_pox">
+        <fieldset style="position: relative;">
+          <span class="datails">GST No:*</span>
+          <input type="text" [ngClass]="{ 'is-invalid': submitted && f['gst_no'].errors }" formControlName="gst_no"
+            placeholder="Enter Gst Number" required>
+          <div *ngIf="submitted && f['gst_no'].errors" class="invalid-feedback"
+            style="position: absolute; width: auto; bottom: 3px;">
+            <div *ngIf="f['gst_no'].errors['required']">gst number is required</div>
+            <div *ngIf="f['gst_no'].errors['minlength']">
+              gst number must be at least 4 characters
+            </div>
+            <div *ngIf="f['gst_no'].errors['maxlength']">
+              gst number must not exceed 8 characters
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="input_pox">
+        <fieldset style="position: relative;">
+          <span class="datails">TAN No:*</span>
+          <input type="text" [ngClass]="{ 'is-invalid': submitted && f['tan_no'].errors }" formControlName="tan_no"
+            placeholder="Enter Tan Number" required>
+          <div *ngIf="submitted && f['tan_no'].errors" class="invalid-feedback"
+            style="position: absolute; width: auto; bottom: 3px;">
+            <div *ngIf="f['tan_no'].errors['required']">tan number is required</div>
+            <div *ngIf="f['tan_no'].errors['minlength']">
+              tan number must be at least 4 characters
+            </div>
+            <div *ngIf="f['tan_no'].errors['maxlength']">
+              tan number must not exceed 8 characters
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <fieldset style="position: relative;" *ngIf="selectedType">
+      <div class="form-group form-check">
+        <input type="checkbox" formControlName="acceptTerms"
+          [ngClass]="{ 'is-invalid': submitted && f['acceptTerms'].errors }" />
+        <label for="acceptTerms"> &nbsp;I have read and agree to the <a style="color: #0d6efd;"> Terms
+          </a></label>
+        <div *ngIf="submitted && f['acceptTerms'].errors" class="invalid-feedback"
+          style="position: absolute; width: auto; bottom: 3px;">
+          Accept Terms is required
+        </div>
+      </div>
+    </fieldset>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary m-2">Register</button>
+      <button type="button" (click)="onReset()" class="btn btn-warning float-right" *ngIf="!newdistributor">
+        Reset
+      </button>
+    </div>
+    <!-- <div class="button">
+            <input type="submit" value="Register">
+        </div> -->
+  </form>
+</section>

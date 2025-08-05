@@ -1,0 +1,82 @@
+<section class="content">
+    <h1 class="text-center text-muted" style="font-weight:900; ">Stores Info</h1>
+    <div class="row mb-1">
+        <div class="col-12 col-md-6">
+
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="d-flex justify-content-center " style="align-items: center;" style="float: right;">
+                <button mat-mini-fab (click)="open()">
+                    <mat-icon>add</mat-icon>
+                </button>
+                &nbsp; &nbsp;
+                <!-- <a class="btn btn-outline-primary" (click)="exportPdf()">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    PDF
+                </a>
+                <a>|</a> -->
+                <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    EXCEL
+                </a>
+            </div>
+        </div>
+    </div>
+    <mat-card>
+        <mat-card-content>
+            <div class="row">
+                <!-- (selectionChanged)="onSelectionChanged()" [rowSelection]="'multiple'" -->
+                <ag-grid-angular #agGrid 
+                    domLayout='autoHeight' id="myGrid" class="ag-theme-alpine table-class" rowAnimation
+                    [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData"
+                    [enableCellTextSelection]="true" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+<ng-template #masterSettings let-data>
+    <div class="master">
+        <div class="container">
+            <form [formGroup]="masterForm">
+                <div style="display: flex; justify-content: end;">
+                    <button color="primary" (click)="saveMasterForm()" type="submit" mat-mini-fab
+                        aria-label="Example icon button with a menu icon">
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </div>
+                <span class="text-primary">Master Settings [{{data}}]</span>
+                <div class="user_details">
+                    <div class="input_box">
+                        <label for="fileduration">File Duration</label>
+                        <input matInput type="time-24" step="1" id="fileduration" class="without_ampm"
+                            placeholder="Choose File Duration" required formControlName="fileduration">
+                    </div>
+                    <div class="input_box">
+                        <label for="totalduration">Total Duration</label>
+                        <input matInput type="time-24" step="1" id="totalduration" placeholder="Enter Total Duration"
+                            formControlName="totalduration" required>
+                    </div>
+
+                    <div class="input_box">
+                        <label for="cyclecount">Cycle Count</label>
+                        <input type="number" id="cyclecount" min="" placeholder="Enter Cycle Count"
+                            formControlName="cyclecount" required>
+                    </div>
+                    <div class="input_box">
+                        <label for="slotcount">Slot Count</label>
+                        <input disabled type="number" min="0" id="slotcount" placeholder="Enter Slot Count"
+                            formControlName="slotcount" required>
+                    </div>
+                    <div class="input_box">
+                        <label for="slotcount">Store Storage</label>
+                        <input type="number" step="1" min="1" formControlName="store_storage"
+                            placeholder="Enter Store Storage" class="rupee" required>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

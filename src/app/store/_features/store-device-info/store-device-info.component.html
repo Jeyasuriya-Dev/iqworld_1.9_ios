@@ -1,0 +1,329 @@
+<section class="content">
+    <h1 class="text-center text-muted" style="font-weight:900; ">Device List</h1>
+    <div id="circularMenu" class="circular-menu" *ngIf="isAnyRowSelected">
+        <a class="floating-btn" onclick="document.getElementById('circularMenu').classList.toggle('active');">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </a>
+
+        <menu class="items-wrapper">
+            <!-- <a class="menu-item "></a>
+          <a class="menu-item "></a> -->
+            <a class="menu-item "></a>
+            <a class="menu-item " title="device allocation to category" (click)="openStorePopUp(swap)">
+                <i class="fa fa-exchange" aria-hidden="true"></i>
+            </a>
+        </menu>
+    </div>
+    <mat-card *ngIf="isMobile">
+        <mat-card-content>
+            <div class="row align-items-baseline">
+                <div class="col-9 align-items: baseline;">
+                    <mat-form-field class="example-form-field" style="width: 100%;">
+                        <mat-label>Search here...</mat-label>
+                        <input matInput type="text" #ger (input)="filterRowData(ger.value)">
+                        <button *ngIf="ger.value" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="ger.value='';filterRowData(ger.value)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+                <div class="col-3">
+                    <div class="d-flex justify-content-center" style="align-items: center;">
+                        <a class="btn btn-outline-primary" (click)="exportPdf()">
+                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                            <!-- PDF -->
+                        </a>
+                        <a>|</a>
+                        <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                            <!-- EXCEL -->
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="row" style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+        <div class="col-12 col-md-2">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Choose Category</mat-label>
+                <mat-select #selectCategory multiple [(ngModel)]="selectedCategories">
+                    <mat-form-field class="filter-input"
+                        style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+                        <input type="text" #categoryFilterInput matInput (input)="filterCategories($event.target.value)"
+                            placeholder="Search...">
+                    </mat-form-field>
+                    <div class="select-all">
+                        <mat-checkbox [(ngModel)]="allCategoriesSelected" [ngModelOptions]="{standalone: true}"
+                            (change)="toggleAllCategorySelection()">Select All</mat-checkbox>
+                    </div>
+                    <mat-option (click)="categoryOptionClick()" [disabled]="category?.id==0"
+                        *ngFor="let category of filteredCategoryListDropDown" [value]="category?.id">
+                        {{category?.categoryname | titlecase }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-2">
+            <div>
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Choose Activity</mat-label>
+                    <mat-select placeholder="choose Active or Inactive">
+                        <mat-option (click)="getActive(active)" *ngFor="let active of activeList" [value]="active?.id">
+                            {{active?.name | titlecase}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-2">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Choose Status</mat-label>
+                <mat-select [(ngModel)]="deviceStatus">
+                    <mat-option (click)="geDevicesByStatus('all')" [value]="'all'">
+                        All
+                    </mat-option>
+                    <mat-option (click)="geDevicesByStatus('online')" [value]="'online'">
+                        Online
+                    </mat-option>
+                    <mat-option (click)="geDevicesByStatus('offline')" [value]="'offline'">
+                        Offline
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-2">
+            <div class="">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Choose Orientation</mat-label>
+                    <mat-select placeholder="choose Orientation">
+                        <mat-option (click)="getOrientation(orientation)" *ngFor="let orientation of orientationList"
+                            [value]="orientation?.id">
+                            {{orientation?.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- <div class="col-12 col-md-2">
+            <div class="">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Enter A Date Range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
+                        <input matStartDate matInput placeholder="Start date" (dateChange)="getFromDate($event)">
+                        <input matEndDate matInput placeholder="End date" (dateChange)="getToDate($event)">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+            </div>
+        </div> -->
+        <div class="col-12 col-md-2">
+            <div>
+                <div class="d-flex justify-content-center" style="align-items: center;margin: 0.7em 0;">
+
+                    <!-- <a class="btn btn-outline-primary" (click)="exportPdf()">
+                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                        PDF
+                    </a>
+                    <a>|</a> -->
+                    <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        EXCEL
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row" *ngIf="!isMobile">
+        <mat-card>
+            <mat-card-content>
+                <ag-grid-angular #agGrid id="myGrid" style="text-align: center;" domLayout='autoHeight'
+                    (selectionChanged)="onSelectionChanged()" [rowSelection]="'multiple'" class="ag-theme-alpine"
+                    rowAnimation [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData"
+                    [enableCellTextSelection]="true" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <br>
+    <mat-card *ngIf="isMobile">
+        <mat-card-content>
+            <div class="row">
+                <mat-card class="sample-card" *ngFor="let obj of rowData">
+                    <div class="row justify-content-center">
+                        <div class="col-10 d-flex align-items-center">
+                            <span class="card-headline-text">{{obj.username }}
+                            </span>
+                        </div>
+                        <div class="col-2 text-end d-flex justify-content-end align-items-center">
+                            <button mat-icon-button [ngStyle]="{'color':obj?.isonline?'#9ede73':'#f55c47'}">
+                                <!-- <i [ngClass]="!obj?.isdelete?'fa fa-user':'fa fa-user-times'"
+                    style=" font-size: large; margin-bottom: -0.2em; width: auto; height: auto;" aria-hidden="true"></i> -->
+                                <!-- <i style=" font-size: large;  width: auto; height: auto;" class="material-icons">favorite_border</i> -->
+                                <mat-icon
+                                    style=" font-size: large;  width: auto; height: auto;">fiber_manual_record</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 ">
+                        <span class="card-caption"> <mat-icon
+                                style=" font-size: large; margin-bottom: -0.25em; width: auto; height: auto;">pin_drop</mat-icon>
+                            {{
+                            obj?.location?.area |titlecase }}, {{
+                            obj?.city?.cityname |titlecase
+                            }}, {{
+                            obj?.district?.name|titlecase }}, {{ obj?.state?.statename |titlecase}}, {{
+                            obj?.country?.countryname |titlecase}}.</span>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class=" row sample-padding-t10 ">
+                        <div class="col-4">
+                            <span class="pcard-title-txt">Orientation</span>
+                            <br>
+                            <span class="pcard-title-caption"
+                                style="text-transform: none;">{{obj?.height_width=='9:16'?'Vertical':'Horizontal'}}</span>
+                        </div>
+                        <div class="col-4">
+                            <span class="pcard-title-txt">Plan</span>
+                            <br>
+                            <span class="pcard-title-caption"
+                                style="text-transform: none;">{{obj?.versionMaster?.version|
+                                titlecase}}</span>
+                        </div>
+                        <div class="col-4">
+                            <span class="pcard-title-txt">Status</span>
+                            <br>
+                            <span class="pcard-title-caption">{{obj?.isactive?'Approved':'Pending'}}</span>
+                        </div>
+                    </div>
+                    <div class="row sample-padding-t10">
+                        <div class="col-6">
+                            <span class="pcard-title-txt">Model Name</span>
+                            <br>
+                            <span class="pcard-title-caption">{{obj?.modelname}}</span>
+                        </div>
+                        <div class="col-6">
+                            <span class="pcard-title-txt">Created By.</span>
+                            <br>
+                            <span class="pcard-title-caption">{{obj?.createdby}}</span>
+                        </div>
+                    </div>
+
+                    <div class="row sample-padding-t10">
+                        <div class="col-6">
+                            <span class="pcard-title-txt"> Distributor </span>
+                            <br>
+                            <span class="pcard-title-caption" style="text-transform: none;">
+                                {{obj?.distributor ? obj?.distributor:'N/A'}} </span>
+                        </div>
+                        <div class="col-6">
+                            <span class="pcard-title-txt"> Customer </span>
+                            <br>
+                            <span class="pcard-title-caption" style="text-transform: none;">
+                                {{obj.clientname?obj.clientname:'N/A'}}</span>
+                        </div>
+
+                        <div class="col-6">
+                            <span class="pcard-title-txt"> APK Version </span>
+                            <br>
+                            <span class="pcard-title-caption" style="text-transform: none;">
+                                {{obj.apk?obj.apk:'N/A'}}</span>
+                        </div>
+                        <div class="col-6">
+                            <span class="pcard-title-txt"> APK Updated On</span>
+                            <br>
+                            <span class="pcard-title-caption" style="text-transform: none;">
+                                {{obj.apkupdate?obj.apkupdate:'N/A'}}</span>
+                        </div>
+                    </div>
+                    <div class="row sample-padding-t10">
+                        <div class="col-6">
+                            <span class="pcard-title-txt">Registration date</span>
+                            <br>
+                            <span class="pcard-title-caption">{{obj?.creationdate}}</span>
+                        </div>
+                        <div class="col-6">
+                            <span class="pcard-title-txt">Last Modified date</span>
+                            <br>
+                            <span class="pcard-title-caption">{{obj?.updateddate }}</span>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <!-- <br> -->
+                    <div class="row mt-2" id="add-more">
+                        <!-- <div class="col-6">
+                <button style="line-height: 12px !important;" mat-raised-button color="warn"
+                  disabled>{{obj?.clientcode}}</button>
+              </div> -->
+                        <div class="col-12 d-flex justify-content-end " style="margin-top: -0.77em;">
+                            <button mat-icon-button color="primary" (click)="onclickEdit(obj)">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button mat-icon-button>
+                                <mat-icon
+                                    [ngStyle]="{'color':!obj?.isdelete?'#9ede73':'#f55c47'}">{{!obj?.isdelete?'desktop_windows':'desktop_access_disabled'}}
+                                </mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" *ngIf="obj.username!=obj.androidId"
+                                (click)=" logOutDevice(obj.username)">
+                                <mat-icon>logout</mat-icon>
+                            </button>
+                            <button mat-icon-button style="margin-top: -2px;" color="accent"
+                                *ngIf="obj.username===obj.androidId">
+                                <span
+                                    style="font-size: medium !important; border: 1px solid rgba(255, 0, 0, 0.623); color: rgba(255, 0, 0, 0.63); border-radius: 4px; padding: 0px 3px; ">
+                                    N/A
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+
+<ng-template #swap let-data>
+    <div style="margin: 1em;">
+        <h1 class="text-center" style="font-weight: 800;">Device Allocation For Category</h1>
+        <div class="col-12" style="display: flex; justify-content: center;">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-select #select placeholder="Choose Category name" [autofocus]="true">
+                    <mat-select-filter *ngIf="select.focused" [array]="categoryList" [displayMember]="'categoryname'"
+                        (filteredReturn)="filteredCategoryList =$event"></mat-select-filter>
+                    <mat-option (click)="onchooseStore(item)" *ngFor="let item of filteredCategoryList" [value]="item">
+                        {{item.categoryname}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-primary" style="margin-left: 10px;" (click)="closeDialog()">Close</button>
+            &nbsp;&nbsp; <button class=" btn btn-outline-success" (click)="allocateDevices()">
+                Save</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #ScreenShots let-data>
+    <!-- flex-wrap: wrap; -->
+    <h2 mat-dialog-title style="background-color: var(--blue-color); color: aliceblue;"> {{data?.username}}
+    </h2>
+    <mat-dialog-content class="mat-typography">
+      <span class="d-flex justify-content-center align-items-center flex-wrap w-100">
+        <mat-card *ngFor="let screenShot of ScreenShotList" style="max-width: 320px;" class="m-1">
+          <img mat-card-image [src]="screenShot">
+        </mat-card>
+      </span>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+  </ng-template>

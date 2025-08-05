@@ -1,0 +1,415 @@
+body {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    /*center vertically */
+    align-items: center;
+    /* center horizontally */
+    background: linear-gradient(135deg, var(--main-blue), var(--main-purple));
+    padding: 10px;
+}
+
+$heading_size: 2em;
+$heading_line_height: 1.1;
+$heading_font: "SF";
+
+.here-btn {
+    color: blue;
+    text-decoration: underline !important;
+}
+
+.here-btn:hover {
+    color: rgb(248, 6, 147) !important;
+}
+
+.dl-horizontal {
+    dt {
+        font-size: small;
+        color: #2f87e2;
+        font-weight: unset;
+    }
+
+    dd {
+        font-size: small;
+        color: gray;
+    }
+}
+
+/* container and form */
+.container {
+    // max-width: 00px;
+    width: 100%;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+}
+
+.container .title {
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+}
+
+.container .title::before {
+    content: "";
+    position: absolute;
+    height: 3.5px;
+    width: 30px;
+    background: linear-gradient(135deg, var(--main-blue), var(--main-purple));
+    left: 0;
+    bottom: 0;
+}
+
+.container form .user__details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+}
+
+/* inside the form user details */
+form .user__details .input__box {
+    width: calc(100% / 4 - 20px);
+    margin-bottom: 15px;
+}
+
+.user__details .input__box .details {
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.user__details .input__box input {
+    height: 45px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid var(--main-grey);
+    padding-left: 15px;
+    font-size: 16px;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.user__details .input__box input:focus,
+.user__details .input__box input:valid {
+    border-color: var(--main-purple);
+}
+
+/* inside the form gender details */
+
+form .gender__details .gender__title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+form .gender__details .category {
+    display: flex;
+    width: 80%;
+    margin: 15px 0;
+    justify-content: space-between;
+}
+
+.gender__details .category label {
+    display: flex;
+    align-items: center;
+}
+
+.gender__details .category .dot {
+    height: 18px;
+    width: 18px;
+    background: var(--sub-grey);
+    border-radius: 50%;
+    margin: 10px;
+    border: 5px solid transparent;
+    transition: all 0.3s ease;
+}
+
+#dot-1:checked~.category .one,
+#dot-2:checked~.category .two,
+#dot-3:checked~.category .three {
+    border-color: var(--sub-grey);
+    background: var(--main-purple);
+}
+
+form input[type="radio"] {
+    display: none;
+}
+
+/* submit button */
+form .button {
+    height: 45px;
+    margin: 45px 0;
+}
+
+form .button input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 5px;
+    background: linear-gradient(135deg, var(--main-blue), var(--main-purple));
+    transition: all 0.3s ease;
+}
+
+form .button input:hover {
+    background: linear-gradient(-135deg, var(--main-blue), var(--main-purple));
+}
+
+@media only screen and (max-width: 584px) {
+    .container {
+        max-width: 100%;
+    }
+
+    form .user__details .input__box {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    form .gender__details .category {
+        width: 100%;
+    }
+
+    .container form .user__details {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+
+    .user__details::-webkit-scrollbar {
+        width: 0;
+    }
+}
+
+// color: white;
+.Scheduled {
+    color: #007bff;
+    // color: #ff0000cd;
+    font-weight: bold;
+}
+
+.Finished {
+    color: #f44336;
+    // color: #ff0000cd;
+    font-weight: bold;
+}
+
+.Onprogress {
+    color: #0fcc45;
+
+    font-weight: bold;
+}
+
+.Not-scheduled {
+    color: olive;
+    // color: #ff0000cd;
+    font-weight: bold;
+}
+
+.master {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // min-height: 100vh;
+    background: #f6f8fa;
+    font-family: 'Poppins', sans-serif;
+
+    .container {
+        max-width: 700px;
+        width: 100%;
+        background: #ffffff;
+        border-radius: 0.5rem;
+        box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1),
+            0px 5px 12px -2px rgba(0, 0, 0, 0.1),
+            0px 18px 36px -6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin: 10px;
+    }
+
+    .container .title {
+        padding: 25px;
+        background: #f6f8fa;
+    }
+
+    .container .title p {
+        font-size: 25px;
+        font-weight: 500;
+        position: relative;
+    }
+
+    .container .title p::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 30px;
+        height: 3px;
+        background: linear-gradient(to right, #F37A65, #D64141);
+    }
+
+    .user_details {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 25px;
+    }
+
+    .user_details .input_box {
+        width: calc(100% / 2 - 20px);
+        margin: 0 0 12px 0;
+    }
+
+    .input_box label {
+        font-weight: 500;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .input_box label::after {
+        content: " *";
+        color: red;
+    }
+
+    .input_box input {
+        width: 100%;
+        height: 45px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        font-size: 16px;
+        padding-left: 15px;
+        box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+        background-color: #f6f8fa;
+        font-family: 'Poppins', sans-serif;
+        transition: all 120ms ease-out 0s;
+    }
+
+
+    .input_box input:focus,
+    .input_box input:valid {
+        box-shadow: 0px 0px 0px 2px #AC8ECE;
+    }
+
+    form .gender {
+        padding: 0px 25px;
+    }
+
+    .gender .gender_title {
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 1em;
+    }
+
+    .gender .category {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+    }
+
+    .gender .category label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .gender .category label .dot {
+        height: 18px;
+        width: 18px;
+        background: #d9d9d9;
+        border-radius: 50%;
+        margin-right: 10px;
+        border: 4px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    #radio_1:checked~.category label .one,
+    #radio_2:checked~.category label .two,
+    #radio_3:checked~.category label .three {
+        border-color: #d9d9d9;
+        background: #D64141;
+    }
+
+    .gender input {
+        display: none;
+    }
+
+    .reg_btn {
+        padding: 25px;
+        margin: 15px 0;
+    }
+
+    .reg_btn input {
+        height: 45px;
+        width: 100%;
+        border: none;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        background: linear-gradient(to right, #F37A65, #D64141);
+        border-radius: 5px;
+        color: #ffffff;
+        letter-spacing: 1px;
+        text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .reg_btn input:hover {
+        background: linear-gradient(to right, #D64141, #F37A65);
+    }
+
+    @media screen and (max-width: 584px) {
+
+        .user_details {
+            max-height: 340px;
+            overflow-y: scroll;
+        }
+
+        .user_details::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .user_details .input_box {
+            width: 100%;
+        }
+
+        .gender .category {
+            width: 100%;
+        }
+
+    }
+
+
+    @media screen and (max-width: 419px) {
+        .gender .category {
+            flex-direction: column;
+        }
+    }
+}
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+    display: none !important;
+}
+
+input[type=time]::-webkit-clear-button {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    -o-appearance: none !important;
+    -ms-appearance: none !important;
+    appearance: none !important;
+    margin: -10px;
+}
+
+input[type=number].rupee {
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/GB_logo.png/1200px-GB_logo.png);
+    border: 1px solid #aaa;
+    // padding: 5px;
+    padding-right: 20px;
+    /* Adjust padding-right instead of padding-left */
+    background-size: 30px 15px;
+    background-repeat: no-repeat;
+    background-position: right 60px center;
+    /* Position the background image to the right */
+}

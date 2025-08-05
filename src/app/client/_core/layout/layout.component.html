@@ -1,0 +1,264 @@
+<!-- <div style="display: flex;justify-content: end;">
+  <mat-icon title="close-icon" class="close-icon" [mat-dialog-close]="true">clear</mat-icon>
+</div> -->
+<div class="options-header mt-2">
+
+  <!-- <mat-form-field> 
+    <mat-select aria-label="Grid type" [(ngModel)]="options.gridType" (ngModelChange)="changedOptions()"
+      placeholder="Grid Type">
+      <mat-option value="fit">Fit to screen</mat-option>
+      <mat-option value="scrollVertical">Scroll Vertical</mat-option>
+      <mat-option value="scrollHorizontal">Scroll Horizontal</mat-option>
+      <mat-option value="fixed">Fixed</mat-option>
+      <mat-option value="verticalFixed">Vertical Fixed</mat-option>
+      <mat-option value="horizontalFixed">Horizontal Fixed</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select aria-label="Display grid lines" [(ngModel)]="options.displayGrid" placeholder="Display grid lines"
+      (ngModelChange)="changedOptions()">
+      <mat-option value="always">Always</mat-option>
+      <mat-option value="onDrag&Resize">On Drag & Resize</mat-option>
+      <mat-option value="none">None</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-checkbox [(ngModel)]="options.swap" (ngModelChange)="changedOptions()">
+    Swap Items
+  </mat-checkbox>
+  <mat-checkbox [(ngModel)]="options.pushItems" (ngModelChange)="changedOptions()">
+    Push Items
+  </mat-checkbox>
+  <mat-checkbox [(ngModel)]="options.draggable.enabled" *ngIf="options.draggable" (ngModelChange)="changedOptions()">
+    Drag Items
+  </mat-checkbox>
+  <mat-checkbox [(ngModel)]="options.resizable.enabled" *ngIf="options.resizable" (ngModelChange)="changedOptions()">
+    Resize Items
+  </mat-checkbox>
+  <mat-checkbox [(ngModel)]="options.pushResizeItems" (ngModelChange)="changedOptions()">
+    Push Resize Items
+  </mat-checkbox>
+  <mat-form-field>
+    <input matInput [(ngModel)]="options.margin" min="0" max="30" step="1" type="number" placeholder="Margin"
+      (ngModelChange)="changedOptions()" />
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="options.outerMargin" (ngModelChange)="changedOptions()">Outer Margin</mat-checkbox>
+
+  <mat-checkbox [(ngModel)]="options.useBodyForBreakpoint" (ngModelChange)="changedOptions()">Use Body Width as
+    Breakpoint</mat-checkbox>
+  <mat-form-field>
+    <input matInput [(ngModel)]="options.mobileBreakpoint" type="number" placeholder="Mobile Breakpoint"
+      (ngModelChange)="changedOptions()" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput [(ngModel)]="options.fixedColWidth" type="number" placeholder="Fixed Col Width"
+      (ngModelChange)="changedOptions()" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="options.fixedRowHeight" type="number" placeholder="Fixed Row Height"
+      (ngModelChange)="changedOptions()" />
+  </mat-form-field> -->
+
+  <div style="display: flex;" id="add-more">
+    <button mat-raised-button color="primary" (click)="onBackClick()"> <mat-icon>keyboard_return</mat-icon></button>
+    <span style="display: flex; align-items: center; color: #2f87e2;" *ngIf="userRole
+    === 'STORE' || userRole === 'SUBUSER'"
+      [title]="userRole === 'STORE' || userRole === 'SUBUSER' ?'Store Storage':'Customer Storage'"><mat-icon>memory</mat-icon>{{userRole
+      === 'STORE' || userRole === 'SUBUSER'?'SS':'CS'}}
+      {{formatSizeUnits1((playlist?.playlist?.storage?.store_totalmemory-playlist?.playlist?.storage?.store_usedmemory)-selectedSize)}}</span>
+
+    <span style="display: flex; align-items: center; color: #2f87e2;"
+      *ngIf="userRole    != 'STORE' && userRole != 'SUBUSER'"
+      [title]="userRole === 'STORE' || userRole === 'SUBUSER' ?'Store Storage':'Customer Storage'"><mat-icon>memory</mat-icon>{{userRole
+      === 'STORE' || userRole === 'SUBUSER'?'SS':'CS'}}
+      {{formatSizeUnits1((playlist?.playlist?.storage?.client_totalmemory-playlist?.playlist?.storage?.client_usedmemory)-selectedSize)}}</span>
+
+    <span style="display: flex; align-items: center; color:#f86d6d;"
+      title="Playlist Storage">&nbsp;<mat-icon>memory</mat-icon>PS&nbsp;
+      <span>{{((playlist?.playlist?.storage?.playlist_totalmemory-playlist?.playlist?.storage?.playlist_usedmemory)-selectedSize)
+        < 0? "-" :""}} </span>
+          {{formatSizeUnits((playlist?.playlist?.storage?.playlist_totalmemory-playlist?.playlist?.storage?.playlist_usedmemory)-selectedSize)}}
+      </span>
+      &nbsp;&nbsp;&nbsp;
+
+  </div>
+
+  <mat-form-field>
+    <mat-select name="countryString" [(value)]="isVertical" (selectionChange)="ngOnInit()" [disabled]="!isExistLayout">
+      <mat-option [value]="'9:16'">Vertical</mat-option>
+      <mat-option [value]="'16:9'">Horizontal</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-mini-fab (click)="addItem()" [disabled]="dashboard?.length==12 || !isExistLayout "
+    class="add-button cols-2">
+    <mat-icon>add</mat-icon>
+  </button>
+
+</div>
+<div *ngIf="layout?.height_width" style="text-align: center; color: #25472f;">
+  Resolution: ({{layout?.height_width}})
+</div>
+<div style="display: flex; justify-content: center;align-items: center;">
+  <!-- [ngStyle]="isVertical=='9:16'? isMoblie?{'height': '75vh', 'width': '80vw'} :{'height': '75vh', 'width': '25vw'}: isMoblie?{'height': '30vh', 'width': '100vw'}:{'height': '47vh', 'width': '43vw'}" -->
+  <div
+    [ngStyle]="isVertical=='9:16'? {'height': round(1920/3) , 'width': round(1080/3)}: {'height':round(1080/3) , 'width': round(1920/3)}">
+    <gridster [options]="options" class="drag-content drag-handler">
+      <gridster-item [item]="item" *ngFor="let item of dashboard;">
+        <!-- <span style="margin-left: 100px;">{{item?.isVideo?'video/*':
+          item?.isVideo==false?'image/*':'video/*,image/*'}}</span> -->
+        <label class="hoverable" [for]="item?.id+'lay'" style="height: 100%; width: 100%;">
+          <!-- <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide" *ngFor="let obj of item.data">
+                <img *ngIf="obj.type?.includes('image')"
+                  [src]="obj.url ? obj.url : 'https://www.w3schools.com/howto/img_avatar.png'"
+                  style="height: 100%; width: 100%; object-fit: fill;" />
+                <video *ngIf="obj.type?.includes('video')" controls
+                  [src]="obj.url ? obj.url : 'https://www.w3schools.com/howto/img_avatar.png'"
+                  style="height: 100%; width: 100%; object-fit: fill;"></video>
+              </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+          </div> -->
+          <div ngClass="swiper swiper-slider" style="height:inherit !important; width: 100%;">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide" *ngFor="let obj of item?.medialist">
+                <ng-container *ngIf="obj?.type.includes('image'); else videoOrIframeTemplate">
+                  <!-- Image Template -->
+                  <img style="width: 100%; height: 100%;" [src]="obj?.url" alt="Image">
+                </ng-container>
+                <ng-template #videoOrIframeTemplate>
+                  <!-- Video or Iframe Template -->
+                  <ng-container *ngIf="obj?.type.includes('video'); then videoTemplate else iframeTemplate">
+                  </ng-container>
+                </ng-template>
+                <ng-template #videoTemplate>
+                  <!-- Video Template -->
+                  <video style="width: 100%; height: 100%; object-fit: fill;" [muted]="item?.isMuted" autoplay loop>
+                    <source [src]="obj?.url" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+
+                </ng-template>
+                <ng-template #iframeTemplate>
+                  <!-- Iframe Template -->
+                  <!-- <iframe width="560" height="315" [src]="obj?.url" title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe> -->
+                  <youtube-player [videoId]="obj?.url" title="YouTube video player"></youtube-player>
+                </ng-template>
+
+                <button mat-icon-button color="warn" *ngIf="obj?.url"
+                  style="position: absolute; bottom:4px; right: 8px; z-index: 100;" (click)="delete(item,obj)">
+                  <mat-icon>remove_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+            <!-- <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div> -->
+
+          </div>
+
+          <!-- <div class="hover-text">Choose file</div> -->
+
+          <div class="background"></div>
+        </label>
+        <br />
+
+        <input [id]="item.id+'lay'" type="file" style="display:none; " (mousedown)="baba($event)"
+          (touchstart)="baba($event)"
+          [accept]="item?.isVideo?'video/*,.mkv,.mov,.flv,.avi,.wmv,.mpeg4': item?.isVideo==false?'image/*':'video/*,.mkv,.mov,.flv,.avi,.wmv,.mpeg4,image/*'"
+          [multiple]="item?.isVideo?true:item?.isVideo==false?true:false" (change)="onFileChangeFile($event,item)" />
+        <!-- <img [src]="item.url" alt="" srcset="" > -->
+        <div class="button-holder" style="position: absolute; top: 0px; z-index: 100;" *ngIf="dashboard?.length!=1">
+          <button mat-mini-fab *ngIf="!item?.hasContent" [disabled]="!isExistLayout"
+            (mousedown)="removeItem($event, item)" (touchstart)="removeItem($event, item)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <span style="position: absolute; bottom:10px; left: 10px; z-index: 100; cursor: pointer;"
+          *ngIf="dashboard?.length!=1" (click)="unMuteZone(item)">
+          <mat-icon *ngIf="item?.isMuted" style="color: red;">volume_off</mat-icon>
+          <mat-icon *ngIf="!item?.isMuted" style="color: blue;">volume_up</mat-icon>
+        </span>
+      </gridster-item>
+    </gridster>
+  </div>
+</div>
+<br>
+<div style="display: flex; justify-content: center; align-items: center; line-height: normal;">
+  <div *ngIf="!client?.ismbc">
+    <mat-form-field>
+      <mat-label>Enter Layout Name</mat-label>
+      <mat-icon matSuffix style="color: #808080bd;">blur_linear</mat-icon>
+      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+      <!-- <mat-icon matSuffix style="color: #808080bd;">child_care</mat-icon> -->
+      <input required matInput placeholder="Enter Layout Name" [disabled]="layout && !layout?.isDefault"
+        style="text-transform: capitalize;" [(ngModel)]="layoutname">
+    </mat-form-field>
+  </div>
+  <form [formGroup]="exampleForm" *ngIf="client?.ismbc">
+    <div class="row ">
+      <div class="col-12 col-sm-6   mt-1">
+        <mat-form-field class="w-100">
+          <mat-label>Enter Layout Name</mat-label>
+          <mat-icon matSuffix style="color: #808080bd;">blur_linear</mat-icon>
+          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+          <!-- <mat-icon matSuffix style="color: #808080bd;">child_care</mat-icon> -->
+          <input required matInput placeholder="Enter Layout Name" style="text-transform: capitalize;"
+            formControlName="layoutname">
+          <mat-error *ngIf="exampleForm.get('layoutname').hasError('required')">
+            Layout Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-sm-6   mt-1" *ngIf="tagList.length > 0">
+        <mat-form-field class="w-100">
+          <mat-label>Select the content tag</mat-label>
+          <mat-select formControlName="chooseContentTag">
+            <mat-option *ngFor="let tag of tagList" [value]="tag.id">{{ tag.tagname | titlecase
+              }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="exampleForm.get('chooseContentTag').hasError('required')">
+            Content tag is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-sm-6   mt-1" *ngIf="tagList.length > 0">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Choose Brand</mat-label>
+          <input type="text" placeholder="Pick one" aria-label="Number" matInput formControlName="myControl"
+            [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+              {{ option.name | titlecase}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="exampleForm.get('myControl').hasError('required')">
+            Brand is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+  <div style="margin: 0px 0px 18px 6px;">
+
+    <button (click)="saveSplitScreen()" mat-raised-button color="warn" *ngIf="userRole
+    != 'STORE' && userRole != 'SUBUSER'"
+      [disabled]=" (((playlist?.playlist?.storage?.playlist_totalmemory-playlist?.playlist?.storage?.playlist_usedmemory)-selectedSize)<=0) || (((playlist?.playlist?.storage?.client_totalmemory-playlist?.playlist?.storage?.client_usedmemory)-selectedSize)<=0)">Save</button>
+
+
+    <button (click)="saveSplitScreen()" mat-raised-button color="warn" *ngIf="userRole
+    === 'STORE' || userRole === 'SUBUSER'"
+      [disabled]=" (((playlist?.playlist?.storage?.playlist_totalmemory-playlist?.playlist?.storage?.playlist_usedmemory)-selectedSize)<=0) || (((playlist?.playlist?.storage?.store_totalmemory-playlist?.playlist?.storage?.store_usedmemory)-selectedSize)<=0)">Save</button>
+  </div>
+</div>
+<h3 style="text-align: center; font-weight: 400; color:#6b9231;"><span style="color: #6b9231; font-weight: 800;">Note
+    *:-</span>
+  Only one zone is allowed for video content.
+</h3>

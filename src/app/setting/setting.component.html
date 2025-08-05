@@ -1,0 +1,72 @@
+<section class="sec">
+    <div class="container" *ngIf="isAdmin">
+        <!-- <div class="drop" style="--clr: #FF0F5B;background-color:  rgb(255, 15, 91,0.089)">
+            <div class="content">
+                <h2>HTML</h2>
+                <p><b>HTML</b> is the language for describing the structure of Web pages.</p>
+                <a href="#">Read More</a>
+            </div>
+        </div>
+        <div class="drop" style="--clr: #BE01FE; background-color:  rgb(190, 1, 254,0.089)">
+            <div class="content">
+                <h2>CSS</h2>
+                <p><b>CSS</b> is the language for describing the structure of Web pages.</p>
+                <a href="#">Read More</a>
+            </div>
+        </div>
+        <div class="drop" style="--clr: #01B4FF ;background-color:  rgb(1, 180, 255,0.089)">
+            <div class="content">
+                <h2>JS</h2>
+                <p><b>Javascript</b> is the language for describing the structure of Web pages.</p>
+                <a href="#">Read More</a>
+            </div>
+        </div>
+        <div class="drop" style="--clr: #BE01FE; background-color:  rgb(190, 1, 254,0.089)">
+            <div class="content">
+                <h2>HTML</h2>
+                <p><b>HTML</b> is the language for describing the structure of Web pages.</p>
+                <a href="#">Read More</a>
+            </div>
+        </div>
+        <div class="drop" style="--clr: #01B4FF; background-color:  rgb(1, 180, 255,0.089)">
+            <div class="content">
+                <h2>Default content</h2>
+                <p><b>Default</b> systems use default content to display advertisements for the business, when no other content is scheduled.</p>
+                <a (click)="navgetToUrl('default')"  >View More</a>
+            </div>
+        </div> -->
+        <div class="drop" style="--clr: #FF0F5B; background-color:  rgb(255, 15, 91,0.089)">
+            <div class="content">
+                <h2>OTA Service</h2>
+                <p><b>OTA(over-the-air)</b>,The devices in the field can receive and install OTA updates to the system
+                </p>
+                <a (click)="navgetToUrlAdmin('ota')">Upload Apk</a>
+            </div>
+        </div>
+    </div>
+    <div class="container" *ngIf="!isAdmin">
+        <div class="drop" style="--clr: #FF0F5B;background-color:  rgb(255, 15, 91,0.089)">
+            <div class="content">
+                <h2>Upgrade</h2>
+                <p><b>Upgrade,</b> Upgrade your plan for a better digital signage experience.</p>
+                <a (click)="navgetToUrlClient('upgrade-plan')">Upgrade</a>
+            </div>
+        </div>
+        <div class="drop" style="--clr: #01B4FF; background-color:  rgb(1, 180, 255,0.089)">
+            <div class="content">
+                <h2>OTA Updates </h2>
+                <p><b>OTA Schedule,</b> Set a schedule for Update Latest Software in Your Devices at Specified Time.
+                </p>
+                <a (click)="navgetToUrlClient('schedule-ota')">updates</a>
+            </div>
+        </div>
+        <!-- style="--clr: #ff5e01 ;background-color:  #ff5e0123" -->
+        <!-- <div class="drop " style="--clr: #ff5e01 ;background-color:  #ff5e0123" *ngIf="client?.ismbc">
+            <div class="content">
+                <h2>Master Settings</h2>
+                <p><b>Settings</b>,User can edit files and total time of playlist duration.</p>
+                <a (click)="navgetToUrlClient('master-settings')">Settings</a>
+            </div>
+        </div> -->
+    </div>
+</section>

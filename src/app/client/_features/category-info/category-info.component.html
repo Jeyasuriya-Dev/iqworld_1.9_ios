@@ -1,0 +1,112 @@
+<div class="row1">
+    <div class="button-group" *ngIf="activatedRouteId==0">
+        <mat-form-field style="width: 100%;">
+            <mat-label>Choose Store</mat-label>
+            <mat-select #selectStore multiple [(ngModel)]="selectedStores">
+                <mat-form-field class="filter-input"
+                    style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+                    <input type="text" #categoryFilterInput matInput (input)="filterCategories($event.target.value)"
+                        placeholder="Search...">
+                </mat-form-field>
+                <div class="select-all">
+                    <mat-checkbox [(ngModel)]="allStoresSelected" [ngModelOptions]="{standalone: true}"
+                        (change)="toggleAllStoreSelection()">Select All</mat-checkbox>
+                </div>
+
+                <mat-option (click)="categoryOptionClick()" [disabled]="category?.id==0"
+                    *ngFor="let category of filteredStoreList" [value]="category?.id">
+                    {{category?.name | titlecase }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
+    <h1>
+        {{activatedRouteId==0?'All Category Info':store?.name+' Category Info'}}
+    </h1>
+    <!-- <div class="button-group">
+        <button (click)="createCategory(storeInfo)" mat-mini-fab aria-label="Example icon button with a menu icon">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div> -->
+    <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+        EXCEL
+    </a>
+
+</div>
+<div class="dashboard">
+    <div class="card" *ngFor="let c of categoryList" (click)="showDevicesByCategory(c,{id:2,name:'All'})">
+        <div class="top-section">
+            <div class="border"></div>
+            <div class="icons">
+                <div class="logo">
+                    <i class='bx bxs-category-alt'></i>
+                    <!-- <i class='bx bxs-category' ></i> -->
+                    <!-- <i class='bx bx-category' ></i> -->
+                </div>
+                <div class="social-media">
+                    <!-- <span class="icon" (click)="deviceAllocation(c)">
+                        <i class='bx bxs-plus-circle'></i>
+                    </span> -->
+                    <span class="icon" (click)="showPlaylistByCategory(c)" title="playlist info">
+                        <!-- <i class='bx bxs-plus-circle'></i> -->
+                        <i class='bx bxs-folder'></i>
+                    </span>
+                    <!-- <span class="icon">
+                        <i class='bx bxs-edit'></i>
+                    </span> -->
+
+                </div>
+            </div>
+        </div>
+        <div class="bottom-section">
+            <span class="title">{{c.categoryname}}
+            </span>
+            <span class="sub-title">{{c.categorycode}}</span>
+            <div class="row row1">
+                <div class="item" style="color: rgb(162, 0, 255);" (click)="showDevicesByCategory(c,{id:2,name:'All'})">
+                    <span class="big-text">{{c.total_device_count}}</span>
+                    <span class="regular-text">Total</span>
+                </div>
+                <div class="item" style="color: rgb(2, 83, 2);" (click)="showDevicesByCategory(c,{id:1,name:'online'})">
+                    <span class="big-text">{{c.online_device_count}}</span>
+                    <span class="regular-text">Online</span>
+                </div>
+                <div class="item" style="color: rgb(216, 4, 4)"
+                    (click)="showDevicesByCategory(c,{id:0,name:'offline'})">
+                    <span class="big-text">{{c.offline_device_count}}</span>
+                    <span class="regular-text">Offline</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #storeInfo let-data>
+    <div class="m-2 row">
+        <h1>Category Registration</h1>
+        <br>
+        <br>
+        <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+            <div>
+                <mat-form-field style="width: 100%;">
+                    <mat-label>Category Name</mat-label>
+                    <input matInput formControlName="name">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field style="width: 100%;">
+                    <mat-label>Select Store</mat-label>
+                    <mat-select formControlName="storeid">
+                        <mat-option *ngFor="let s of storeList" [value]="s.id">{{s.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-raised-button type="submit"> Save </button>
+            </div>
+        </form>
+    </div>
+
+</ng-template>

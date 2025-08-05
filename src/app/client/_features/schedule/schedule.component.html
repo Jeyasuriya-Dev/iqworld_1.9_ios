@@ -1,0 +1,85 @@
+<section class="content">
+    <div class="row mb-2 mt-2 justify-content-between">
+        <div class="col-12">
+            <h1 class="text-center text-muted" style="font-weight: 900;">Schedule Info</h1>
+        </div>
+        <br>
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <div class="d-flex justify-content-center"
+                style="align-items: center;margin: 0.25em 0;padding-bottom: 1.34375em;">
+
+                <a class="btn btn-outline-primary" (click)="exportPdf()">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    PDF
+                </a>
+                <a> | </a>
+                <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    EXCEL
+                </a>
+            </div>
+            <div style=" display: flex;align-items: center;">
+                <mat-form-field appearance="outline">
+                    <mat-label>What's on Your Mind</mat-label>
+                    <input matInput placeholder="search anything here" id="quickFilter"
+                        (input)="onQuickFilterChanged()">
+                </mat-form-field>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <mat-card>
+        <div class="row">
+            <ag-grid-angular #agGrid id="myGrid" class="ag-theme-alpine table-class" rowAnimation
+                [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData"
+                [enableCellTextSelection]="true" (gridReady)="onGridReady($event)"
+                (cellClicked)="onCellClicked($event,editTimeDate)">
+            </ag-grid-angular>
+        </div>
+    </mat-card>
+
+</section>
+
+<ng-template #editTimeDate>
+    <div class="m-2">
+        <button mat-icon-button color="warn" (click)="mediaUpload(choosedPlaylist)" class="my-fab">
+            <mat-icon>cloud_upload</mat-icon>
+        </button>
+        <div style="display: flex; justify-content: center;">
+            <p *ngIf="playlistMedia?.length" style="color: brown; font-family: system-ui; font-weight: 700;">Set
+                Schedule
+                Date & Time</p>
+            <p *ngIf="!playlistMedia?.length" style="color: brown; font-family: system-ui; font-weight: 700;">This
+                Playlist
+                Is Empty, Kindly Upload The Content</p>
+        </div>
+
+        <input type="datetime-local" step="1" [min]="currentDate1" class="custom-input"
+            placeholder="Start Date and Time" [(ngModel)]="startDate">
+        <br>
+        <br>
+        <input type="datetime-local" step="1" [min]="currentDate1" class="custom-input" placeholder="End Date and Time"
+            [(ngModel)]="endDate">
+        <br>
+
+        <mat-dialog-actions>
+            <div class="d-flex justify-content-center">
+                <button mat-raised-button color="accent" (click)="closeDialog()">Cancel</button>
+                <!-- <button mat-raised-button color="primary" *ngIf="playlistMedia.length" (click)="dateTimePicker()">
+                Save
+            </button> -->
+                <button mat-raised-button color="primary" (click)="dateTimePicker()">
+                    Save
+                </button>
+                <!-- <button mat-raised-button color="primary" *ngIf="!playlistMedia.length"
+                (click)="mediaUpload(choosedPlaylist)">
+                Upload Media
+            </button> -->
+            </div>
+        </mat-dialog-actions>
+    </div>
+</ng-template>

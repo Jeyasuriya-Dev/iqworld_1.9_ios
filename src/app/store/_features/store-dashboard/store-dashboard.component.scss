@@ -1,0 +1,15 @@
+@import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
+
+/* Bootstrap Icons */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
+
+#add-licences {
+    .mat-raised-button {
+        line-height: 20px !important;
+        font-size: xx-small;
+    }
+}
+
+.shadow {
+    box-shadow: 0px 1px 2px rgba(128, 128, 128, 0.811) !important;
+}

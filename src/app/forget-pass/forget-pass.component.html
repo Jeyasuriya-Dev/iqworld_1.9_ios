@@ -1,0 +1,102 @@
+<div class="back-button">
+    <a href="#">
+        <button mat-raised-button color="primary">
+            <mat-icon><span class="material-icons">arrow_back</span></mat-icon>
+            Log In
+        </button>
+    </a>
+</div>
+<div class="d-flex justify-content-center"
+    style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);">
+    <div>
+        <div class="form username">
+            <div class="user_details">
+                <div class="input_pox m-3">
+                    <h3 class="text-primary center">Email Verification</h3>
+                    <fieldset style="width: 50vw; min-width: 340px;">
+                        <span class="datails">Enter Email ID *:</span>
+                        <input #mail type="text" placeholder="Enter Your Email" required>
+                        <div class="form m-3">
+                            <button mat-raised-button (click)="sendResetOtp(mail)">Send request</button>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
+        <div class="error text-danger">
+            Invalid otp
+        </div>
+        <div class="success text-success">
+            OTP verified Successfully
+        </div>
+    </div>
+    <div class="verification" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div style="min-width: 330px;">
+            <div class="title center">
+                <p>A Link has been sent to <span class="emailpartial">{{email}}</span></p>
+            </div>
+            <div class="otp-input-fields">
+                <h1>Kindly, check Your Inbox</h1>
+                <!-- <input type="text" onlyNumber class="otp_num otp_num_1" maxlength="1">
+                <input type="text" onlyNumber class="otp_num otp_num_2" maxlength="1">
+                <input type="text" onlyNumber class="otp_num otp_num_3" maxlength="1">
+                <input type="text" onlyNumber class="otp_num otp_num_4" maxlength="1"> -->
+            </div>
+            <div class="form m-3">
+                <!-- <button mat-raised-button (click)="confirmOtp()">Verify OTP</button> -->
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="newpassword">
+    <div class="container">
+        <div class="center text-primary">
+            <h1>Reset Your Password</h1>
+        </div>
+        <form [formGroup]="restpass" (ngSubmit)="onSubmit()">
+            <div style="position: relative;">
+                <label for="password">New Password</label>
+                <input type="password" id="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                    formControlName="password" placeholder="Enter Your password">
+                <div *ngIf="submitted && f['password'].errors" class="invalid-feedback"
+                    style="position: absolute; bottom:  -28%;">
+                    <div *ngIf="f['password'].errors['required']">Password is required</div>
+                    <div *ngIf="f['password'].errors['minlength'] ">
+                        Password must be at least 6 characters
+                    </div>
+                    <div *ngIf="f['password'].errors['maxlength']">
+                        Password must not exceed 10 characters
+                    </div>
+                    <div class="help is-danger"
+                        *ngIf="f['password'].errors['strong'] && !f['password'].errors['minlength'] && !f['password'].errors['maxlength'] && !f['password'].errors['required']">
+                        Must have at least one number, one lowercase and one uppercase letter.</div>
+                </div>
+            </div>
+            <div style="position: relative;">
+                <label for="cnfrm-password">Confirm New Password</label>
+                <input type="password" id="cnfrm-password"
+                    [ngClass]="{ 'is-invalid': submitted && f['confirmpassword'].errors }"
+                    formControlName="confirmpassword" (onkeyup)='passConfirm()' placeholder="Confirm password ">
+                <p id="message"></p>
+                <div *ngIf="submitted && f['confirmpassword'].errors" class="invalid-feedback"
+                    style="position: absolute; bottom:  18%;">
+                    <div *ngIf="f['confirmpassword'].errors['required']">Confirm password is required</div>
+                    <div
+                        *ngIf="f['confirmpassword'].errors['confirmedValidator'] && !f['confirmpassword'].errors['required']">
+                        New password and Confirm password didn't match.
+                    </div>
+                </div>
+            </div>
+
+            <input type="button" (click)="onSubmit()" value="SUBMIT" />
+            <!-- <p class="horizontal-subtitle">Your password needs to be at least 8 characters.</p> -->
+        </form>
+
+    </div>
+
+</div>

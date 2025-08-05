@@ -1,0 +1,31 @@
+<img src="assets/images/iq-world.png" alt="" style="height:50px; position: absolute;top: 10%; left: 10%;">
+<div class="body">
+    <div class="box">
+        <form class="form" [formGroup]="signInForm" (ngSubmit)="onSignInSubmit(signInForm)">
+            <h2>SIGN IN</h2>
+            <div class="inputBox">
+                <input type="text" required formControlName="username">
+                <span>Username</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+
+                <input type="password" (keyup)="getPass($event)" id="password" required formControlName="password">
+                <span>Password</span>
+                <i></i>
+            </div>
+            <div *ngIf="passLength" style=" z-index: 1020;   position: absolute;right: 8px; bottom: 44%;">
+                <i *ngIf="!isShow" (click)="showPassword()" class="fa  fa-eye-slash"
+                    style="font-size:24px; color: #45f3ff; z-index: 1021; cursor: pointer; position: absolute; right: 0%;"></i>
+                <i *ngIf="isShow" (click)="hidePassword()" class="fa fa-eye"
+                    style="font-size:24px; color: #45f3ff; z-index: 1021; cursor: pointer; position: absolute; right: 0%;"></i>
+            </div>
+            <div class="links">
+                <a (click)="navgetToUrl('/recovery-password')">Forget password ?</a>
+                <a>Signup</a>
+            </div>
+            <input type="submit" value="Login">
+            <a style="color: #45f3ff; text-transform: lowercase; text-align: end;">{{CURRENT_VERSION}}</a>
+        </form>
+    </div>
+</div>

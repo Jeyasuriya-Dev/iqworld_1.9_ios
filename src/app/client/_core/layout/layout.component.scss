@@ -1,0 +1,23 @@
+.close-icon {
+    position: fixed;
+    margin: -18px;
+    color: #808080e0;
+    cursor: pointer;
+    float: right;
+}
+
+.close-icon:hover {
+    color: #d42424;
+}
+
+youtube-player {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#add-more {
+    .mat-raised-button {
+        line-height: 23px !important;
+        font-size: small;
+    }
+}

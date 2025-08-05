@@ -1,0 +1,442 @@
+<!-- <section class="content">
+    <div class="row mb-2">
+        <div class="col"></div>
+        <div class="col-xm-12 col-md-6">
+            <h2 class="text-center text-muted" style="font-weight: 900;">Customer Details</h2>
+        </div>
+        <div class="col">
+            <div class="col-6 col-sm-6 col-md-6 col-lg-6" style="float: right; margin-right: 95px">
+                <mat-form-field appearance="outline">
+                    <mat-label>What's on Your Mind</mat-label>
+                    <input matInput placeholder="search anything here" id="quickFilter"
+                        (input)="onQuickFilterChanged()">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <ag-grid-angular #agGrid id="myGrid" class="ag-theme-alpine table-class" rowAnimation
+            [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData" [enableCellTextSelection]="true"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+</section> -->
+<section class="content">
+  <h2 class="text-center text-muted" style="font-weight: 900;">Customer Info</h2>
+  <div *ngIf="isAnyRowSelected" style="position: fixed; bottom: 35px; right: 25px;  z-index: 100;">
+    <button mat-mini-fab matTooltip="Disable/Enable Ota Trigger" *ngIf="isDeveloper"
+      (click)="manageActivityNdOtaTrigger('ota')" color="primary">
+      <mat-icon><i class='bx bxl-android bx-sm'></i></mat-icon>
+    </button> &nbsp;
+    <button mat-mini-fab matTooltip="Add/Remove Customer to/from a Group" *ngIf="isDeveloper"
+      (click)="addGroup(addGroupForm)" color="accent">
+      <mat-icon>group_add</mat-icon>
+    </button>
+    &nbsp;
+    <button mat-mini-fab matTooltip="Activate/Inactivate Customers" *ngIf="!isDeveloper"
+      (click)="manageActivityNdOtaTrigger('activity')" color="accent">
+      <mat-icon><i class='bx bxs-user bx-sm'></i></mat-icon>
+    </button>
+  </div>
+  <mat-card *ngIf="isDeveloper?false: isMoblie">
+    <mat-card-content>
+      <div class="row align-items-baseline">
+        <div class="col-9 align-items: baseline;">
+          <mat-form-field class="example-form-field" style="width: 100%;">
+            <mat-label>Search here...</mat-label>
+            <input matInput type="text" #ger (input)="filterRowData(ger.value)">
+            <button *ngIf="ger.value" matSuffix mat-icon-button aria-label="Clear"
+              (click)="ger.value='';filterRowData(ger.value)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <div class="d-flex justify-content-center" style="align-items: center;">
+            <a class="btn btn-outline-primary" (click)="exportPdf()">
+              <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+              <!-- PDF -->
+            </a>
+            <a>|</a>
+            <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+              <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+              <!-- EXCEL -->
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+
+    </mat-card-content>
+  </mat-card>
+  <div class="row" *ngIf="isDeveloper?true:!isMoblie"
+    style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+    <div class="col-12 col-md-2" *ngIf="!isDistributor">
+      <mat-form-field appearance="outline" style="width: 100% !important;">
+        <mat-label>Choose Distributor </mat-label>
+        <mat-select #selectDistributor multiple [(ngModel)]="allSelectedDistributorList">
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+            <input type="text" #selectDistributorinput matInput (input)="filterDistributors($event.target.value)"
+              placeholder="Search Distributor">
+          </mat-form-field>
+          <div class="select-all" *ngIf="!selectDistributorinput.value">
+            <mat-checkbox [(ngModel)]="allSelectedDistributor" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllSelectionForDistributor()">Select All</mat-checkbox>
+          </div>
+          <mat-option (click)="optionClickDistributor($event,state)" [disabled]="state.id==0"
+            *ngFor="let state of filteredDistributorList" [value]="state.id">
+            {{state.distributor | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-2">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Choose State </mat-label>
+        <mat-select #selectState multiple [(ngModel)]="allSelectedStateList">
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+            <input type="text" #selectStateinput matInput (input)="filterStates($event.target.value)"
+              placeholder="Search states">
+          </mat-form-field>
+          <div class="select-all" *ngIf="!selectStateinput.value">
+            <mat-checkbox [(ngModel)]="allSelectedState" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllSelectionForState()">Select All</mat-checkbox>
+          </div>
+          <mat-option (click)="optionClickState($event,state)" [disabled]="state.id==0"
+            *ngFor="let state of filteredStateList" [value]="state.id">
+            {{state.statename | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-2">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Choose District </mat-label>
+        <mat-select #selectDistrict multiple [(ngModel)]="allSelectedDistrictList">
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+            <input type="text" #selectDistrictinput matInput (input)="filterDistricts($event.target.value)"
+              placeholder="Search districts">
+          </mat-form-field>
+          <div class="select-all" *ngIf="!selectDistrictinput.value">
+            <mat-checkbox [(ngModel)]="allSelectedDistrict" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllSelectionForDistrict()">Select All</mat-checkbox>
+          </div>
+          <!-- <mat-select-filter [placeholder]="'Filter'" [displayMember]="'statename'" [array]="stateList"
+            (filteredReturn)="filteredListState = $event"></mat-select-filter> -->
+          <mat-option (click)="optionClickDistrict($event,state)" [disabled]="state.id==0"
+            *ngFor="let state of filteredDistrictList" [value]="state?.id">
+            {{state?.name | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-2">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Choose City </mat-label>
+        <mat-select #selectCity multiple [(ngModel)]="allSelectedCityList">
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+            <input type="text" #selectCityinput matInput (input)="filterCities($event.target.value)"
+              placeholder="Search city">
+          </mat-form-field>
+          <div class="select-all" *ngIf="!selectCityinput.value">
+            <mat-checkbox [(ngModel)]="allSelectedCity" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllSelectionForCity()">Select All</mat-checkbox>
+          </div>
+          <mat-option (click)="optionClickCity($event,city)" *ngFor="let city of filteredCityList" [value]="city?.id">
+            {{city?.cityname | titlecase}}
+          </mat-option>
+
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-2">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Choose Location </mat-label>
+        <mat-select #selectLocation multiple [(ngModel)]="allSelectedLocationList">
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+            <input type="text" #selectLocationinput matInput (input)="filterLocations($event.target.value)"
+              placeholder="Search location">
+          </mat-form-field>
+          <div class="select-all" *ngIf="!selectLocationinput.value">
+            <mat-checkbox [(ngModel)]="allSelectedLocation" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllSelectionForLocation()">Select All</mat-checkbox>
+          </div>
+
+          <mat-option (click)="optionClickLocation($event,location)" *ngFor="let location of filteredLocationList"
+            [value]="location?.id">
+            {{location?.area | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-2">
+      <!-- <mat-form-field appearance="outline">
+        <mat-select placeholder="Choose plan">
+          <mat-select-filter [array]="versionList" [displayMember]="'version'"
+            (filteredReturn)="filteredVersionList =$event"></mat-select-filter>
+          <mat-option (click)="getPlan(version)" *ngFor="let version of filteredVersionList" [value]="version?.id">
+            {{version?.version}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Choose Version </mat-label>
+        <mat-select #selectVersion multiple [(ngModel)]="allSelectedVersionList">
+          <div class="select-all">
+            <mat-checkbox [(ngModel)]="allSelectedVersion" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllSelectionForVersion()">Select All</mat-checkbox>
+          </div>
+
+          <mat-option (click)="optionClickVersion($event, location)" *ngFor="let location of filteredVersionList "
+            [value]="location?.id">
+            {{location?.version | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-2">
+      <mat-form-field appearance="outline">
+        <mat-select placeholder="Choose Activity">
+          <mat-select-filter [array]="activeList" [displayMember]="'version'"
+            (filteredReturn)="filteredActiveList =$event"></mat-select-filter>
+          <mat-option (click)="getActive(version)" *ngFor="let version of filteredActiveList" [value]="version?.id">
+            {{version?.name | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-2" *ngIf="isDeveloper">
+      <mat-form-field appearance="outline" style="width: 100% !important;">
+        <mat-label>Choose Group </mat-label>
+        <mat-select #selectGroup [(ngModel)]="allSelectedGroupList">
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+            <input type="text" matInput (input)="filterGroups($event.target.value)" placeholder="Search Group">
+          </mat-form-field>
+          <!-- <div class="select-all">
+            <mat-checkbox [(ngModel)]="allSelectedGroup" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllSelectionGroup()">Select All</mat-checkbox>
+          </div> -->
+          <mat-option (click)="optionClickGroup($event,state)" [disabled]="state?.id==0"
+            *ngFor="let state of filteredGroupList" [value]="state?.id">
+            {{ state?.id+'. '+state?.name | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter A Date Range</mat-label>
+        <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
+          <input matStartDate matInput placeholder="Start date" (dateChange)="getFromDate($event)">
+          <input matEndDate matInput placeholder="End date" (dateChange)="getToDate($event)">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-3">
+      <div class="d-flex justify-content-center" style="align-items: center;margin: 0.7em 0;">
+
+        <a class="btn btn-outline-primary" (click)="exportPdf()">
+          <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+          PDF
+        </a>
+        <a>|</a>
+        <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+
+          <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+          EXCEL
+        </a>
+        <!-- <a>|</a>
+        <a class="btn btn-outline-danger" (click)="swapCustomers()">
+          <i class="fa fa-exchange" aria-hidden="true"></i>
+          SWAP
+        </a> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="isDeveloper?true:!isMoblie">
+    <!-- (selectionChanged)="onSelectionChanged()" -->
+    <!-- [rowSelection]="isDistributor?'':'multiple'" -->
+    <ag-grid-angular #agGrid domLayout='autoHeight' (selectionChanged)="onSelectionChanged()"
+      [rowSelection]="isDistributor?'':'multiple'" [enableCellTextSelection]="true" id="myGrid" class="ag-theme-alpine table-class" rowAnimation
+      [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData" [enableCellTextSelection]="true"
+      (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+  </div>
+  <br>
+  <mat-card *ngIf="isDeveloper?false:isMoblie">
+    <mat-card-content>
+      <div class="row">
+        <mat-card class="sample-card" *ngFor="let obj of rowData">
+          <div class="row justify-content-center">
+            <div class="col-10 d-flex align-items-center" (click)="signintoCustomer(obj)">
+              <span class="card-headline-text">{{obj.clientname | titlecase}}
+              </span>
+            </div>
+            <div class="col-2 text-end d-flex justify-content-end align-items-center">
+              <button mat-icon-button [ngStyle]="{'color':!obj?.isdelete?'#9ede73':'#f55c47'}">
+                <!-- <i [ngClass]="!obj?.isdelete?'fa fa-user':'fa fa-user-times'"
+                  style=" font-size: large; margin-bottom: -0.2em; width: auto; height: auto;" aria-hidden="true"></i> -->
+                <!-- <i style=" font-size: large;  width: auto; height: auto;" class="material-icons">favorite_border</i> -->
+                <mat-icon style=" font-size: large;  width: auto; height: auto;">fiber_manual_record</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="col-12 ">
+            <span class="card-caption"> <mat-icon
+                style=" font-size: large; margin-bottom: -0.25em; width: auto; height: auto;">pin_drop</mat-icon> {{
+              obj?.location?.area |titlecase }}, {{
+              obj?.city?.cityname |titlecase
+              }}, {{
+              obj?.district?.name|titlecase }}, {{ obj?.state?.statename |titlecase}}, {{
+              obj?.country?.countryname |titlecase}}-{{ obj?.zipcode |titlecase}}.</span>
+          </div>
+          <mat-divider></mat-divider>
+          <div class=" row sample-padding-t10 ">
+            <div class="col-4">
+              <span class="pcard-title-txt">Username</span>
+              <br>
+              <span class="pcard-title-caption" style="text-transform: none;">{{obj?.username}}</span>
+            </div>
+            <div class="col-4">
+              <span class="pcard-title-txt">Password</span>
+              <br>
+              <span class="pcard-title-caption" style="text-transform: none;">{{obj?.password}}</span>
+            </div>
+            <div class="col-4">
+              <span class="pcard-title-txt">{{obj.gender==='organization'?'Organization':'Gender'}}</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.gender?obj?.gender:'N/A'}}</span>
+            </div>
+          </div>
+          <div class="row sample-padding-t10">
+            <div class="col-4">
+              <span class="pcard-title-txt">Tan No.</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.tan_no?obj?.tan_no:'N/A'}}</span>
+            </div>
+            <div class="col-4">
+              <span class="pcard-title-txt">Gst No.</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.gst_no?obj?.gst_no:'N/A'}}</span>
+            </div>
+            <div class="col-4">
+              <span class="pcard-title-txt">phone</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.phone?obj?.phone:'N/A'}}</span>
+            </div>
+
+          </div>
+          <div class="row sample-padding-t10">
+            <div class="col-12">
+              <span class="pcard-title-txt">Email : </span>
+              <span class="pcard-title-caption" style="text-transform: none;"> {{obj?.email}}</span>
+            </div>
+          </div>
+          <div class="row sample-padding-t10">
+            <div class="col-6">
+              <span class="pcard-title-txt">Registration date</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.creationdate}}</span>
+            </div>
+            <div class="col-6">
+              <span class="pcard-title-txt">Last Modified date</span>
+              <br>
+              <span class="pcard-title-caption">{{obj?.updatedate }}</span>
+            </div>
+            <div class="row sample-padding-t10">
+              <div class="col-10">
+                <span class="pcard-title-txt">Distributor</span>
+                <br>
+                <span class="pcard-title-caption" style="text-transform: none;"> {{obj?.distributor }} </span>
+              </div>
+              <div class="col-2">
+                <span class="pcard-title-txt">Plan</span>
+                <br>
+                <span class="pcard-title-caption" style="text-transform: none;"> {{obj?.versionMaster?.version |
+                  titlecase}}</span>
+              </div>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <!-- <br> -->
+          <div class="row mt-2" id="add-more">
+            <div class="col-10">
+              <button style="line-height: 12px !important;" (click)="signintoCustomer(obj)" mat-raised-button
+                color="accent">{{obj?.clientcode}}</button>
+            </div>
+            <div class="col-2 d-flex justify-content-end " style="margin-top: -0.77em;">
+              <button mat-icon-button color="primary" (click)="onclickEdit(obj)">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button mat-icon-button (click)="activateCustomer(obj)">
+                <i [ngClass]="!obj?.isdelete?'fa fa-user':'fa fa-user-times'"
+                  [ngStyle]="{'color':!obj?.isdelete?'#9ede73':'#f55c47'}" aria-hidden="true"></i>
+              </button>
+              <button mat-icon-button *ngIf="!isDistributor" (click)="swapCustomer(obj)">
+                <img src="/assets/images/swap.webp" width="27px" alt="swap" srcset="">
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>
+
+<ng-template #swap let-data>
+  <div style="margin: 1em;">
+    <h1 class="text-center" style="font-weight: 800;">Customer Swapping</h1>
+    <h3>Select distributor to exchange {{data.clientname}} </h3>
+    <div class="col-12" style="display: flex; justify-content: center;">
+      <mat-form-field appearance="outline">
+        <mat-select [disableOptionCentering]="true" #select1 placeholder="Choose Distributor"
+          [(ngModel)]="selectedSwapDistributor">
+          <mat-select-filter *ngIf="select1.focused" [array]="swapdistributorList" [displayMember]="'distributor'"
+            (filteredReturn)="swapFiletereddistributorList =$event"></mat-select-filter>
+          <mat-option (click)="onchooseDistributor(item,data)" *ngFor="let item of swapFiletereddistributorList"
+            [value]="item.id">
+            {{item.distributor}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-outline-primary" style="margin-left: 10px;" (click)="closeDialog()">Close</button>
+      &nbsp;&nbsp; <button class=" btn btn-outline-success" [disabled]="!swapDistributor&&!swapingClient"
+        (click)="swapClient()">
+        Save</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #addGroupForm>
+  <h2 mat-dialog-title>Add Customers To Group</h2>
+  <mat-dialog-content class="mat-typography">
+    <form style=" min-width: 250px !important;">
+      <mat-form-field class="w-100">
+        <mat-label>Group name</mat-label>
+        <input mat-input type="text" placeholder="Pick one" aria-label="Group name" matInput [formControl]="groupname"
+          [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option [value]="option.name"
+            *ngFor="let option of filteredGroupOptions | async;">{{option.name}}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="true" color="primary" cdkFocusInitial [disabled]="!groupname.valid"
+      (click)="saveClientToGroup()">Save</button>
+  </mat-dialog-actions>
+</ng-template>

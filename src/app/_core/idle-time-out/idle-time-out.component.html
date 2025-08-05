@@ -1,0 +1,5 @@
+<!-- <p>idle-time-out works!</p> -->
+<!-- <div>IDLE_STATE: {{idleState}}, COUNTDOWN: {{countdown}}, LAST_PING: {{lastPing }}</div> -->
+<span *ngIf="idleState == 'IDLE'" style="padding: 0px; font-weight: 700; color:black;">You will time out in  <span style="font-weight: bold;color: red; ">{{countdown}}</span>  seconds!</span>
+<span *ngIf="idleState == 'NOT_STARTED'" style="padding: 0px;  font-weight: bold; color:red;">Inactive</span>
+<span *ngIf="idleState == 'NOT_IDLE'" style="padding: 0px; font-weight: bold; color:green;">Active</span>

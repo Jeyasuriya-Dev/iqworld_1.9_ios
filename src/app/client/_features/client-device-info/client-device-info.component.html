@@ -1,0 +1,724 @@
+<!-- <section class="content">
+    <h1 class="text-center text-muted" style="font-weight: 900;">Device List</h1>
+    <div class="row mb-2 mt-2 justify-content-between">
+        <div class="col-12">
+        </div>
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <div class="d-flex justify-content-center"
+                style="align-items: center;margin: 0.25em 0;padding-bottom: 1.34375em;">
+
+                <a class="btn btn-outline-primary" (click)="exportPdf()">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    PDF
+                </a>
+                <a>|</a>
+                <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    EXCEL
+                </a>
+            </div>
+            <div style=" display: flex;align-items: center;">
+                <mat-form-field appearance="outline">
+                    <mat-label>What's on Your Mind</mat-label>
+                    <input matInput placeholder="search anything here" id="quickFilter"
+                        (input)="onQuickFilterChanged()">
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div class="col"> <a class="btn btn-primary"  (click)="exportPdf()">
+                <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                Download PDF
+            </a></div>
+        <div class="col-xm-12 col-md-6">
+            <h1 class="text-center text-info">Device List</h1>
+        </div>
+        <div class="col">
+            <div class="col-6 col-sm-6 col-md-6 col-lg-6" style="float: right; margin-right: 95px">
+                <div class="search" style="margin-bottom: 10px;">
+                    <input type="text" class="seach-field" matInput id="quickFilter" (input)="onQuickFilterChanged()"
+                        placeholder="Search.." />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <ag-grid-angular #agGrid id="myGrid" class="ag-theme-alpine table-class" rowAnimation
+            [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData" [enableCellTextSelection]="true"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+</section> -->
+
+
+<section class="content">
+  <div id="circularMenu" class="circular-menu" *ngIf="isAnyRowSelected && !isMoblie && client?.ismbc">
+    <a class="floating-btn" onclick="document.getElementById('circularMenu').classList.toggle('active');">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </a>
+
+    <menu class="items-wrapper">
+      <!-- <a class="menu-item "></a>
+      <a class="menu-item "></a> -->
+      <a class="menu-item "></a>
+      <a class="menu-item " title="device allocation to store" (click)="openStorePopUp(swap)">
+        <i class="fa fa-exchange" aria-hidden="true"></i>
+      </a>
+    </menu>
+  </div>
+
+  <div style=" position: fixed;
+  bottom: 1em;
+  right: 1em;
+  z-index: 100;" *ngIf="isAnyRowSelected && !isMoblie && !client?.ismbc">
+    <div class="example-button-row">
+      <div class="example-flex-container ">
+        <div class="example-button-container pb-2">
+          <button mat-mini-fab aria-label="Example icon button with a menu icon" (click)="openPaymentPopUp(payment)">
+            <mat-icon>payment</mat-icon>
+          </button>
+        </div>
+
+        <div class="example-button-container">
+          <button mat-mini-fab color="warn" (click)="openPowerOffPopUp(powerOffPopUp)"
+            aria-label="Example icon button with a home icon">
+            <mat-icon>schedule</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h1 class="text-center text-muted" style="font-weight:900; ">Device List</h1>
+
+  <mat-card *ngIf="isMoblie">
+    <mat-card-content>
+      <div class="row align-items-baseline">
+        <div class="col-9 align-items: baseline;">
+          <mat-form-field class="example-form-field" style="width: 100%;">
+            <mat-label>Search here...</mat-label>
+            <input matInput type="text" #ger (input)="filterRowData(ger.value)">
+            <button *ngIf="ger.value" matSuffix mat-icon-button aria-label="Clear"
+              (click)="ger.value='';filterRowData(ger.value)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <div class="d-flex justify-content-center" style="align-items: center;">
+            <a class="btn btn-outline-primary" (click)="exportPdf()">
+              <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+              <!-- PDF -->
+            </a>
+            <a>|</a>
+            <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+              <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+              <!-- EXCEL -->
+            </a>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div class="row" style="display: flex; justify-content: space-around; flex-wrap: wrap;" *ngIf="!isMoblie">
+    <!-- <div *ngIf="!isDistributor">
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>choose Distributor </mat-label>
+          <mat-select #selectDistributor multiple [(ngModel)]="allSelectedDistributorList">
+            <div class="select-all">
+              <mat-checkbox [(ngModel)]="allSelectedDistributor" [ngModelOptions]="{standalone: true}"
+                (change)="toggleAllSelectionForDistributor()">Select All</mat-checkbox>
+            </div>
+            <mat-option (click)="optionClickDistributor(distributor)" [disabled]="distributor.id==0"
+              *ngFor="let distributor of distributorList" [value]="distributor.id">
+              {{distributor.distributor}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>choose Customer </mat-label>
+          <mat-select #selectClient multiple [(ngModel)]="allSelectedClientList">
+            <div class="select-all">
+              <mat-checkbox [(ngModel)]="allSelectedClient" [ngModelOptions]="{standalone: true}"
+                (change)="toggleAllSelectionForClient()">Select All</mat-checkbox>
+            </div>
+            <mat-option (click)="optionClickClient(client)" [disabled]="client.id==0" *ngFor="let client of clientList1"
+              [value]="client.id">
+              {{client.clientname}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div> -->
+    <div class="col-12 col-md-2" *ngIf="client?.ismbc">
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>Choose Store</mat-label>
+        <mat-select #selectStore multiple [(ngModel)]="selectedStores">
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+            <input type="text" #storeFilterInput matInput (input)="filterStores($event.target.value)"
+              placeholder="Search...">
+          </mat-form-field>
+          <div class="select-all">
+            <mat-checkbox [(ngModel)]="allStoresSelected" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllStoresSelection()">Select All</mat-checkbox>
+          </div>
+          <mat-option (click)="storeOptionClick()" [disabled]="category?.id==0"
+            *ngFor="let category of filteredStoreListDropDown" [value]="category?.id">
+            {{category?.name | titlecase }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-2" *ngIf="client?.ismbc">
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>Choose Category</mat-label>
+        <mat-select #selectFilterCategory multiple [(ngModel)]="selectedFilterCategories">
+          <mat-form-field class="filter-input"
+            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+            <input type="text" #categoryFilterInput matInput (input)="filterlistCategories($event.target.value)"
+              placeholder="Search...">
+          </mat-form-field>
+          <div class="select-all">
+            <mat-checkbox [(ngModel)]="allFilterCategoriesSelected" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllCategoryFilterSelection()">Select All</mat-checkbox>
+          </div>
+          <mat-option (click)="categoryFilterOptionClick()" [disabled]="category?.id==0"
+            *ngFor="let category of filteredCategoryListDropDownList" [value]="category?.id">
+            {{category?.categoryname | titlecase }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-2" *ngIf="!client?.ismbc">
+      <div>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Choose State </mat-label>
+          <mat-select #selectState multiple [(ngModel)]="allSelectedStateList">
+            <mat-form-field class="filter-input"
+              style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+              <input type="text" #selectStateinput matInput (input)="filterStates($event.target.value)"
+                placeholder="Search...">
+            </mat-form-field>
+            <div class="select-all" *ngIf="!selectStateinput.value">
+              <mat-checkbox [(ngModel)]="allSelectedState" [ngModelOptions]="{standalone: true}"
+                (change)="toggleAllSelectionForState()">Select All</mat-checkbox>
+            </div>
+            <span *ngFor="let state of filteredStateList">
+              <mat-option (click)="optionClickState(state)" *ngIf="state?.id!='0'" [value]="state.id">
+                {{state.statename| titlecase}}
+              </mat-option>
+            </span>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-2" *ngIf="!client?.ismbc">
+      <div>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Choose District </mat-label>
+          <mat-select #selectDistrict multiple [(ngModel)]="allSelectedDistrictList">
+            <mat-form-field class="filter-input"
+              style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+              <input type="text" #selectDistrictinput matInput (input)="filterDistricts($event.target.value)"
+                placeholder="Search...">
+            </mat-form-field>
+            <div class="select-all" *ngIf="!selectDistrictinput.value">
+              <mat-checkbox [(ngModel)]="allSelectedDistrict" [ngModelOptions]="{standalone: true}"
+                (change)="toggleAllSelectionForDistrict()">Select All</mat-checkbox>
+            </div>
+            <!-- <mat-select-filter [placeholder]="'Filter'" [displayMember]="'statename'" [array]="stateList"
+                (filteredReturn)="filteredListState = $event"></mat-select-filter> -->
+            <span *ngFor="let district of filteredDistrictList">
+              <mat-option (click)="optionClickDistrict(district)" *ngIf="district.id!=0" [value]="district?.id">
+                {{district?.name| titlecase}}
+              </mat-option>
+            </span>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-2" *ngIf="!client?.ismbc">
+      <div>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Choose City </mat-label>
+          <mat-select #selectCity multiple [(ngModel)]="allSelectedCityList">
+            <mat-form-field class="filter-input"
+              style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+              <input type="text" #selectCityinput matInput (input)="filterCities($event.target.value)"
+                placeholder="Search...">
+            </mat-form-field>
+            <div class="select-all" *ngIf="!selectCityinput.value">
+              <mat-checkbox [(ngModel)]="allSelectedCity" [ngModelOptions]="{standalone: true}"
+                (change)="toggleAllSelectionForCity()">Select All</mat-checkbox>
+            </div>
+            <span *ngFor="let city of filteredCityList">
+              <mat-option (click)="optionClickCity(city)" [value]="city?.id" *ngIf="city?.id!=0">
+                {{city?.cityname | titlecase}}
+              </mat-option>
+            </span>
+
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-2" *ngIf="!client?.ismbc">
+
+      <div>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Choose Location </mat-label>
+          <mat-select #selectLocation multiple [(ngModel)]="allSelectedLocationList">
+            <mat-form-field class="filter-input"
+              style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+              <input type="text" #selectLocationinput matInput (input)="filterLocations($event.target.value)"
+                placeholder="Search...">
+            </mat-form-field>
+            <div class="select-all" *ngIf="!selectLocationinput.value">
+              <mat-checkbox [(ngModel)]="allSelectedLocation" [ngModelOptions]="{standalone: true}"
+                (change)="toggleAllSelectionForLocation()">Select All</mat-checkbox>
+            </div>
+            <span *ngFor="let location of filteredLocationList ">
+              <mat-option (click)="optionClickLocation(location)" [value]="location?.id" *ngIf="location?.id!=0">
+                {{location?.area | titlecase}}
+              </mat-option>
+            </span>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="col-12 col-md-2" *ngIf="!client?.ismbc">
+      <div>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Choose Version </mat-label>
+          <mat-select #selectVersion multiple [(ngModel)]="allSelectedVersionList">
+            <div class="select-all">
+              <mat-checkbox [(ngModel)]="allSelectedVersion" [ngModelOptions]="{standalone: true}"
+                (change)="toggleAllSelectionForVersion()">Select All</mat-checkbox>
+            </div>
+
+            <mat-option (click)="optionClickVersion(location)" *ngFor="let location of filteredVersionList "
+              [value]="location?.id">
+              {{location?.version | titlecase}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-2">
+      <div>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Choose Active or Inactive </mat-label>
+          <mat-select placeholder="Choose Active or Inactive">
+            <mat-select-filter [array]="activeList" [displayMember]="'name'"
+              (filteredReturn)="filteredActiveList =$event"></mat-select-filter>
+            <mat-option (click)="getActive(active)" *ngFor="let active of filteredActiveList" [value]="active?.id">
+              {{active?.name | titlecase}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-2">
+      <div>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-select placeholder="Choose Status" >
+            <mat-select-filter [array]="onlineList" [displayMember]="'name'"
+              (filteredReturn)="filteredOnlineList =$event"></mat-select-filter>
+            <mat-option (click)="getOnline(active)" *ngFor="let active of filteredOnlineList" [value]="active">
+              {{active?.name | titlecase}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+    <div class="col-12 col-md-2">
+      <div class="">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-select placeholder="Choose Orientation">
+            <mat-select-filter [array]="orientationList" [displayMember]="'name'"
+              (filteredReturn)="filteredOrientationList =$event"></mat-select-filter>
+            <mat-option (click)="getOrientation(orientation)" *ngFor="let orientation of filteredOrientationList"
+              [value]="orientation?.id">
+              {{orientation?.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- <div class="col-12 col-md-2">
+      <div class="">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
+            <input matStartDate matInput placeholder="Start date" (dateChange)="getFromDate($event)">
+            <input matEndDate matInput placeholder="End date" (dateChange)="getToDate($event)">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+    </div> -->
+    <div class="col-12 col-md-2">
+      <div>
+        <div class="d-flex justify-content-center" style="align-items: center;margin: 0.7em 0;">
+
+          <!-- <a class="btn btn-outline-primary" (click)="exportPdf()">
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+            PDF
+          </a>
+          <a>|</a> -->
+          <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+            EXCEL
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class=" " style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+      -------------
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Choose Distributor">
+            <mat-select-filter [array]="distributorList" [displayMember]="'distributor'"
+              (filteredReturn)="filteredDistributorList =$event"></mat-select-filter>
+            <mat-option (click)="getAllClientByDistributor(distributor)"
+              *ngFor="let distributor of filteredDistributorList" [value]="distributor?.username">
+              {{distributor?.distributor}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Choose Customer">
+            <mat-select-filter [array]="clientList1" [displayMember]="'clientname'"
+              (filteredReturn)="filteredListClient =$event"></mat-select-filter>
+            <mat-option (click)="getStatelistByClient(item)" *ngFor="let item of filteredListClient"
+              [value]="item.clientname">
+              {{item.clientname}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      ---------------
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Choose statename">
+            <mat-select-filter [array]="stateList" [displayMember]="'statename'"
+              (filteredReturn)="filteredStateList =$event"></mat-select-filter>
+            <span *ngFor="let state of filteredStateList">
+              <mat-option (click)="getDistrictbyStatelist(state)" *ngIf="state?.id!='0'" [value]="state?.statename">
+                {{state?.statename}}
+              </mat-option>
+            </span>
+  
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Choose District">
+            <mat-select-filter [array]="districtList" [displayMember]="'name'"
+              (filteredReturn)="filteredDistrictList =$event"></mat-select-filter>
+            <span *ngFor="let district of filteredDistrictList">
+              <mat-option (click)="getCitybyDistrictList(district)" *ngIf="district?.id!='0'" [value]="district?.name">
+                {{district.name}}
+              </mat-option>
+            </span>
+  
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="choose city">
+            <mat-select-filter [array]="cityList" [displayMember]="'cityname'" (filteredReturn)="filteredCityList =$event"></mat-select-filter>
+            <span *ngFor="let city of filteredCityList">
+              <mat-option (click)="getLocationByStateAndCity(city)" *ngIf="city?.id!='0'" [value]="city?.cityname">
+                {{city?.cityname}}
+              </mat-option>
+            </span>
+  
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="choose location">
+            <mat-select-filter [array]="locationList" [displayMember]="'area'" (filteredReturn)="filteredLocationList =$event"></mat-select-filter>
+            <span *ngFor="let location of filteredLocationList">
+              <mat-option (click)="getLocation(location)" *ngIf="location?.id!='0'" [value]="location.area">
+                {{location?.area}}
+              </mat-option>
+            </span>
+  
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="choose Orientation">
+            <mat-select-filter [array]="orientationList" [displayMember]="'name'"
+              (filteredReturn)="filteredOrientationList =$event"></mat-select-filter>
+            <mat-option (click)="getOrientation(orientation)" *ngFor="let orientation of filteredOrientationList" [value]="orientation?.id">
+              {{orientation?.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="choose Active or Inactive">
+            <mat-select-filter [array]="activeList" [displayMember]="'name'"
+              (filteredReturn)="filteredActiveList =$event"></mat-select-filter>
+            <mat-option (click)="getActive(active)" *ngFor="let active of filteredActiveList" [value]="active?.id">
+              {{active?.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="choose status">
+            <mat-select-filter [array]="onlineList" [displayMember]="'name'"
+              (filteredReturn)="filteredOnlineList =$event"></mat-select-filter>
+            <mat-option (click)="getOnline(active)" *ngFor="let active of filteredOnlineList" [value]="active?.id">
+              {{active?.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="choose plan">
+            <mat-select-filter [array]="versionList" [displayMember]="'version'"
+              (filteredReturn)="filteredVersionList =$event"></mat-select-filter>
+            <mat-option (click)="getVersion(version)" *ngFor="let version of filteredVersionList" [value]="version?.id">
+              {{version?.version}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
+            <input matStartDate matInput placeholder="Start date" (dateChange)="getFromDate($event)">
+            <input matEndDate matInput placeholder="End date" (dateChange)="getToDate($event)">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <div class="d-flex justify-content-center" style="align-items: center;margin: 0.7em 0;">
+  
+          <a class="btn btn-outline-primary" (click)="exportPdf()">
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+            PDF
+          </a>
+          <a>|</a>
+          <a class="btn btn-outline-success" (click)="exportAsExcelFile()">
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+            EXCEL
+          </a>
+        </div>
+      </div>
+  
+    </div> -->
+  <div class="row" >
+    <ag-grid-angular #agGrid id="myGrid" style="text-align: center;" domLayout='autoHeight' class="ag-theme-alpine"
+      (selectionChanged)="onSelectionChanged()" [rowSelection]="'multiple'" [enableCellTextSelection]="true"
+      rowAnimation [gridOptions]="gridOptions" [columnDefs]="columnDefs" [rowData]="rowData"
+      [enableCellTextSelection]="true" (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+  </div>
+ 
+</section>
+
+<ng-template #swap>
+  <div style="margin: 1em;">
+    <h1 class="text-center" style="font-weight: 800;">Device Allocation For Store</h1>
+    <div class="col-12" style="display: flex; justify-content: center;">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-select #select placeholder="Choose Store name" [autofocus]="true">
+          <mat-select-filter *ngIf="select.focused" [array]="storeList" [displayMember]="'name'"
+            (filteredReturn)="filteredStoreList=$event"></mat-select-filter>
+          <mat-option (click)="onchooseStore(item)" *ngFor="let item of filteredStoreList" [value]="item">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-outline-primary" style="margin-left: 10px;" (click)="closeDialog()">Close</button>
+      &nbsp;&nbsp; <button class=" btn btn-outline-success" (click)="allocateDevices()">
+        Save</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #ScreenShots let-data>
+  <!-- flex-wrap: wrap; -->
+  <h2 mat-dialog-title style="background-color: var(--blue-color); color: aliceblue;"> {{data?.username}}
+  </h2>
+  <mat-dialog-content class="mat-typography">
+    <span class="d-flex justify-content-center align-items-center flex-wrap w-100">
+      <mat-card *ngFor="let screenShot of ScreenShotList" style="max-width: 320px;" class="m-1">
+        <img mat-card-image [src]="screenShot">
+      </mat-card>
+    </span>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #payment let-data>
+  <div>
+    <h2 mat-dialog-title>Plan renewal</h2>
+    <mat-dialog-content class="mat-typography">
+      <fieldset style="text-align: center;">
+        <div>
+          <button mat-raised-button *ngIf="remainingDays>=0"> {{remainingDays || noOfDays}} Days </button>
+        </div>
+        <mat-radio-group aria-label="Select an option" (change)="onRadioChange($event)" [(ngModel)]="selectedPlantype">
+          <mat-radio-button value="uptodate" [disabled]="data.isValid">Up To Current
+            Plan</mat-radio-button>
+          <mat-radio-button value="plan" [disabled]="!data.isValid">New Plan</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <mat-form-field appearance="outline" style="margin-top: 1em;" class="w-100">
+          <mat-label>Select a plan</mat-label>
+          <mat-select [disabled]="selectedPlantype!='plan'" (selectionChange)="onPlanChange($event)"
+            [(value)]="selectedPlan">
+            <mat-option value="1" selected>1 Month</mat-option>
+            <mat-option value="2">2 Months</mat-option>
+            <mat-option value="3">3 Months</mat-option>
+            <mat-option value="6">6 Months</mat-option>
+            <mat-option value="12">1 Year(s)</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- <mat-form-field appearance="outline" style="margin-top: 1em;">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [min]="today" [disabled]="selectedPlantype!='plan'">
+            <input matStartDate placeholder="Start date">
+            <input matEndDate placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field> -->
+        <div class="container">
+          <div class="receipt_body">
+            <div class="items">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Plan</th>
+                      <th>Price</th>
+                      <th>Count</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let d of versionPriceList">
+                    <tr>
+                      <td>{{d?.version}}</td>
+                      <td>{{d?.perDayPrice}}</td>
+                      <td>{{d?.count}}</td>
+                      <td>₹{{d?.total}}</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr class="total-row">
+                      <td colspan="2">Grand Total</td>
+                      <td>{{totalDevicves}}</td>
+                      <td>₹{{totalPrice}}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button color="primary" [disabled]="true" [mat-dialog-close]="true"
+        (click)="initEasyBuzzPayment('payment')">Payment</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true" (click)="initEasyBuzzPayment('request')"
+        cdkFocusInitial>Request</button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>
+
+<ng-template #powerOffPopUp let-data>
+  <h2 mat-dialog-title>Device Power Off Config</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="row justify-content-center">
+
+      <div class="card1 col-12 col-sm-4" *ngFor="let device of selectedDevices">
+        <div class="card-wrapper">
+          <div class="card-icon">
+            <div class="icon-cart-box">
+              <mat-icon style="color: white;" >important_devices</mat-icon>
+            </div>
+          </div>
+
+          <div class="card-content">
+            <div class="card-title-wrapper">
+              <span class="card-title">{{device.username}}</span>
+              <span class="card-action" (click)="removeDeviceById(device.id)">
+                <svg xmlns="http://www.w3.org/2000/svg" height="15" width="15" viewBox="0 0 384 512">
+                  <path
+                    d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
+                  </path>
+                </svg>
+              </span>
+            </div>
+            <div class="card-text">
+              pwroff: {{device.pwroff}} daily
+              <!-- <br> pwron: {{device.pwron}} -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <label for="datetimelocal" style="font-weight: 500;">
+      Power Shutdown Time:
+    </label>
+
+    <input id="datetimelocal" #datetimelocal type="time" step="1" placeholder="dd/mm/yyyy hh:mm:ss" style="
+        padding: 10px 12px;
+        border-radius: 6px;
+        outline: none;
+        width: 100%;
+        font-size: 14px;
+        border: 2px solid var(--blue-color);
+        transition: border-color 0.3s, box-shadow 0.3s;
+      " />
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="true" color="primary"
+      (click)="UpdateDeviceShutdownTime(datetimelocal)" cdkFocusInitial>Save</button>
+  </mat-dialog-actions>
+
+</ng-template>

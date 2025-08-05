@@ -1,0 +1,212 @@
+<mat-card>
+    <mat-card-title style="color: #378cee;">{{isScheduleSettings?'Ota Scheduling':'Settings'}} </mat-card-title>
+    <br>
+    <mat-card-content>
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel expanded="true" *ngIf="isScheduleSettings">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="title" style="color: #378cee; font-size: large;">
+                        OTA Update
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <!-- <mat-icon></mat-icon> -->
+                    <span *ngIf="!isautoupgrade" [ngClass]="scheduleFormater()">{{scheduleFormater()}} &nbsp;</span>
+                    <mat-icon style="margin-right: 2%; color: #378cee;">alarm_on</mat-icon>
+                </mat-expansion-panel-header>
+                <div class="container">
+                    <span *ngFor="let ota of Ota?.list">
+                        <h1> {{ota.isvertical?'Vertical Device Update':'Horizontal device Update'}}</h1>
+                        <div class="row">
+                            <div class="col-sm-5 col-12 mt-1">
+                                <dl class="dl-horizontal">
+                                    <dt>Apk Name :</dt>
+                                    <dd>{{ota?.apk}}</dd>
+                                    <dt>Version :</dt>
+                                    <dd>{{ota?.ver}}</dd>
+                                    <dt>Update Time :</dt>
+                                    <dd>{{ota?.creationdate}}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-5 col-12 mt-1"
+                                *ngIf="ota.isvertical? isVerticalChecked ? isVerticalChecked:false:isHorizontalChecked?true:false">
+                                <dl class="dl-horizontal">
+                                    <!-- <dt>Start Date Time :</dt>
+                                    <dd>{{Ota?.ota_sch_starttime ?Ota?.ota_sch_starttime:"Null" }}</dd>
+                                    <dt>End Date Time :</dt>
+                                    <dd>{{Ota?.ota_sch_endtime ? Ota?.ota_sch_endtime:"Null"}}</dd> -->
+
+                                    <dt>Start Time :</dt>
+                                    <dd>{{startDate=='00:00:00'?dt:startDate }}</dd>
+                                    <dt>End Time :</dt>
+                                    <dd>{{endDate=='00:00:00' ? "23:59:59":endDate}}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>What's New?</h3>
+                            <ol type="a" style="color:rgba(126, 116, 114, 0.788);">
+                                <span *ngFor="let o of ota?.features">
+                                    <li>{{o}}</li>
+                                </span>
+                            </ol>
+
+                        </div>
+                        <hr>
+                    </span>
+                    <div>
+                        <label style="font-weight: 400;" for="">
+                            <h2>
+                                Are you
+                                need Device Auto Update ?
+                            </h2>
+                        </label>
+                        <!-- <span *ngIf="isautoupgrade" style="color: rgba(0, 0, 0, 0.288);"> click <a class="here-btn"
+                                (click)="stopOTASchedule('stop',isautoupgrade,'false')">here</a>
+                            to Close
+                            All Upgrade Popups</span> -->
+                        <div style="color: black; margin: 2% 0%;">
+                            <mat-radio-group aria-label="Select an option" [(ngModel)]="isautoupgrade"
+                                (ngModelChange)="stopOTASchedule('st',isautoupgrade,is_ota_active)">
+                                <mat-radio-button [value]="true">yes, i
+                                    need Device Auto Update</mat-radio-button> &nbsp;&nbsp;&nbsp;
+                                <mat-radio-button [value]="false"> no, i don't need Device Auto
+                                    Update</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <!-- {{color: brown; font-family: SF; font-weight: 700;}} -->
+                    </div>
+                    <p
+                        [ngStyle]="isautoupgrade ? {'color': 'grey','font-family': 'SF', 'font-weight': '700'} : {'color': 'brown','font-family': 'SF', 'font-weight': '700'}">
+                        Set
+                        Schedule Time</p>
+                    <!-- <mat-form-field appearance="outline">
+                        <input type="datetime-local" step="1" [min]="currentDate" matInput placeholder="Start Date and Time"
+                            [disabled]="isautoupgrade" [(ngModel)]="startDate">
+                    </mat-form-field> &nbsp; &nbsp;
+                    <mat-form-field appearance="outline">
+                        <input type="datetime-local" step="1" [min]="currentDate" matInput [disabled]="isautoupgrade"
+                            placeholder="End Date and Time" [(ngModel)]="endDate">
+                    </mat-form-field> -->
+
+                    <mat-form-field appearance="outline">
+                        <input type="text" matInput name="daterange" [value]="startDate +'-'+endDate"
+                            [(ngModel)]="ddate" [disabled]="isautoupgrade || isScheduled" />
+                        <mat-hint>Hrs:Min:Sec - Hrs:Min:Sec</mat-hint>
+                    </mat-form-field>
+
+                    <br>
+                    <div *ngIf="Ota">
+                        <mat-checkbox color='primary' [(ngModel)]='isVerticalChecked'
+                            [disabled]="isScheduled || isautoupgrade"> Vertical
+                            Devices</mat-checkbox>&nbsp; &nbsp;
+                        <mat-checkbox color='primary' [(ngModel)]='isHorizontalChecked'
+                            [disabled]="isScheduled || isautoupgrade ">
+                            Horizontal
+                            Devices</mat-checkbox>
+                    </div>
+                </div>
+                <mat-action-row>
+                    <button mat-raised-button color="warn" *ngIf="!isScheduled && !isautoupgrade"
+                        (click)="dateTimePicker()">Set
+                        Schedule</button>
+                    <button mat-raised-button color="primary" *ngIf="isScheduled && !isautoupgrade"
+                        (click)="stopOTASchedule('stop',isautoupgrade,'false')">Stop</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+            <br>
+            <mat-expansion-panel expanded="true" *ngIf="!isScheduleSettings">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="title" style="color: #378cee; font-size: large;">
+                        Master Settings
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <mat-icon style="margin-right: 2%; color: #378cee;">settings</mat-icon>
+                </mat-expansion-panel-header>
+                <div class="master">
+                    <div class="container">
+                        <!-- <div class="title">
+                            <p>Registration</p>
+                        </div> -->
+                        <form [formGroup]="masterForm">
+                            <div style="display: flex; justify-content: end;">
+                                <button *ngIf="masterFormSaved" type="button"
+                                    (click)="masterFormSaved=!masterFormSaved; enableMasterForm()" mat-mini-fab
+                                    aria-label="Example icon button with a menu icon">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+
+                                <button *ngIf="!masterFormSaved" color="primary" (click)="saveMasterForm()"
+                                    type="submit" mat-mini-fab aria-label="Example icon button with a menu icon">
+                                    <mat-icon>save</mat-icon>
+                                </button>
+                            </div>
+                            <!-- <div class="gender">
+                                <span class="gender_title">Schedule type</span>
+                                <br>
+                                <div class="category">
+                                    <mat-radio-group aria-label="Select an option" formControlName="isslot">
+                                        <mat-radio-button [value]="true">Slot Bases</mat-radio-button>
+                                        <mat-radio-button [value]="false">Time Bases</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div> -->
+                            <div class="user_details">
+
+                                <div class="input_box">
+                                    <label for="fileduration">File Duration</label>
+                                    <input matInput type="time-24" step="1" id="fileduration" class="without_ampm"
+                                        placeholder="Choose File Duration" required formControlName="fileduration">
+                                </div>
+                                <div class="input_box">
+                                    <label for="totalduration">Total Duration</label>
+                                    <input matInput type="time-24" step="1" id="totalduration"
+                                        placeholder="Enter Total Duration" formControlName="totalduration" required>
+                                </div>
+
+                                <div class="input_box">
+                                    <label for="cyclecount">Cycle Count</label>
+                                    <input type="number" id="cyclecount" min="" placeholder="Enter Cycle Count"
+                                        formControlName="cyclecount" required>
+                                </div>
+                                <div class="input_box">
+                                    <label for="slotcount">Slot Count</label>
+                                    <input disabled type="number" min="0" id="slotcount" placeholder="Enter Slot Count"
+                                        formControlName="slotcount" required>
+                                </div>
+                                <div class="input_box">
+                                    <label for="slotcount">Store Storage</label>
+                                    <input type="number" step="1" min="0" max="5" formControlName="store_storage"
+                                        placeholder="Enter Store Storage" class="rupee" required>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </mat-expansion-panel>
+            <!-- <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title style="color: #378cee;">
+                        Device Configuration
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <mat-icon style="margin-right: 2%; color: #378cee;"> phonelink_setup</mat-icon>
+                </mat-expansion-panel-header>
+                <mat-form-field>
+                    <mat-label>First name</mat-label>
+                    <input matInput>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Age</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field>
+            </mat-expansion-panel> -->
+        </mat-accordion>
+
+    </mat-card-content>
+</mat-card>

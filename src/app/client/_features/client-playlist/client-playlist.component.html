@@ -1,0 +1,592 @@
+
+<section class="content">
+  <div class="row g-4">
+    <div class="col-sm-12">
+
+
+
+      <mat-card>
+        <div class="pbar-container" *ngFor="let o of storageData">
+          <span class="label">{{ o.label }}</span>
+          <div class="progress" >
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': o.value + '%','background-color':o.color }" aria-valuemin="0" aria-valuemax="100">
+              {{ o.value }}%
+            </div>
+            <br/>
+          </div>
+        </div>
+        
+
+      </mat-card>
+      <mat-card>
+        
+        <mat-card-content>
+      <!-- <mat-card>
+        <h6 *ngIf="customerStorage"
+          style=" margin-bottom: 20px; flex-wrap: wrap; display: flex;justify-content: center;align-items: center; font-size: small !important;">
+          <span title="Total Space"
+            style="color: #386641;display: flex;justify-content: end;align-items: center;"><mat-icon>memory</mat-icon>TS
+            {{customerStorage?.totalspace}}</span>
+          &nbsp;&nbsp;
+          <span title="Used Space"
+            style="color: #fb5607;display: flex;justify-content: end;align-items: center;"><mat-icon>memory</mat-icon>US
+            {{customerStorage?.userspace}}</span>
+          &nbsp;&nbsp;
+          <span title="Free Space"
+            style="color: #ff006e;display: flex;justify-content: end;align-items: center;"><mat-icon>memory</mat-icon>FS
+            {{customerStorage?.freespace}}</span>
+          &nbsp;&nbsp;
+          <span title="Schedule Playlist Space"
+            style="color: #8338ec;display: flex;justify-content: end;align-items: center;"><mat-icon>memory</mat-icon>SPS
+            {{customerStorage?.playlistspace}}</span>
+          &nbsp;&nbsp;
+          <span title="Default Content Space"
+            style="color: #3a86ff;display: flex;justify-content: end;align-items: center;"><mat-icon>memory</mat-icon>DCS
+            {{customerStorage?.defaultplaylistspace}}</span>
+        </h6>
+        <mat-card-content> -->
+          <mat-tab-group animationDuration="1000ms" mat-stretch-tabs="false" mat-align-tabs="center"
+            (selectedTabChange)="selectedTabValue($event)">
+            <mat-tab style="overflow: hidden; ">
+              <ng-template mat-tab-label>
+                <i class="fa fa-duotone fa-desktop" style="margin: 6px;"></i>
+                Playlist
+              </ng-template>
+              <mat-card>
+                <div class="row d-flex justify-content-between">
+                  <div class="col-12 col-sm-12 col-md-4 m-2">
+                    <button mat-raised-button color="primary" (click)="openPopUp(addDeafaultplaylist)">+ Add
+                      Playlist</button>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-4" *ngIf="isMoblie">
+                    <mat-form-field class="example-form-field" style="width: 100%;">
+                      <mat-label>Search here...</mat-label>
+                      <input matInput type="text" #ger (input)="filterRowData(ger.value)">
+                      <button *ngIf="ger.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="ger.value='';filterRowData(ger.value)">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-4" *ngIf="!isMoblie">
+                    <div class="container-btn">
+                      <div class="searchbar">
+                        <div class="search">
+                          <input type="text" id="searchinput" (keyup)="searchFunction()" placeholder="Search">
+                        </div>
+                      </div>
+                      <div class="buttons">
+                        <div class="btn-group">
+                          <div class="btn-group">
+                            <button class="button" (click)="showAsList('ol')">
+
+                              <i class="fa fa-list" aria-hidden="true"></i>
+                            </button>
+                            <button class="button" (click)="showAsList('ul')">
+                              <i class="fa fa-th-large"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row d-flex justify-content-between" *ngIf="!isMoblie">
+                    <div class="col-12 col-sm-12 col-md-3 d-flex">
+
+                      <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>State</mat-label>
+
+                        <mat-select [(value)]="selectedHrState">
+                          <mat-form-field class="filter-input"
+                            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+                            <input type="text" #selectStateinput matInput (input)="filterStates($event.target.value)"
+                              placeholder="Search...">
+                          </mat-form-field>
+                          <span *ngFor="let state of filteredStateList">
+                            <mat-option (click)="commonWallStateChoose(state.id)" *ngIf="state.id!=0"
+                              value="{{state.id}}">{{state.statename |
+                              titlecase}}</mat-option>
+                          </span>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 d-flex">
+                      <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>District</mat-label>
+                        <mat-select>
+                          <mat-form-field class="filter-input"
+                            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+                            <input type="text" #selectStateinput matInput (input)="filterDistricts($event.target.value)"
+                              placeholder="Search...">
+                          </mat-form-field>
+                          <span *ngFor="let state of filterDistrictList">
+                            <mat-option (click)="onChooseDistrict(state)" *ngIf="state.id!=0"
+                              value="{{state.id}}">{{state.name |
+                              titlecase}}</mat-option>
+                          </span>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 d-flex">
+                      <mat-form-field style="margin-left: 5px;width: 100%;" appearance="outline">
+                        <mat-label>City</mat-label>
+                        <mat-select [(value)]="selectedHrCity">
+                          <mat-form-field class="filter-input"
+                            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+                            <input type="text" #selectStateinput matInput (input)="filterCities($event.target.value)"
+                              placeholder="Search...">
+                          </mat-form-field>
+                          <mat-option [disabled]="selectedStateId==0" (click)="onChooseCity(state.id)"
+                            *ngFor="let state of filtercityListByStateid" value="{{state.id}}">{{state.cityname |
+                            titlecase}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 d-flex">
+                      <mat-form-field style="margin-left: 5px;width: 100%;" appearance="outline">
+                        <mat-label>location</mat-label>
+                        <mat-select [(value)]="selectedlocation">
+                          <mat-form-field class="filter-input"
+                            style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+                            <input type="text" #selectStateinput matInput (input)="filterLocation($event.target.value)"
+                              placeholder="Search...">
+                          </mat-form-field>
+                          <mat-option [disabled]="selectedStateId==0" (click)="onChooseLocation(state.id)"
+                            *ngFor="let state of filterlocationList" value="{{state.id}}">{{state.area |
+                            titlecase}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    
+
+                  </div>
+                </div>
+              </mat-card>
+              <br>
+              <mat-card>
+                <mat-card-content>
+                  <div class=""
+                    [ngStyle]="{'display': isMoblie?'':'flex','flex-wrap': isMoblie?'':'wrap', 'align-items':isMoblie ?'':'center',}"
+                    style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
+                    <a class="Ancher" *ngFor="let playlist of Playlist">
+                      <div class="item">
+                        <div class="d-flex justify-content-between">
+                          <div style="padding-bottom: 1px; color: #ff4081; font-size: x-small; font-weight: 700;">
+                            {{playlist?.state?.statename | uppercase}} <span style="color: green;"> / </span>
+                            {{ playlist?.district?.name |uppercase}} <br> <span style="color: green;"> /
+                            </span>{{ playlist?.city?.cityname | uppercase}}<span style="color: green;"> /
+                            </span>{{playlist?.location?.area | uppercase}}</div>
+                          <button mat-mini-fab (click)="settingPlaylist(playlist,playlist)" class="my-fab">
+                            <!-- <i class="fa fa-cog" aria-hidden="true"></i> -->
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                        <div class="content" (click)="mediaUpload(playlist)">
+
+                          <div class="imgframe">
+                            <!-- <img *ngIf="playlist.mediainfo.id=='0'" src="assets/images/playlist/empty.png">
+                            <img *ngIf="playlist.mediainfo.id=='1'" src="assets/images/playlist/imagetype.png">
+                            <img *ngIf="playlist.mediainfo.id=='2'" src="assets/images/playlist/videotype.png"> -->
+                            <img *ngIf="playlist.mediainfo.id=='3'" src="assets/images/playlist/both.png">
+                          </div>
+                          <div class="indicator">
+                            <p class="scheduled" *ngIf=" scheduleFormater(playlist) == 'Scheduled'">{{
+                              scheduleFormater(playlist) }}</p>
+                            <p class="onprogress" *ngIf="scheduleFormater(playlist)  == 'Onprogress'">{{
+                              scheduleFormater(playlist) }}</p>
+                            <p class="finished" *ngIf="scheduleFormater(playlist)  == 'Finished'">{{
+                              scheduleFormater(playlist) }}</p>
+                            <p class="unscheduled" *ngIf="scheduleFormater(playlist)  == 'Not Scheduled'">{{
+                              scheduleFormater(playlist) }}</p>
+                          </div>
+
+                          <div class="titlediv"><span class="title" style="font-size: x-small !important;">
+                              <p style="font-size: x-small !important;" *ngIf="!playlist.sch_start_time">Start Time
+                                : 0000-00-00 00</p>
+                              <p style="font-size: x-small !important;" *ngIf="playlist.sch_start_time">Start Time
+                                : {{playlist.sch_start_time | date :'medium'}}</p>
+                              <p style="font-size: x-small !important;" *ngIf="!playlist.sch_end_time">End Time
+                                : 0000-00-00 00</p>
+                              <p style="font-size: x-small !important;" *ngIf="playlist.sch_end_time">End Time
+                                :{{playlist.sch_end_time | date :'medium'}}</p>
+                              <p style="font-size: x-small !important;" *ngIf="!playlist.duration">Duration
+                                :0 sec</p>
+                              <p style="font-size: x-small !important;" *ngIf="playlist.duration">Duration
+                                :{{playlist.duration}}</p>
+
+                              <p style="font-size: x-small !important;">Media Type: image/video{{
+                                "["+playlist.file_count +"]" }}</p>
+
+                            </span>
+                          </div>
+                          <div>
+
+                          </div>
+                          <br>
+                          <div class="tag"><span class="type">{{playlist.filename}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </mat-tab>
+                       <mat-tab>
+              <ng-template mat-tab-label>
+                <!-- <i class="fa fa-duotone fa-desktop" ></i> -->
+                <i class="fa fa-newspaper-o" aria-hidden="true" style="margin: 6px;"></i>
+                Default Content
+              </ng-template>
+              <mat-card style="padding: 16px 16px 0px 16px;">
+                <div class="row d-flex justify-content-between">
+                  <div class="col-12 col-sm-12 col-md-4">
+                    <button mat-raised-button color="primary" (click)="openPopUp(addDefault)">+ Add Playlist</button>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-4" *ngIf="isMoblie">
+                    <mat-form-field class="example-form-field" style="width: 100%;">
+                      <mat-label>Search here...</mat-label>
+                      <input matInput type="text" #ger (input)="filterRowData(ger.value)">
+                      <button *ngIf="ger.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="ger.value='';filterRowData(ger.value)">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-8" *ngIf="!isMoblie">
+                    <div class="container-btn">
+                      <div class="searchbar">
+                        <div class="search">
+                          <input type="text" id="searchinput" (keyup)="searchFunction()" placeholder="Search">
+                        </div>
+                      </div>
+                      <!-- <div class="vl col-none"></div> -->
+                      <div class="buttons">
+                        <div class="btn-group">
+                          <div class="btn-group">
+                            <button class="button" (click)="showAsList('ol')">
+                              <!-- <i class="fa fa-duotone fa-desktop"></i> -->
+                              <!-- <i class='fas fa-list'></i> -->
+                              <i class="fa fa-list" aria-hidden="true"></i>
+                              <!-- <i class="fa fa-bars" aria-hidden="true"></i> -->
+                            </button>
+                            <button class="button" (click)="showAsList('ul')">
+                              <i class="fa fa-th-large"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                </div>
+              </mat-card>
+              <div class="" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
+                <a class="Ancher" *ngFor="let playlist of Playlist">
+                  <div class="item">
+                    <div class="d-flex justify-content-between">
+                      <!-- <mat-checkbox style="visibility: hidden;">
+                                                  </mat-checkbox> -->
+                      <div style="padding-bottom: 1px; color: #ff4081; font-size: x-small; font-weight: 700;">
+                        {{playlist?.state?.statename | uppercase}} <span style="color: green;"> / </span>
+                        {{ playlist?.district?.name |uppercase}} <br> <span style="color: green;"> /
+                        </span>{{ playlist?.city?.cityname | uppercase}}<span style="color: green;"> /
+                        </span>{{playlist?.location?.area | uppercase}}</div>
+                      <button mat-mini-fab (click)="settingPlaylist(playlist,playlist)" class="my-fab">
+                        <!-- <i class="fa fa-cog" aria-hidden="true"></i> -->
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </div>
+                    <p style="position: absolute; top:50%  ; display: flex; font-weight: 800;margin:20px 20px 20px 14px;  font-size: x-small !important;
+                    color: #028686;">
+                      <input type="checkbox" style="margin-right: 5px;" #setdefault
+                        (change)="setDefault(playlist,setdefault)" [checked]="playlist.isactive">
+                      Set Default
+                    </p>
+                    <div class="content" (click)="mediaUpload(playlist)">
+                      <div class="imgframe">
+                        <!-- <img *ngIf="playlist.mediainfo.id=='0'" src="assets/images/playlist/empty.png">
+                        <img *ngIf="playlist.mediainfo.id=='1'" src="assets/images/playlist/imagetype.png">
+                        <img *ngIf="playlist.mediainfo.id=='2'" src="assets/images/playlist/videotype.png"> -->
+                        <img *ngIf="playlist.mediainfo.id=='4'" src="assets/images/playlist/both.png">
+                      </div>
+                      <div class="indicator">
+
+                      </div>
+
+                      <div class="titlediv"><span class="title">
+                          <p style="font-size: x-small !important;" *ngIf="playlist.mediainfo.id == 4">Media Type:
+                            image/video{{"["+playlist.file_count +"]" }}
+                          </p>
+
+                        </span>
+                      </div>
+                      <div>
+
+                      </div>
+                      <br>
+                      <div class="tag"><span class="type">{{playlist.filename}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</section>
+
+
+<ng-template #addDeafaultplaylist>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create Playlist</mat-card-title>
+      <!-- <mat-card-subtitle>End</mat-card-subtitle> -->
+    </mat-card-header>
+    <form [formGroup]="verticalplaylist" style="max-width: 350px;">
+      <mat-card-content>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Max Length 20" maxlength="20" formControlName="filename" />
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>State</mat-label>
+          <mat-select [(value)]="selectedHrState" formControlName="state">
+            <mat-option (click)="onChooseState(state)" *ngFor="let state of stateList"
+              value="{{state.id}}">{{state.statename |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" *ngIf="!isStateAllSelected" style="width: 100%;">
+          <mat-label>District</mat-label>
+          <mat-select [(value)]="selectedHrDistrict" formControlName="district">
+            <mat-option (click)="onChooseDistrict(state)" *ngFor="let state of districtList"
+              value="{{state.name}}">{{state.name |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+       
+        <mat-form-field appearance="outline" *ngIf="!isEnter  && !isStateAllSelected" style="width: 100%;">
+          <mat-label>City </mat-label>
+          <input matInput placeholder="" (keyup)="onEnterCityname($event)" formControlName="city" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" *ngIf="isEnter  && !isStateAllSelected" style="width: 100%;">
+          <mat-label>City</mat-label>
+          <mat-select [(value)]="selectedHrCity" formControlName="city">
+            <mat-option *ngFor="let city of cityListByStateid" (click)="onChooseCityname(city)"
+              value="{{city.cityname}}">{{city.cityname |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field><br>
+      
+        <mat-form-field appearance="outline" *ngIf="isEnterArea && !isStateAllSelected && !isCityAllSelected"
+          style="width: 100%;">
+          <mat-label>Location</mat-label>
+          <mat-select formControlName="location">
+            <mat-option *ngFor="let city of locationList" value="{{city.area}}">{{city.area |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field><br>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="warn" (click)="closeMatDialog()">Cancel</button>
+        &nbsp; &nbsp;
+        <button mat-raised-button color="primary" (click)="createPlaylist(verticalplaylist)">Save</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</ng-template>
+<ng-template #addchannelplaylist>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Channel Playlist</mat-card-title>
+      <!-- <mat-card-subtitle>End</mat-card-subtitle> -->
+    </mat-card-header>
+    <form [formGroup]="channelplaylist">
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="" formControlName="filename" />
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>State</mat-label>
+          <mat-select [(value)]="selectedHrState" formControlName="state">
+            <mat-option (click)="onChooseState(state.id)" *ngFor="let state of stateList"
+              value="{{state.id}}">{{state.statename |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterCity()"
+          *ngIf="isEnter"> choose City ?</a>
+        <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterCity()"
+          *ngIf="!isEnter"> Enter City ?</a>
+        <br>
+        <mat-form-field appearance="outline" *ngIf="isEnter">
+          <mat-label>City </mat-label>
+          <input matInput placeholder="" formControlName="city" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" *ngIf="!isEnter">
+          <mat-label>City</mat-label>
+          <mat-select [(value)]="selectedHrCity" formControlName="city">
+            <mat-option *ngFor="let city of cityListByStateid" value="{{city.cityname}}">{{city.cityname |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="warn" (click)="closeMatDialog()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="createPlaylist(channelplaylist)">Save</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</ng-template>
+<ng-template #addvideowallplaylist>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Video Wall Playlist</mat-card-title>
+      <!-- <mat-card-subtitle>End</mat-card-subtitle> -->
+    </mat-card-header>
+    <form [formGroup]="videoplaylist">
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="" formControlName="filename" />
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>State</mat-label>
+          <mat-select [(value)]="selectedHrState" formControlName="state">
+            <mat-option (click)="onChooseState(state.id)" *ngFor="let state of stateList"
+              value="{{state.id}}">{{state.statename |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterCity()"
+          *ngIf="isEnter"> choose City ?</a>
+        <a class="text-primary" style="text-decoration: underline; cursor: pointer;" (click)="chooseOrEnterCity()"
+          *ngIf="!isEnter"> Enter City ?</a>
+        <br>
+        <mat-form-field appearance="outline" *ngIf="isEnter">
+          <mat-label>City </mat-label>
+          <input matInput placeholder="" formControlName="city" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" *ngIf="!isEnter">
+          <mat-label>City</mat-label>
+          <mat-select [(value)]="selectedHrCity" formControlName="city">
+            <mat-option *ngFor="let city of cityListByStateid" value="{{city.cityname}}">{{city.cityname |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field><br>
+        <br>
+        <mat-radio-group formControlName="isvertical">
+          <mat-radio-button value="vertical" style="margin-right: 8%;">Vertical</mat-radio-button>
+          <mat-radio-button value="no-vertical">Horizontal</mat-radio-button>
+        </mat-radio-group>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="warn" (click)="closeMatDialog()">Cancel</button>
+
+        <button mat-raised-button color="primary" (click)="createPlaylist(videoplaylist)">Save</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</ng-template>
+
+<ng-template #addDefault>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Default Playlist</mat-card-title>
+      <!-- <mat-card-subtitle>End</mat-card-subtitle> -->
+    </mat-card-header>
+    <form [formGroup]="defaultplaylist" style="max-width: 350px;">
+      <mat-card-content>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Max Length 20" maxlength="20" formControlName="filename" />
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>State</mat-label>
+          <mat-select [(value)]="selectedHrState" formControlName="state">
+            <mat-option (click)="onChooseState(state)" *ngFor="let state of stateList"
+              value="{{state.id}}">{{state.statename |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="outline" *ngIf="!isStateAllSelected" style="width: 100%;">
+          <mat-label>District</mat-label>
+          <mat-select [(value)]="selectedHrDistrict" formControlName="district">
+            <mat-option (click)="onChooseDistrict(state)" *ngFor="let state of districtList"
+              value="{{state.name}}">{{state.name |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        
+        <mat-form-field appearance="outline" *ngIf="!isEnter && !isStateAllSelected" style="width: 100%;">
+          <mat-label>City </mat-label>
+          <input matInput placeholder="" (keyup)="onEnterCityname($event)" formControlName="city" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" *ngIf="isEnter && !isStateAllSelected" style="width: 100%;">
+          <mat-label>City</mat-label>
+          <mat-select [(value)]="selectedHrCity" formControlName="city">
+            <mat-option *ngFor="let city of cityListByStateid" (click)="onChooseCityname(city)"
+              value="{{city.cityname}}">{{city.cityname |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field><br>
+       
+        <mat-form-field appearance="outline" *ngIf="isEnterArea && !isStateAllSelected && !isCityAllSelected"
+          style="width: 100%;">
+          <mat-label>Location</mat-label>
+          <mat-select formControlName="location">
+            <mat-option *ngFor="let city of locationList" value="{{city.area}}">{{city.area |
+              titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field><br>
+        <br>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="warn" (click)="closeMatDialog()">Cancel</button>
+        &nbsp; &nbsp;
+        <button mat-raised-button color="primary" (click)="createPlaylist(defaultplaylist)">Save</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</ng-template>
+<ng-template #statechecks>
+  <mat-form-field>
+    <mat-label>Click here</mat-label>
+    <mat-select #select multiple [(ngModel)]="selectedOptions">
+
+      <div class="select-all">
+        <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
+          Select All</mat-checkbox>
+      </div>
+
+      <mat-option (click)="optionClick()" *ngFor="let item of this.stateList" [value]="item.id" [disabled]="item.id==0">
+        {{item.statename}}
+      </mat-option>
+      <div class="d-flex justify-content-center mb-2">
+        <button mat-raised-button color="warn" (click)="closeStatechecksModel()">Save</button>
+      </div>
+    </mat-select>
+  </mat-form-field>
+</ng-template>

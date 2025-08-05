@@ -1,0 +1,64 @@
+<!-- <div id="loading">
+    <app-preloader></app-preloader>
+</div> -->
+
+<!-- app.component.html -->
+<!-- <app-client-sidebar></app-client-sidebar> -->
+
+<router-outlet></router-outlet>
+
+<ng-template #confDialog>
+	<!-- <mat-card>
+    
+      <div mat-dialog-content>
+        <p>Are you sure you want to leave?</p>
+      </div>
+      
+      <div mat-dialog-actions>
+        <button mat-button (click)="onDismiss()">No</button>
+        <button mat-raised-button color="primary" (click)="onConfirm()">Yes</button>
+      </div></mat-card> -->
+	<!-- <div mat-dialog-content>
+          <p>Are you sure you want to leave?</p>
+        </div>
+        
+        <div mat-dialog-actions>
+          <button mat-button class="no-button" (click)="onDismiss()">No</button>
+          <button mat-raised-button color="primary" class="yes-button" (click)="onConfirm()">Yes</button>
+        </div> -->
+
+
+	<!-- <mat-card class="confirmation-dialog">
+    <br />
+    <div mat-dialog-content>
+      Are you sure you want to logout??
+    </div>
+    <div style="float:right;margin:20px;">
+      <input style="margin:0px 10px" class="confirm" (click)="onConfirm()"  type="button" value="ok" [mat-dialog-close]="true">
+      <input type="button" class="cancel" value="Cancel"  (click)="onDismiss()" [mat-dialog-close]="false">
+    </div>
+  </mat-card> -->
+
+	<!-- <mat-card class="confirmation-dialog"> -->
+
+
+	<!-- <mat-card class="confirmation-dialog" style="width: 300px; height: 200px;">
+      <div mat-dialog-content>
+        Are you sure you want to logout?
+      </div>
+      <div class="button-container">
+        <button mat-button class="confirm" (click)="onConfirm()">OK</button>
+        <button mat-button class="cancel" (click)="onDismiss()">Cancel</button>
+      </div>
+    </mat-card> -->
+	<div class="modal-body">Are you sure you want to logout?</div>
+	<div class="modal-footer">
+		<button type="button" class="btn" style="background-color:#787891;color:white" (click)="onDismiss()">
+			cancel
+		</button>
+		<button type="button" class="btn" style="background-color: #43adeb;color:white"
+			(click)="onConfirm()">ok</button>
+	</div>
+
+
+</ng-template>

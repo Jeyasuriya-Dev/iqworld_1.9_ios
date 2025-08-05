@@ -1,0 +1,100 @@
+.container {
+    // max-width: 500px;
+    min-width: 280px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.select-all {
+    margin: 5px 17px;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"],
+input[type="file"],
+input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="file"] {
+    background-color: #f5f5f5;
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus {
+    background-color: #fff;
+    border-color: #007bff;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+
+li:focus {
+    outline: none !important;
+}
+
+.table-class {
+    height: 70vh;
+    width: 95vw !important;
+}
+
+#WhatNew {
+    .btn {
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+        border-radius: 50px;
+        border: none;
+        background-color: #335c56;
+        color: #7fa39e;
+        // font-size: 1.45rem;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    }
+}
+
+.ul-btn {
+    color: #335c56;
+}
+
+.btn:hover {
+    color: #bff5ed;
+}
+
+#schedule1 {
+    width: 100%;
+}

@@ -1,0 +1,954 @@
+<section class="content">
+  <div *ngIf="isNeedVerification && customer?.versionMaster?.version=='PRO'"
+    style="position: fixed; bottom: 35px; right: 25px; z-index: 100;">
+ 
+    <button (click)="verifyLayOuts()" class="btn btn-outline-success">Verify layouts</button>
+   
+  </div>
+
+  <div *ngIf="selectedAllMedia || checkedMediaForm.get('media')?.value.length!=0" class=""
+    style="position: fixed; z-index: 100;  bottom: 35px; right: 25px;">
+    <div class="example-button-container">
+      <button (click)="updateDurationforMediaFiles('delete')" mat-mini-fab color="warn" title="Set Duration for images">
+        <mat-icon>av_timer</mat-icon>
+      </button>
+    </div>
+    &nbsp;
+    <div class="example-button-container">
+      <button (click)="deleteOrRotateFile('delete')" mat-mini-fab color="primary" title="Delete Media Files">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    &nbsp;
+    <div class="example-button-container">
+      <button (click)="deleteOrRotateFile('rotate')" mat-mini-fab color="accent" title="Rotate Media Files">
+        <mat-icon>autorenew</mat-icon>
+      </button>
+    </div>
+  </div>
+ 
+
+  <div class="row g-4">
+    <div class="col-sm-12">
+      <mat-card class="mb-2">
+        <mat-card-content>
+          <div class="person" style="--data-color: #2f87e2">
+            <span *ngIf="mediatype==4" style="position: absolute; top: 2.3%; right: 2%;">
+              <mat-slide-toggle (change)="setDefault($event,playlist)"
+                [checked]="playlist?.isactive"></mat-slide-toggle>
+            </span>
+            <div style="display: flex; align-items: center;">
+              <h3 (keydown)="enforceMaxLength($event)" id="playlistnameedited" [contentEditable]="isEditable"
+                [ngStyle]="{'text-decoration':isEditable? 'underline 3px #2f87e2':'','color':isEditable? '#2f87e2':''}">
+                {{playlist?.filename}}
+              </h3> &nbsp; <span *ngIf="!isEditable" (click)="setIsEditableTrue(true)"
+                style="font-size: medium;   margin-bottom: 1em; color: #2f87e2;"><i class="fa fa-pencil-square-o"
+                  aria-hidden="true"></i>
+              </span>
+              <span *ngIf="isEditable" (click)="savePlaylistname(false)" title="Cancel"
+                style="font-size: medium; margin-left: 2em; margin-bottom: 1em; color: rgb(236, 70, 41);">
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+              </span>
+              <span *ngIf="isEditable" (click)="savePlaylistname(true)" title="Save"
+                style="font-size: medium; margin-left: 0.5em; margin-bottom: 1em; color: rgb(4, 161, 4);">
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </span>
+            </div>
+          
+            <div class="row">
+              <div class="col-sm-6 col-12 mt-1">
+                <dl class="attributes">
+                  <!-- <dt>Filename</dt>
+                  <dd>: {{playlist?.filename}}</dd>
+                 
+                  <dt>Media-Type</dt>
+                  <dd *ngIf="playlist?.mediainfo?.id != 3 && playlist?.mediainfo?.id != 4">:
+                    {{playlist?.mediainfo?.mediatype}}</dd>
+                  <dd *ngIf="playlist?.mediainfo?.id == 3 || playlist?.mediainfo?.id == 4">: Image/Video</dd> -->
+                  <dt *ngIf="mediatype!=4">Start-Date</dt>
+                  <dd *ngIf="mediatype!=4">: {{playlist?.sch_start_time | date:'medium' }}</dd>
+                  <dt *ngIf="mediatype!=4">End-Date</dt>
+                  <dd *ngIf="mediatype!=4">: {{playlist?.sch_end_time | date:'medium'}}</dd>
+                  <dt>Scroller</dt>
+                  <dd> :
+                    <label class="switch switch-green">
+                      <input #switch (click)="enableScroller(switch)" type="checkbox" [disabled]="isScrollBtnClicked"
+                        [checked]="playlist?.isscroller" class="switch-input">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  
+                    <span style="color: #f86d6d;" *ngIf="playlist?.isscroller"> | </span>
+
+                    <label *ngIf="playlist?.isscroller">
+                      <a class="newsroller" (click)="createNewScroller()" style="color: rgb(12, 99, 99);">+ New
+                        Scroller</a>
+                    </label>
+
+                  </dd>
+
+                </dl>
+              </div>
+              <div class="col-sm-6 col-12 mt-1">
+                <br *ngIf="isMoblie">
+                <dl class="attributes">
+                 
+                  <dt *ngIf="mediatype!=4">Duration</dt>
+                  <dd *ngIf="mediatype!=4">: {{playlist?.duration}} (hr:mm:ss)</dd>
+
+                </dl>
+              </div>
+            </div>
+            <br>
+            <div *ngIf="playlist?.isscroller" class="row">
+              <div class="col-12 col-md-3 col-sm-12">
+                <mat-form-field appearance="outline" [ngStyle]="{'width': isMoblie ? '100%' : '60%' }">
+                  <mat-label>Add Scroller</mat-label>
+                  <mat-select #selectScroller multiple [(ngModel)]="selectedOptions">
+                    <div class="select-all">
+                      <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                        (change)="toggleAllSelection()">Select All</mat-checkbox>
+                    </div>
+                    <mat-option (click)="optionClick()" *ngFor="let item of this.scrollList" [value]="item.id"
+                      [disabled]="item?.id==0">
+                      {{item?.name}}
+                    </mat-option>
+                    <div class="d-flex justify-content-center mb-2">
+                      <button mat-raised-button color="warn"
+                        (click)="addScrollListToPlaylist(selectScroller)">Save</button>
+                    </div>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+              <div class="col-12 col-md-3 col-sm-12">
+                <mat-form-field appearance="outline" [ngStyle]="{'width': isMoblie ? '100%' : '60%' }">
+                  <mat-label>Scroller Position</mat-label>
+
+                  <mat-select [(ngModel)]="selectedScroller" (selectionChange)="changeScrollerPosition()">
+                    <mat-option *ngFor="let item of this.ScrollerTypeList" [value]="item?.id">
+                      {{item?.type}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <hr style="color: rgba(128, 128, 128, 0.685);">
+            <div id="controlles" class="row justify-content-center">
+              <div class="col-12 col-md-3 col-sm-6">
+                <div style="color: #2f87e2;">
+                  State : <input type="checkbox" [checked]="isstateSelected" (click)="checkConfigure($event)"
+                    [disabled]="iscitySelected || isLocationSelected || isDeviceselected || isDistrictSelected"
+                    class="formSelect" id="allstate" name="state">
+                </div>
+                <div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>choose State </mat-label>
+                    <mat-select #selectState multiple [(ngModel)]="allSelectedStateList"
+                      [disabled]="iscitySelected || isLocationSelected || isDeviceselected || isDistrictSelected">
+                      <mat-form-field class="filter-input"
+                        style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+                        <input type="text" #selectStateinput matInput (input)="filterStates($event.target.value)"
+                          placeholder="Search...">
+                      </mat-form-field>
+                      <div class="select-all" *ngIf="!selectStateinput.value">
+                        <mat-checkbox [(ngModel)]="allSelectedState" [ngModelOptions]="{standalone: true}"
+                          (change)="toggleAllSelectionForState()">Select All</mat-checkbox>
+                      </div>
+                   
+                      <span *ngFor="let state of filteredListState">
+
+                        <mat-option (click)="optionClickState()" *ngIf="state?.id!=0" [value]="state?.id">
+                          {{state?.statename | titlecase}}
+                        </mat-option>
+                      </span>
+                    </mat-select>
+
+
+                  </mat-form-field>
+                </div>
+
+              </div>
+              <div class="col-12 col-md-3 col-sm-6">
+                <div style="color: #2f87e2;">
+                  District : <input type="checkbox" [checked]="isDistrictSelected" (click)="checkConfigure($event)"
+                    [disabled]="iscitySelected || isstateSelected ||  isLocationSelected || isDeviceselected"
+                    class="formSelect" id="allDistrict" name="state">
+                </div>
+                <div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>choose district </mat-label>
+                    <mat-select #selectDistrict multiple [(ngModel)]="allSelectedDistrictList"
+                      [disabled]="iscitySelected || isLocationSelected  || isDeviceselected">
+                      <mat-form-field class="filter-input"
+                        style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100%;">
+                        <input type="text" #selectDistrictinput matInput (input)="filterDistricts($event.target.value)"
+                          placeholder="Search...">
+                      </mat-form-field>
+                      <div class="select-all" *ngIf="!selectDistrictinput.value">
+                        <mat-checkbox [(ngModel)]="allSelectedDistrict" [ngModelOptions]="{standalone: true}"
+                          (change)="toggleAllSelectionForDistrict()">Select All</mat-checkbox>
+                      </div>
+                      <!-- <mat-select-filter [placeholder]="'Filter'" [displayMember]="'statename'" [array]="stateList"
+                        (filteredReturn)="filteredListState = $event"></mat-select-filter> -->
+                      <mat-option (click)="optionClickDistrict()" [disabled]="state?.id==0"
+                        *ngFor="let state of filteredListDistrict" [value]="state?.id">
+                        {{state?.name | titlecase}}
+                      </mat-option>
+                    </mat-select>
+
+
+                  </mat-form-field>
+                </div>
+
+              </div>
+              <div class="col-12 col-md-3 col-sm-6">
+                <div style="color: #2f87e2;">
+                  city : <input type="checkbox" [checked]="iscitySelected" (click)="checkConfigure($event)"
+                    [disabled]=" isLocationSelected || isstateSelected || isDeviceselected || isDistrictSelected"
+                    class="formSelect" id="allcity" name="state">
+                </div>
+                <div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>choose city </mat-label>
+                    <mat-select #selectCity multiple [(ngModel)]="allSelectedCityList"
+                      [disabled]="isLocationSelected || isDeviceselected">
+                      <mat-form-field class="filter-input"
+                        style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+                        <input type="text" #selectCityinput matInput (input)="filterCities($event.target.value)"
+                          placeholder="Search...">
+                      </mat-form-field>
+                      <div class="select-all">
+                        <mat-checkbox [(ngModel)]="allSelectedCity" [ngModelOptions]="{standalone: true}"
+                          (change)="toggleAllSelectionForCity()">Select All</mat-checkbox>
+                      </div>
+                      <!-- <mat-select-filter [placeholder]="'Filter'" [displayMember]="'cityname'" [array]="allcitylist"
+                        (filteredReturn)="filteredListCity = $event"></mat-select-filter> -->
+                      <mat-option (click)="optionClickCity()" [disabled]="city?.id==0"
+                        *ngFor="let city of filteredListCity" [value]="city?.id">
+                        {{city?.cityname}}
+                      </mat-option>
+
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-12 col-md-3 col-sm-6">
+                <div style="color: #2f87e2;">
+                  location : <input type="checkbox" [checked]="isLocationSelected" class="formSelect"
+                    [disabled]="iscitySelected  || isDeviceselected || isDistrictSelected || isstateSelected"
+                    (click)="checkConfigure($event)" id="alllocation" name="state">
+                </div>
+                <div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>choose Location </mat-label>
+                    <mat-select #selectLocation multiple [(ngModel)]="allSelectedLocationList"
+                      [disabled]="isDeviceselected">
+                      <mat-form-field class="filter-input"
+                        style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+                        <input type="text" #selectLocationinput matInput (input)="filterLocations($event.target.value)"
+                          placeholder="Search...">
+                      </mat-form-field>
+                      <div class="select-all">
+                        <mat-checkbox [(ngModel)]="allSelectedLocation" [ngModelOptions]="{standalone: true}"
+                          (change)="toggleAllSelectionForLocation()">Select All</mat-checkbox>
+                      </div>
+                   
+                      <mat-option (click)="optionClickLocation()" [disabled]="location?.id==0"
+                        *ngFor="let location of filteredListLocation " [value]="location?.id">
+                        {{location?.area}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+              <div class="col-12 col-md-3 col-sm-6">
+                <div style="color: #2f87e2; margin-bottom: 1.2%;">
+                  Device Location :
+               
+                </div>
+                <div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Choose Device Location</mat-label>
+                    <mat-select #selectLandmark multiple [(ngModel)]="allSelectedLandmarkList"
+                      [disabled]="isDeviceselected">
+                      <mat-form-field class="filter-input"
+                        style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+                        <input type="text" #selectLandmarkInput matInput (input)="filterLandmark($event.target.value)"
+                          placeholder="Search...">
+                      </mat-form-field>
+                      <div class="select-all">
+                        <mat-checkbox [(ngModel)]="allselectedLandmark" *ngIf="filteredListLandmark.length>=1"
+                          [ngModelOptions]="{standalone: true}" (change)="toggleAllSelectionForLandmark()">Select
+                          All</mat-checkbox>
+                      </div>
+                      <!-- <mat-select-filter [placeholder]="'Filter'" [displayMember]="'area'" [array]="alllocationlist"
+                        (filteredReturn)="filteredListLocation = $event"></mat-select-filter> -->
+                      <span *ngFor="let location of filteredListLandmark">
+                        <mat-option (click)="optionClickLandmark()" *ngIf="location!='ALL'" [value]="location">
+                          {{location}}
+                        </mat-option>
+                      </span>
+
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+              </div>
+              <div class="col-12 col-md-3 col-sm-6">
+                <div style="color: #2f87e2;">
+                  Device :
+                  <!-- <input class="formSelect" [checked]="isDeviceselected" (click)="checkConfigure($event)"
+                    type="checkbox" id="alldevice" name="state"> -->
+                </div>
+                <div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>choose Devices </mat-label>
+                    <mat-select #selectDevice multiple [(ngModel)]="allselectedDeviceList">
+                      <!-- [disabled]="isstateSelected || iscitySelected || isLocationSelected" -->
+                      <mat-form-field class="filter-input"
+                        style="position: sticky; top: 0px; background: white; z-index: 1000000; width: 100% !important;">
+                        <input type="text" #selectDeviceinput matInput (input)="filterDevices($event.target.value)"
+                          placeholder="Search...">
+                      </mat-form-field>
+                      <div class="select-all">
+                        <mat-checkbox [(ngModel)]="allselectedDevice" [ngModelOptions]="{standalone: true}"
+                          (change)="toggleAllSelectionForDevice()">Select All</mat-checkbox>
+                        
+                      </div>
+                      <hr>
+                     
+                      <span *ngFor="let device of filteredListDevice">
+                        <span style="display: flex;  align-items: center;">
+                          <mat-option (click)="optionClickDiveice()" *ngIf="!device.isdelete" [value]="device?.id">
+                            {{device?.username}}
+                          </mat-option>
+                         
+                        </span>
+                      </span>
+
+                      
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+              <div class="col-12 d-flex  justify-content-center">
+                <button mat-raised-button (click)="editPlaylist()" color="primary">Submit</button>
+              </div>
+            </div>
+
+          </div>
+
+        </mat-card-content>
+        <div style="display: flex; justify-content: end;">
+          <h6 style="display: flex;">
+            <span style="display: flex; align-items: center; color: #2f87e2;"
+              title="Customer Storage"><mat-icon>memory</mat-icon>CS
+              {{formatSizeUnits1((playlist?.storage?.client_totalmemory-playlist?.storage?.client_usedmemory)-selectedSize)}}</span>
+
+            <span style="display: flex; align-items: center; color:#f86d6d;"
+              title="Playlist Storage">&nbsp;&nbsp;<mat-icon>memory</mat-icon>PS&nbsp;
+              <span>{{((playlist?.storage?.playlist_totalmemory-playlist?.storage?.playlist_usedmemory)-selectedSize)
+                < 0? "-" :""}} </span>
+                  {{formatSizeUnits((playlist?.storage?.playlist_totalmemory-playlist?.storage?.playlist_usedmemory)-selectedSize)}}
+              </span>
+          </h6>
+        </div>
+        <div>
+          <h6 style="color: rgba(255, 0, 0, 0.918);"
+            *ngIf="((playlist?.storage?.playlist_totalmemory-playlist?.storage?.playlist_usedmemory)-selectedSize) < 0 && ((playlist?.storage?.client_totalmemory-playlist?.storage?.client_usedmemory)-selectedSize)>0">
+            Insufficient Playlist storage, kindly Remove Some Content
+          </h6>
+          <h6 style="color: rgba(255, 0, 0, 0.918);"
+            *ngIf="((playlist?.storage?.client_totalmemory-playlist?.storage?.client_usedmemory)-selectedSize)<0">
+            Insufficient Customer storage, kindly Remove Some Content or purchase the Storage
+          </h6>
+        </div>
+      </mat-card>
+      <mat-card>
+        <mat-card-content>
+          <mat-tab-group animationDuration="1000ms" mat-stretch-tabs="false" mat-align-tabs="center"
+            [(selectedIndex)]="reloadIndex" #tabGroup (selectedTabChange)="selectedTabValue($event)">
+            <mat-tab *ngIf="mediatype == 0 || mediatype == 3 || mediatype == 4">
+
+              <ng-template mat-tab-label>
+               
+                <i class="fa fa-solid fa-file-movie-o" style="margin: 6px;"></i>
+                Vertical
+              </ng-template>
+
+
+              <mat-card>
+                <div class="container">
+                  <h2>Multi-Image/Video Upload <button *ngIf="existedImages.length!=0" mat-stroked-button color="accent"
+                      (click)="preview()">Preview</button></h2>
+
+                 
+                  <span *ngIf="existedImages.length!=0">
+                    <button style="float: right;" mat-raised-button (click)="openSchedulePopUp(editTimeDate)"
+                      *ngIf="mediatype!=4 && !isScheduleDone()">
+                      <div [ngClass]="isScheduleDone() ? 'online-indicator' : 'Offline-indicator' ">
+                        <span [ngClass]="isScheduleDone() ? 'blinkOnline' : 'blinkOffline' "></span>
+                      </div> <span class={{scheduleFormater()}}>{{scheduleFormater()}}</span>
+                    </button>
+                    <button style="float: right;" mat-raised-button (click)="stopSchedule()"
+                      *ngIf="mediatype!=4 && isScheduleDone()">
+                      <div [ngClass]="isScheduleDone() ? 'online-indicator' : 'Offline-indicator' ">
+                        <span [ngClass]="isScheduleDone() ? 'blinkOnline' : 'blinkOffline' "></span>
+                      </div> <span class={{scheduleFormater()}}>{{scheduleFormater()}}</span>
+                    </button>
+                  </span>
+
+                  <button class="btn btn-outline-primary"
+                    [disabled]="(((playlist?.storage?.playlist_totalmemory-playlist?.storage?.playlist_usedmemory)-selectedSize)<=0) || (((playlist?.storage?.client_totalmemory-playlist?.storage?.client_usedmemory)-selectedSize)<=0)  || scheduleFormater()==='Scheduled' || scheduleFormater()==='Onprogress' "
+                    (click)="openChooseFilePopUp(FilesUpload)"> Choose
+                    Files</button>
+                 
+                  <button class="upload-button" (click)="uploadBoth()"
+                    [disabled]="both.length === 0 || (((playlist?.storage?.playlist_totalmemory-playlist?.storage?.playlist_usedmemory)-selectedSize)<=0) || (((playlist?.storage?.client_totalmemory-playlist?.storage?.client_usedmemory)-selectedSize)<=0)  || scheduleFormater()==='Scheduled' || scheduleFormater()==='Onprogress' ">
+                    <i class="fa fa-solid fa-file-movie-o" style="margin-right: 6px;"></i>Upload</button>
+
+                 
+                </div>
+
+                <br>
+               
+                <span style="color: #f86d6d;">
+                  {{scheduleFormater()==='Scheduled' ||scheduleFormater()==='Onprogress'?'If something needs to be
+                  uploaded, please stop the schedule and select the files':''}}
+                </span>
+              </mat-card>
+              <div class="gallery-checks">
+                <mat-card class="image-card" *ngFor="let image of both" (mouseenter)="onMouseEnter(image)"
+                  (mouseleave)="onMouseLeave(image)">
+
+                 
+                  <app-pdf-viewer [url]="image?.url" (click)="openPdf(image?.url)"
+                    *ngIf="image.type.includes('pdf')"></app-pdf-viewer>
+                  <app-youtube-player [url]="image?.url" *ngIf="image?.type.includes('youtube')"></app-youtube-player>
+                  <img mat-card-image loading="lazy" *ngIf="image.type.startsWith('image')" [src]="image?.url"
+                    alt="Image">
+                  <video loading="lazy" *ngIf="image.type.startsWith('video')" [src]="image?.url" controls
+                    preload="Metadata"></video>
+                  <mat-card-content>
+                    <span *ngIf="image.type.includes('pdf')">{{image.file?.name}}</span>
+                    <div class="card-actions" [@showActions]="image === selectedImage ? 'shown' : 'hidden'">
+                     
+                      <button mat-button class="edit-button" disabled (click)="onEdit(image)">Edit</button>
+                      <button mat-button class="delete-button" (click)="removeFile(image)">Remove</button>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <br>
+              <hr>
+              <span id="add-more" *ngIf="existedImages.length!=0">
+                <button mat-raised-button color="warn" (click)="changeMediaFilesOrder(existedImages,'vertical')">Change
+                  Order</button> &nbsp; &nbsp; <mat-checkbox [(ngModel)]="selectedAllMedia"
+                  (change)="onMediaCheckboxChangeForAllSelect($event,existedImages)" color="primary"> Select
+                  All</mat-checkbox></span>
+              <div class="gallery-checks">
+
+                <mat-card class="image-card bg-white" *ngFor="let image of existedImages"
+                  (mouseenter)="onMouseEnter(image)" (mouseleave)="onMouseLeave(image)">
+                  <mat-checkbox [checked]="image?.isCheck" *ngIf="image.iscomplete"
+                    style="position: absolute;  top: -2.2em;    right: -0.8em; z-index: 100;"
+                    (change)="onMediaCheckboxChange($event,image)">
+                  </mat-checkbox>
+                  <app-pdf-viewer [url]="image?.url" (click)="openPdf(image?.url)"
+                    *ngIf="image.type.startsWith('pdf')"></app-pdf-viewer>
+                  <app-youtube-player [url]="image?.url" *ngIf="image?.type.includes('youtube')"></app-youtube-player>
+                  <img mat-card-image loading="lazy" *ngIf="image.type.startsWith('image') && image?.iscomplete"
+                    [src]="image?.url" alt="Image">
+                  <video loading="lazy" preload="Metadata" *ngIf="image?.type?.startsWith('video') && image?.iscomplete"
+                    [src]="image?.url" controls></video>
+                  <img mat-card-image *ngIf="!image?.iscomplete" src="/assets/images/PWV.gif" alt="Image">
+                  <mat-card-content>
+                    <div class="pbar-flex-1" *ngIf="!image?.iscomplete">
+                      <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                          [ngStyle]="{ 'width': image.converted_percentage + '%' }"
+                          [aria-valuenow]="image.converted_percentage" aria- valuemin="0" aria-valuemax="100">
+                          {{image.converted_percentage}}%</div>
+                      </div>
+                    </div>
+                 
+                    <h3 style="overflow-wrap: anywhere;">{{ image?.filename }}</h3>
+                    <h5>Duration : {{
+                      image?.duration +" (hh:mm:sec)"}}
+                    </h5>
+                  </mat-card-content>
+                  <mat-card-content>
+
+
+                    <div class="card-actions"
+                      [ngStyle]="{'visibility':selectedAllMedia || checkedMediaForm.get('media')?.value.length!=0?'hidden':'visible'}"
+                      [@showActions]="image === selectedImage ? 'shown' : 'hidden'">
+                      
+                      <button mat-mini-fab color="accent"
+                        [disabled]="image.type.startsWith('pdf') || image.type.startsWith('youtube')"
+                        (click)="rotateMedia(rotateFile,image)">
+                        <mat-icon>autorenew</mat-icon>
+                      </button>
+
+                     
+                      <button mat-mini-fab color="warn" (click)="onDelete(image)"><mat-icon>delete</mat-icon></button>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </mat-tab>
+            <mat-tab *ngIf="mediatype == 0 || mediatype == 3 || mediatype == 4">
+
+              <ng-template mat-tab-label>
+                <i class="fa fa-solid fa-file-movie-o" style="margin: 6px;"></i>
+                Horizontal
+              </ng-template>
+              <mat-card>
+                <div class="container">
+
+                  <h2>Multi-Image/Video Upload <button *ngIf="existedImages.length!=0" mat-stroked-button color="accent"
+                      (click)="preview()">Preview</button></h2>
+                  
+                  <span *ngIf="existedImages.length!=0">
+                    <button style="float: right;" mat-raised-button (click)="openSchedulePopUp(editTimeDate)"
+                      *ngIf="mediatype!=4 && !isScheduleDone()">
+                      <div [ngClass]="isScheduleDone() ? 'online-indicator' : 'Offline-indicator' ">
+                        <span [ngClass]="isScheduleDone() ? 'blinkOnline' : 'blinkOffline' "></span>
+                      </div> <span class={{scheduleFormater()}}>{{scheduleFormater()}}</span>
+                    </button>
+                    <button style="float: right;" mat-raised-button (click)="stopSchedule()"
+                      *ngIf="mediatype!=4 && isScheduleDone()">
+                      <div [ngClass]="isScheduleDone() ? 'online-indicator' : 'Offline-indicator' ">
+                        <span [ngClass]="isScheduleDone() ? 'blinkOnline' : 'blinkOffline' "></span>
+                      </div> <span class={{scheduleFormater()}}>{{scheduleFormater()}}</span>
+                    </button>
+                  </span>
+
+                  <button class="btn btn-outline-primary"
+                    [disabled]="(((playlist?.storage?.playlist_totalmemory-playlist?.storage?.playlist_usedmemory)-selectedSize)<=0) || (((playlist?.storage?.client_totalmemory-playlist?.storage?.client_usedmemory)-selectedSize)<=0)  || scheduleFormater()==='Scheduled' || scheduleFormater()==='Onprogress' "
+                    (click)="openChooseFilePopUp(FilesUpload)"> Choose
+                    Files</button>
+                 
+                  <button class="upload-button" (click)="uploadBoth()"
+                    [disabled]="both.length === 0 || (((playlist?.storage?.playlist_totalmemory-playlist?.storage?.playlist_usedmemory)-selectedSize)<=0) || (((playlist?.storage?.client_totalmemory-playlist?.storage?.client_usedmemory)-selectedSize)<=0) || scheduleFormater()==='Scheduled' ||scheduleFormater()==='Onprogress' ">
+                    <i class="fa fa-solid fa-file-movie-o" style="margin-right: 6px;"></i>Upload</button>
+
+
+                  
+                </div>
+
+                <br>
+                
+                <span style="color: #f86d6d;">{{scheduleFormater()==='Scheduled'
+                  ||scheduleFormater()==='Onprogress'?'If something needs to be uploaded, please stop the schedule and
+                  select the files':''}}
+                </span>
+              </mat-card>
+              <section class="d-flex justify-content-end mt-2 text-primary" *ngIf="both.length!=0">
+                <mat-checkbox [(ngModel)]="isautorotate" class="example-margin">Do you need a Flip!
+                </mat-checkbox>
+              </section>
+              <div class="gallery-checks">
+                <mat-card class="image-card" *ngFor="let image of both" (mouseenter)="onMouseEnter(image)"
+                  (mouseleave)="onMouseLeave(image)">
+                  
+                  <app-pdf-viewer [url]="image?.url" (click)="openPdf(image?.url)"
+                    *ngIf="image.type.includes('pdf')"></app-pdf-viewer>
+                  <app-youtube-player [url]="image?.url" *ngIf="image?.type.includes('youtube')"></app-youtube-player>
+                  <img mat-card-image loading="lazy" *ngIf="image.type.startsWith('image')" [src]="image?.url"
+                    alt="Image">
+                  <video loading="lazy" *ngIf="image.type.startsWith('video')" [src]="image?.url" controls
+                    preload="Metadata"></video>
+                  <mat-card-content>
+                    <span *ngIf="image.type.includes('pdf')">{{image.file?.name}}</span>
+                    <div class="card-actions" [@showActions]="image === selectedImage ? 'shown' : 'hidden'">
+                    
+                      <button mat-button class="edit-button" disabled (click)="onEdit(image)">Edit</button>
+                      <button mat-button class="delete-button" (click)="removeFile(image)">Remove</button>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <br>
+              <hr>
+              <span id="add-more" *ngIf="existedImages.length!=0">
+                <button mat-raised-button color="accent"
+                  (click)="changeMediaFilesOrder(existedImages,'horizontal')">Change
+                  Order</button>&nbsp; &nbsp; <mat-checkbox [(ngModel)]="selectedAllMedia"
+                  (change)="onMediaCheckboxChangeForAllSelect($event,existedImages)" color="primary"> Select
+                  All</mat-checkbox>
+              </span>
+              <div class="gallery-checks">
+                <mat-card class="image-card" *ngFor="let image of existedImages" (mouseenter)="onMouseEnter(image)"
+                  (mouseleave)="onMouseLeave(image)">
+
+                  <mat-checkbox [checked]="image?.isCheck" *ngIf="image.iscomplete"
+                    style="position: absolute; top: -2.2em;    right: -0.7em; z-index: 100;"
+                    (change)="onMediaCheckboxChange($event,image)">
+                  </mat-checkbox>
+                  <app-pdf-viewer [url]="image?.url" (click)="openPdf(image?.url)"
+                    *ngIf="image.type.startsWith('pdf')"></app-pdf-viewer>
+                  <app-youtube-player [url]="image?.url" *ngIf="image?.type.includes('youtube')"></app-youtube-player>
+                  <img mat-card-image loading="lazy" *ngIf="image.type.startsWith('image') && image?.iscomplete"
+                    [src]="image?.url" alt="Image">
+                  <video loading="lazy" preload="Metadata" *ngIf="image?.type?.startsWith('video') && image?.iscomplete"
+                    [src]="image?.url" controls></video>
+                  <img mat-card-image *ngIf="!image?.iscomplete" src="/assets/images/PWV.gif" alt="Image">
+                  
+                  <mat-card-content>
+
+                    <div class="pbar-flex-1" *ngIf="!image?.iscomplete">
+                      <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                          [ngStyle]="{ 'width': image.converted_percentage + '%' }"
+                          [aria-valuenow]="image.converted_percentage" aria- valuemin="0" aria-valuemax="100">
+                          {{image.converted_percentage}}%</div>
+                      </div>
+                    </div>
+
+                  
+                    <h3 style="overflow-wrap: anywhere;">{{ image?.filename }}</h3>
+                    <h5>Duration : {{
+                      image?.duration +" (hh:mm:sec)"}}
+                    </h5>
+                    
+                  </mat-card-content>
+                  <mat-card-content>
+                    <div class="card-actions"
+                      [ngStyle]="{'visibility':selectedAllMedia || checkedMediaForm.get('media')?.value.length!=0?'hidden':'visible'}"
+                      [@showActions]="image === selectedImage ? 'shown' : 'hidden'">
+                     
+
+                      <button mat-mini-fab color="accent" (click)="rotateMedia(rotateFile,image)"
+                        [disabled]="image.type.startsWith('pdf') || image.type.startsWith('youtube')">
+                        <mat-icon>autorenew</mat-icon>
+                      </button>
+                     
+                      <button mat-mini-fab color="warn" (click)="onDelete(image)"><mat-icon>delete</mat-icon></button>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+
+            </mat-tab>
+            <mat-tab
+              *ngIf="(mediatype == 0 || mediatype == 3 || mediatype == 4) && customer?.versionMaster?.version=='PRO'">
+              <ng-template mat-tab-label>
+                <i class="fa fa-building" style="margin: 6px;" aria-hidden="true"></i>
+                Split Screen
+              </ng-template>
+              <mat-card>
+                <div class="container">
+                  <label>
+                    <mat-form-field appearance="outline">
+                      <mat-select name="countryString" [(value)]="isProVertical"
+                        (selectionChange)="getSplitLayoutsByPlaylistId()">
+                        <mat-option [value]="'9:16'">Vertical</mat-option>
+                        <mat-option [value]="'16:9'">Horizontal</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </label>
+
+                 
+                  <span *ngIf="split?.length!=0">
+                    <button style="float: right; margin-top: 1%;" mat-raised-button
+                      (click)="openSchedulePopUp(editTimeDate)" *ngIf="mediatype!=4 && !isScheduleDone()">
+                      <div [ngClass]="isScheduleDone() ? 'online-indicator' : 'Offline-indicator' ">
+                        <span [ngClass]="isScheduleDone() ? 'blinkOnline' : 'blinkOffline' "></span>
+                      </div> <span class={{scheduleFormater()}}>{{scheduleFormater()}}</span>
+                    </button>
+                    <button style="float: right;" mat-raised-button (click)="stopSchedule()"
+                      *ngIf="mediatype!=4 && isScheduleDone()">
+                      <div [ngClass]="isScheduleDone() ? 'online-indicator' : 'Offline-indicator' ">
+                        <span [ngClass]="isScheduleDone() ? 'blinkOnline' : 'blinkOffline' "></span>
+                      </div> <span class={{scheduleFormater()}}>{{scheduleFormater()}}</span>
+                    </button>
+                  </span>
+                </div>
+              </mat-card>
+              <hr>
+              <mat-card id="add-more">
+                <div style="display: flex; justify-content: space-between;">
+                  <div>
+                    <button mat-raised-button color="warn" (click)="showDefaultLayouts(layoutsdefault)">Default
+                      Layouts</button>&nbsp;&nbsp;
+                    <button mat-raised-button color="primary" (click)="sendOtp()"> + add more</button>&nbsp;&nbsp;
+                    <button mat-raised-button color="accent" (click)="changeMediaFilesOrder(split,'split')">Change
+                      Order</button>
+                  </div>
+                  <button mat-raised-button color="primary" (click)="onchangeList(refresh)"><i #refresh
+                      class="fa fa-refresh"></i></button>
+                </div>
+                <div style="display: flex;  flex-wrap: wrap; justify-content: center;">
+                  <mat-card class="image-card" style="margin: 0.5%;" *ngFor="let s of split "
+                    (mouseenter)="onMouseEnter(s)" (mouseleave)="onMouseLeave(s)">
+
+                    <div style="display: flex; justify-content: center;align-items: center;">
+                      <div
+                        [ngStyle]="isProVertical=='9:16'? {'height': round(1920/5) , 'width': round(1080/5)}: {'height':round(1080/5) , 'width': round(1920/5)}">
+                        <div class="marquee-container" *ngIf="playlist?.isscroller && selectedScroller=='1'">
+                          <ul class="marquee-list" style="margin-bottom: 0PX !important;">
+                            <li *ngFor="let item of scrollerList"
+                              [ngStyle]="{'color':item.fncolor,'background-color':item.bgcolor,'font-size':item.fnsize,'font-family':item.font_folder}">
+                              {{item.message }}</li>
+                          </ul>
+                        </div>
+                        <gridster [options]="options">
+                          <gridster-item [item]="item" *ngFor="let item of s.zonelist">
+
+                            <label class="hoverable" [for]="item.id+'out'" style="height: 100%; width: 100%;">
+                            
+                              <div ngClass="swiper swiper-slider" style="height: 100%; width: 100%;">
+                                <div class="swiper-wrapper">
+                                  <div class="swiper-slide" *ngFor="let obj of item.medialist">
+                                    <ng-container *ngIf="obj?.type.includes('image'); else videoOrIframeTemplate">
+                                      <!-- Image Template -->
+                                      <img loading="lazy" style="width: 100%; height: 100%;" [src]="obj?.url"
+                                        alt="Image">
+                                    </ng-container>
+                                    <ng-template #videoOrIframeTemplate>
+                                      <!-- Video or Iframe Template -->
+                                      <ng-container
+                                        *ngIf="obj?.type.includes('video'); then videoTemplate else iframeTemplate">
+                                      </ng-container>
+                                    </ng-template>
+                                    <ng-template #videoTemplate>
+                                      <!-- Video Template -->
+                                      <video loading="lazy" preload="Metadata"
+                                        style="width: 100%; height: 100%; object-fit: fill;" [muted]="item.isMuted"
+                                        [autoplay]="false" loop controls>
+                                        <source [src]="obj?.url" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                      </video>
+                                    </ng-template>
+                                    <ng-template #iframeTemplate>
+                                      <!-- Iframe Template -->
+                                      <iframe width="560" height="315" [src]="obj.url" title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                    </ng-template>
+                                  
+                                  </div>
+                                </div>
+                               
+
+                              </div>
+
+
+                              <div class="background"></div>
+                            </label>
+                            <br />
+                           
+                          </gridster-item>
+                        </gridster>
+                        <div class="marquee-container" *ngIf="playlist?.isscroller && selectedScroller=='2'">
+                          <ul class="marquee-list" style="margin-bottom: 0px !important;">
+                            <li *ngFor="let item of scrollerList"
+                              [ngStyle]="{'color':item.fncolor,'background-color':item.bgcolor,'font-size':item.fnsize,'font-family':item.font_folder}">
+                              {{item.message }}</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div [ngStyle]="{'margin-top': selectedScroller=='2'?'8%':'1%'}">
+                      <p> layout name: {{s.layoutname}} <br>zone count: {{s.zonecount}}
+                        <br>
+                        <span [ngStyle]="{'color':s.isactive?'green':'red'}">verified: </span> <mat-checkbox
+                          [disabled]="s.isactive" [checked]="s.isactive" (change)="onCheckboxChange($event,s)">
+                        </mat-checkbox>
+                      </p>
+                     
+                      <div class="card-actions" [@showActions]="s === selectedImage ? 'shown' : 'hidden'">
+                        <div class="gallery-checks d-flex justify-content-between">
+
+                          <button mat-mini-fab color="primary" (click)="onEditSplit(s)"><mat-icon
+                              class="d-flex justify-content-center"><i class="fa fa-pencil-square-o"
+                                aria-hidden="true"></i>
+                            </mat-icon></button>
+                          <button mat-mini-fab color="warn"
+                            (click)="onRemoveSplit(s)"><mat-icon>delete</mat-icon></button>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+              </mat-card>
+             
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</section>
+<ng-template #editTimeDate>
+  <div class="m-2">
+    <p style=" color: brown; font-family: system-ui; font-weight: 700;">Set Schedule Date & Time</p>
+    <input type="datetime-local" step="1" [min]="currentDate1" class="custom-input" placeholder="Start Date and Time"
+      [(ngModel)]="startDate">
+    <br>
+    <br>
+    <input type="datetime-local" step="1" [min]="currentDate1" class="custom-input" placeholder="End Date and Time"
+      [(ngModel)]="endDate">
+    <br>
+    <mat-dialog-actions>
+      <div class="d-flex justify-content-end">
+        <button mat-raised-button color="accent" matDialogClose="yes" (click)="close()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="dateTimePicker()">
+          Save
+        </button>
+      </div>
+    </mat-dialog-actions>
+  </div>
+</ng-template>
+<ng-template #layoutsdefault let-data>
+  <h1 style="position: sticky; color: #010e27; text-align: center;"> {{isProVertical=='9:16'? 'Vertical Default
+    Layouts':'Horizontal Default Layouts'}}
+  </h1>
+  <div style="position: relative; overflow-y: scroll; height: 90%;">
+    <div class="gallery-checks">
+      <mat-card class="image-card" style=" cursor: pointer;" *ngFor="let image of data" (click)="onChooseLayout(image)">
+        <img loading="lazy" mat-card-image [src]="image?.image_url" alt="Image">
+        <mat-card-content>
+          <div>
+            <p style="font-size: small; color: #3498db !important; font-weight: 600 !important; ">
+              layoutname:{{image.layoutname}}
+              <br>
+              zonecount:{{image.zonecount}} <span style="color: #010e2793;">({{image?.height_width}})
+              </span>
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #rotateFile let-data>
+  <div style="color: #3f51b5; font-weight: 500; text-align: right; font-size: medium; ">{{data.rotate}}<span
+      style="vertical-align: super; font-size: xx-small;">o</span></div>
+ 
+
+  <div class="container m-2 "
+    style="display: flex; justify-content: center; width: auto !important; height: auto !important; align-items: center; margin: 40px; min-width: 280px; padding: 20px;">
+    <div style="height: 450px !important; width: auto; display: flex; justify-content: center; align-items: center;">
+      <img loading="lazy" [ngStyle]="{'transform': 'rotate('+data!.rotate+'deg)'}" mat-card-image
+        style="max-width:300px; max-height: 300px;" *ngIf="data.type.startsWith('image')" [src]="data?.url" alt="Image">
+      <video loading="lazy" [ngStyle]="{'transform': 'rotate('+data?.rotate+'deg)'}" style="width:250px; height: 350px;"
+        preload="Metadata" *ngIf="data?.type?.startsWith('video')" [src]="data?.url" controls></video>
+    </div>
+  </div>
+  <div class="actions mb-1" style="display: flex; justify-content: space-evenly;">
+    <button mat-mini-fab color="primary" (click)="saveFile(data)"> <mat-icon>save</mat-icon>
+    </button>
+    <button mat-mini-fab color="warn" (click)="rotatePopUp(data)">
+      <mat-icon>autorenew</mat-icon></button>
+
+    <button mat-mini-fab (click)="matDialogClose()">
+      <mat-icon>close</mat-icon></button>
+  </div>
+</ng-template>
+
+
+<ng-template #FilesUpload>
+  <div class="responsive-buttons px-3 py-1 text-center" style="overflow: hidden;">
+    <span style="position: absolute;
+    right: 2px; cursor: pointer;
+    top: 0px;
+    color: #7d88a4;"> <i mat-dialog-close class="fa fa-times" aria-hidden="true"></i>
+    </span>
+    <div class="radio-inputs">
+      <label (click)="handleAuthClick()">
+        <span class="radio-tile">
+          <span class="radio-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
+              <path fill="#eba400" d="M45,30c0,0.35-0.1,0.7-0.28,1.01L31.51,30l13.21-1.01C44.9,29.3,45,29.65,45,30z">
+              </path>
+              <linearGradient id="K2TlVgt3XTGiG8lBM2DF6a_eKDChMKt75eu_gr1" x1="39.84" x2="16.836" y1="41.496" y2="30.77"
+                gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#2a96f4"></stop>
+                <stop offset=".535" stop-color="#2895f3"></stop>
+                <stop offset=".728" stop-color="#2190ee"></stop>
+                <stop offset=".865" stop-color="#1687e7"></stop>
+                <stop offset=".976" stop-color="#057bdc"></stop>
+                <stop offset="1" stop-color="#0077d9"></stop>
+              </linearGradient>
+              <path fill="url(#K2TlVgt3XTGiG8lBM2DF6a_eKDChMKt75eu_gr1)"
+                d="M45,30c0,0.35-0.1,0.7-0.28,1.01l-5.63,10C38.74,41.62,38.08,42,37.37,42H11.54 c-0.35,0-0.69-0.09-0.99-0.27L11.45,30H45z">
+              </path>
+              <linearGradient id="K2TlVgt3XTGiG8lBM2DF6b_eKDChMKt75eu_gr2" x1="3.522" x2="24.656" y1="30.11" y2="17.909"
+                gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#4caf50"></stop>
+                <stop offset=".486" stop-color="#4aae50"></stop>
+                <stop offset=".661" stop-color="#43a94e"></stop>
+                <stop offset=".786" stop-color="#38a14c"></stop>
+                <stop offset=".887" stop-color="#279648"></stop>
+                <stop offset=".972" stop-color="#184"></stop>
+                <stop offset="1" stop-color="#088242"></stop>
+              </linearGradient>
+              <path fill="url(#K2TlVgt3XTGiG8lBM2DF6b_eKDChMKt75eu_gr2)"
+                d="M28.234,11.67L10.55,41.73h-0.01c-0.3-0.17-0.55-0.42-0.73-0.73L4.3,31.13 c-0.36-0.62-0.36-1.39,0-2.01L16.93,7c0.18-0.31,0.43-0.56,0.73-0.73h0.01L28.234,11.67z">
+              </path>
+              <linearGradient id="K2TlVgt3XTGiG8lBM2DF6c_eKDChMKt75eu_gr3" x1="31.335" x2="31.335" y1="6" y2="30"
+                gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#ffd747"></stop>
+                <stop offset=".482" stop-color="#fed645"></stop>
+                <stop offset=".655" stop-color="#fdd13e"></stop>
+                <stop offset=".779" stop-color="#f9c833"></stop>
+                <stop offset=".879" stop-color="#f4bc22"></stop>
+                <stop offset=".964" stop-color="#eead0c"></stop>
+                <stop offset="1" stop-color="#eba400"></stop>
+              </linearGradient>
+              <path fill="url(#K2TlVgt3XTGiG8lBM2DF6c_eKDChMKt75eu_gr3)"
+                d="M45,30H31.511L17.67,6.27C17.97,6.09,18.31,6,18.66,6h11.71c0.71,0,1.37,0.38,1.72,0.99 l12.63,22C44.9,29.3,45,29.65,45,30z">
+              </path>
+            </svg>
+          </span>
+          <span class="radio-label">Google Drive</span>
+        </span>
+      </label>
+      <label>
+        <input class="radio-input" type="file" style="display: none;"
+          accept="image/*,.mov,video/*,.mkv,.flv,.avi,.wmv,.mpeg4,application/pdf" (change)="onFileChangeFile($event)"
+          multiple>
+        <span class="radio-tile">
+          <span class="radio-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256"
+              height="256" viewBox="0 0 256 256" xml:space="preserve">
+              <defs>
+              </defs>
+              <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
+                transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                <path
+                  d="M 73.538 35.162 l -52.548 1.952 c -1.739 0 -2.753 0.651 -3.232 2.323 L 6.85 76.754 c -0.451 1.586 -2.613 2.328 -4.117 2.328 h 0 C 1.23 79.082 0 77.852 0 76.349 l 0 -10.458 V 23.046 v -2.047 v -6.273 c 0 -2.103 1.705 -3.808 3.808 -3.808 h 27.056 c 1.01 0 1.978 0.401 2.692 1.115 l 7.85 7.85 c 0.714 0.714 1.683 1.115 2.692 1.115 H 69.73 c 2.103 0 3.808 1.705 3.808 3.808 v 1.301 C 73.538 26.106 73.538 35.162 73.538 35.162 z"
+                  style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(224,173,49); fill-rule: nonzero; opacity: 1;"
+                  transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                <path
+                  d="M 2.733 79.082 L 2.733 79.082 c 1.503 0 2.282 -1.147 2.733 -2.733 l 10.996 -38.362 c 0.479 -1.672 2.008 -2.824 3.748 -2.824 h 67.379 c 1.609 0 2.765 1.546 2.311 3.09 L 79.004 75.279 c -0.492 1.751 -1.571 3.818 -3.803 3.803 C 75.201 79.082 2.733 79.082 2.733 79.082 z"
+                  style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,200,67); fill-rule: nonzero; opacity: 1;"
+                  transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+              </g>
+            </svg>
+          </span>
+          <span class="radio-label">Local Folder</span>
+        </span>
+      </label>
+   
+    </div>
+    <h5>(OR)</h5>
+    <div class="w-100 radio-label" style="min-width: 220px;">
+      <textarea type="text" #youtubeUrl id="youtubeUrl" placeholder="https://youtu.be/-oqbLSnA-UM?si=PSW-JReKRzdMLhaZ"
+        class="w-100"></textarea>
+      <button mat-raised-button (click)="addYoutubeUrl(youtubeUrl)" [disabled]="!getYouTubeVideoID(youtubeUrl.value)">
+        Add url </button>
+    </div>
+  </div>
+</ng-template>

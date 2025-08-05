@@ -1,0 +1,48 @@
+/* app-side-by-side-inputs.component.css */
+.input-container {
+    display: flex;
+}
+
+.input-container input {
+    margin-right: 10px;
+    border: none;
+    outline: none;
+    background-color: #f2f2f2;
+    // padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* styles.css (or your-component.css) */
+.grid-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.edit-button {
+    background-color: #2196F3;
+    color: #fff;
+}
+
+.save-button {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: #fff;
+}
+
+p {
+    font-family: Lato;
+}
+
+.select-all{
+    margin: 5px 17px;
+  }

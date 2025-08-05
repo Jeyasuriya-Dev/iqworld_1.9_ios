@@ -1,0 +1,5 @@
+<div style="display: flex; position: relative; align-items: center;">
+    <button mat-mini-fab class="ml-3" (click)="downloadApk()"><i class="fa fa-download" aria-hidden="true"></i></button>
+    <input mat-raised-button class="toggle" #ota (click)="enableOta(ota)" [disabled]="!dev" type="checkbox"
+        [checked]="isChecked" />
+</div>

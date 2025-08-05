@@ -1,0 +1,110 @@
+// body {
+//     font-family: Arial, sans-serif;
+//     background-color: #f5f5f5;
+//     margin: 0;
+//     padding: 0;
+// }
+
+// .container {
+//     padding-top: 30px;
+// }
+
+// .custom-card {
+//     cursor: pointer;
+//     border-radius: 10px;
+//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+//     transition: transform 0.2s, box-shadow 0.2s;
+//     margin-bottom: 20px;
+// }
+
+// .custom-card:hover {
+//     transform: translateY(-5px);
+//     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+// }
+
+// .custom-card i {
+//     font-size: 32px;
+//     margin-bottom: 10px;
+// }
+
+// .custom-card .card-title {
+//     font-size: 16px;
+//     font-weight: bold;
+//     margin-bottom: 10px;
+// }
+
+// .custom-card .card-text {
+//     font-size: 14px;
+// }
+
+// .container-fluid {
+//     padding-left: 15px;
+//     padding-right: 15px;
+// }
+
+// /* Custom background colors for each card */
+// .card-1 {
+//     background-color: #3498db; /* Blue */
+//     color: #fff; /* White text */
+// }
+
+// .card-2 {
+//     background-color: #e74c3c; /* Red */
+//     color: #fff; /* White text */
+// }
+
+// .card-3 {
+//     background-color: #27ae60; /* Green - Changed background color for "Due Amount" card */
+//     color: #fff; /* White text */
+// }
+
+// .card-4 {
+//     background-color: #9b59b6; /* Purple */
+//     color: #fff; /* White text */
+// }
+
+// .card-5 {
+//     background-color: #f1c40f; /* Yellow */
+//     color: #fff; /* White text */
+// }
+
+// .card-6 {
+//     background-color: #e67e22; /* Orange */
+//     color: #fff; /* White text */
+// }
+
+// .card-7 {
+//     background-color: #2e2764; /* Emerald */
+//     color: #fff; /* White text */
+// }
+
+// .card-8 {
+//     background-color: #34495e; /* Dark Blue */
+//     color: #fff; /* White text */
+// }
+
+// @media (max-width: 768px) {
+//     .container {
+//         padding-left: 0;
+//         padding-right: 0;
+//     }
+// }
+// p{
+//     font-weight: bold; 
+// }
+
+
+@import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
+
+/* Bootstrap Icons */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
+#add-licences {
+    .mat-raised-button {
+        line-height: 20px !important;
+        font-size: xx-small;
+    }
+}
+
+.shadow{
+    box-shadow: 0px 1px 2px rgba(128, 128, 128, 0.811) !important;
+}
