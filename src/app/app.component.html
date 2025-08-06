@@ -7,6 +7,12 @@
 
 <router-outlet></router-outlet>
 
+
+<button class="btn-back" *ngIf="(router1.url !== '/' && router1.url !== '/login') "
+	style="background-color: #43adeb; color: white" (click)="goBack()">
+	<i class="fa fa-angle-double-left" aria-hidden="true"></i>
+</button>
+
 <ng-template #confDialog>
 	<!-- <mat-card>
     
@@ -51,6 +57,9 @@
         <button mat-button class="cancel" (click)="onDismiss()">Cancel</button>
       </div>
     </mat-card> -->
+
+
+
 	<div class="modal-body">Are you sure you want to logout?</div>
 	<div class="modal-footer">
 		<button type="button" class="btn" style="background-color:#787891;color:white" (click)="onDismiss()">

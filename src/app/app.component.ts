@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
 	showNavbarBackBtn = false;
 	previousUrl: string = '';
 	private shouldShowConfirm = false;
+	router1: any;
 
 
 
@@ -33,55 +34,78 @@ export class AppComponent implements OnInit {
 		private location: Location
 	) {
 		// console.log(router);
+		this.router1 = router;
 	}
+
+
+	goBack(): void {
+		// this.location.back();  // Goes back to the previous page in history
+
+		if (this.router.url !== '/' && this.router.url !== '/login') {
+			// Check if the current URL is the dashboard
+			if (this.router.url === '/admin/dashboard') {
+				// Open dialog here
+				this.openDialog();
+			} else {
+				// Go back to the previous page
+				window.history.back();
+				// this.location.back();  // Goes back to the previous page in history
+
+			}
+		}
+	}
+
+
+
 	ngOnInit(): void {
 		// 1. Manual check for initial load
-		const currentUrl = this.router.url;
-		this.showNavbarBackBtn = currentUrl !== '/login' && currentUrl !== '/';
+		// const currentUrl = this.router.url;
+		// this.showNavbarBackBtn = currentUrl !== '/login' && currentUrl !== '/';
 
-		//Show back button on all pages except login or root 
-		this.router.events.subscribe(event => {
-			if (event instanceof NavigationEnd) {
-				this.showNavbarBackBtn = !['/login', '/'].includes(event.urlAfterRedirects);
-				const newUrl = event.urlAfterRedirects;
-				if (this.router.url !== newUrl) {
-					this.previousUrl = this.router.url;
-				}
+		// //Show back button on all pages except login or root 
+		// this.router.events.subscribe(event => {
+		// 	if (event instanceof NavigationEnd) {
+		// 		this.showNavbarBackBtn = !['/login', '/'].includes(event.urlAfterRedirects);
+		// 		const newUrl = event.urlAfterRedirects;
+		// 		if (this.router.url !== newUrl) {
+		// 			this.previousUrl = this.router.url;
+		// 		}
 
-				if (newUrl === '/admin/dashboard') {
-					history.pushState(null, '', this.router.url);
-				}
+		// 		if (newUrl === '/admin/dashboard') {
+		// 			history.pushState(null, '', this.router.url);
+		// 		}
 
 
-			}
-		});
+		// 	}
+		// });
 
-		window.addEventListener('popstate', (event) => {
-			const currentUrl = this.router.url;
+		// window.addEventListener('popstate', (event) => {
+		// 	const currentUrl = this.router.url;
 
-			//  Handle only dashboard case
-			if (currentUrl === '/admin/dashboard') {
-				event.preventDefault();
-				this.openDialog();
+		// 	//  Handle only dashboard case
+		// 	if (currentUrl === '/admin/dashboard') {
+		// 		event.preventDefault();
+		// 		this.openDialog();
 
-				// Swal.fire({
-				// 	title: "Are you sure?",
-				// 	text: "Do you want to logout?",
-				// 	showCancelButton: true,
-				// 	confirmButtonColor: "#3085d6",
-				// 	cancelButtonColor: "#d33",
-				// 	confirmButtonText: "OK"
-				// }).then((result) => {
-				// 	if (result.isConfirmed) {
-				// 		this.router.navigate(['/login']);
-				// 	} else {
-				// 		// Stay on dashboard
-				// 		history.pushState(null, '', '/admin/dashboard');
-				// 	}
-				// });
+		// 		// Swal.fire({
+		// 		// 	title: "Are you sure?",
+		// 		// 	text: "Do you want to logout?",
+		// 		// 	showCancelButton: true,
+		// 		// 	confirmButtonColor: "#3085d6",
+		// 		// 	cancelButtonColor: "#d33",
+		// 		// 	confirmButtonText: "OK"
+		// 		// }).then((result) => {
+		// 		// 	if (result.isConfirmed) {
+		// 		// 		this.router.navigate(['/login']);
+		// 		// 	} else {
+		// 		// 		// Stay on dashboard
+		// 		// 		history.pushState(null, '', '/admin/dashboard');
+		// 		// 	}
+		// 		// });
 
-			}
-		});
+		// 	}
+		// });
+		
 
 
 		let myVar = setInterval(() => {
@@ -101,7 +125,8 @@ export class AppComponent implements OnInit {
 						this.openDialog();
 					} else {
 						// Go back to the previous page
-						this.location.back()
+						// this.location.back()
+						window.history.back();
 					}
 				}
 			});
@@ -120,14 +145,15 @@ export class AppComponent implements OnInit {
 	}
 
 	onConfirm() {
-		this.dialogRef.close();
-		this.shouldShowConfirm = false;
-		this.router.navigate(['/login']);
+		// this.dialogRef.close();
+		// this.shouldShowConfirm = false;
+		// this.router.navigate(['/login']);
+		window.history.back();
 	}
 
 	onDismiss() {
 		this.dialogRef.close();
-		this.shouldShowConfirm = false;
+		// this.shouldShowConfirm = false;
 	}
 
 

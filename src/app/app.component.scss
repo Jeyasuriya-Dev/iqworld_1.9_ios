@@ -8,6 +8,12 @@
     z-index: 99;
 }
 
+.btn-back{
+  position: fixed;
+  top: 6.2em;
+  left: 0.5em;
+  z-index: 1000;
+}
 
 .confirm{
     border: none;
@@ -18,8 +24,7 @@
   }
   .cancel{
     border: none;
-    background-color: #787891
-    ;
+    background-color: #787891;
     color: white;
     font-weight: bold;
     padding: 7px  17px;
